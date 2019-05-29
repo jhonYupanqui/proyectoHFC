@@ -12,5 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
+});
+
+
+//Auth::routes();
+Auth::routes(['register' => false]);
+
+ 
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/administrador', 'HomeController@index')->name('home');
+
 });
