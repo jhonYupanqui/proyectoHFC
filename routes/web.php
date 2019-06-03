@@ -15,6 +15,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresas.index');
 
 //Auth::routes();
 Auth::routes(['register' => false]);
