@@ -22,8 +22,8 @@ class UsersSeeder extends Seeder
         $usuario->dni = '48483283';
         $usuario->telefono = '1547895';
         $usuario->email = 'jhonjy95@gmail.com';
-        $usuario->usuario = 'jyupanqui';
-        $usuario->clave = bcrypt('123456789');
+        $usuario->username = 'jyupanqui';
+        $usuario->password = bcrypt('123456789');
         $usuario->estado = 'A';
         $usuario->save();
 

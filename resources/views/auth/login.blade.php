@@ -15,22 +15,34 @@
                     @csrf 
                     
                     <div class="form-group"> 
-                        <label for="name" class="col-form-label">Usuario</label>
-                        <input id="name" type="name" class="form-control" name="name" required autofocus>
+                        <label for="username" class="col-form-label">Usuario</label>
+                        <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" value="{{ old('username') }}" name="username" autofocus>
+                            @error('username')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            
                     </div>
-
+  
                     <div class="form-group">
-                        <label for="password" class="col-form-label">{{ __('Password') }}</label>
-                        <input id="password" type="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-                        
-                        @if ($errors->has('password'))
+                        <label for="password" class="col-form-label">Password</label>
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password">
+                        @error('password')
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('password') }}</strong>
+                                <strong>{{ $message }}</strong>
                             </span>
-                        @endif
+                        @enderror
                     </div> 
+                    
                     <div class="form-group">
-                        <div id="respuesta-server-login"></div>
+                        <div id="respuesta-server-login">
+                            @error('auth')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -39,7 +51,7 @@
                         </button>
                     </div>
                     <div class="form-group texto-form-login">
-                        <a class="btn btn-link" href="{{ route('password.request') }}">
+                        <a class="btn btn-link" href="javascript:void(0)">
                                 {{ __('Olvido su contraseña?') }}
                         </a> 
                     </div>

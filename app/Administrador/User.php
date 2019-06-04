@@ -3,6 +3,7 @@
 namespace App\Administrador;
 
 use App\Administrador\Role;
+use App\Transformers\UserTransformer;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -20,6 +21,8 @@ class User extends Authenticatable
     const ESTADO_ACTIVO = "A";
     const ESTADO_INACTIVO = "I";
 
+    public $transformer = UserTransformer::class;
+    
     protected $table = 'users';
 
     protected $fillable = [
@@ -30,8 +33,8 @@ class User extends Authenticatable
         'dni',
         'telefono',
         'email',
-        'usuario',
-        'clave',
+        'username',
+        'password',
         'estado'
     ];
 
@@ -53,6 +56,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    
     public function empresa(){
         return $this->belongsTo(Empresa::class);
     }

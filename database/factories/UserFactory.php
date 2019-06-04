@@ -24,8 +24,8 @@ $factory->define(User::class, function (Faker $faker) {
         'telefono' => $faker->unique()->numberBetween($min = 1000000, $max = 9999999),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'usuario' => $faker->userName,
-        'clave' => bcrypt('123456789'),
+        'username' => $faker->userName,
+        'password' => bcrypt('123456789'),
         'remember_token' => Str::random(10),
         'estado' => $faker->randomElement(['A','I']),
     ];

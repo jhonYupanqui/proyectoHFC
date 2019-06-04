@@ -1,5 +1,7 @@
 <?php
 
+use App\Transformers\UserTransformer;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,19 +12,25 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+ 
 
-Route::get('/', function () {
-    return redirect()->route('login');
-});
 
-Route::get('/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresas.index');
-
-//Auth::routes();
-Auth::routes(['register' => false]);
-
+ 
+Route::get('/','Modulos\Auth\LoginController@index')->name('modulo.login.index')->middleware('guest');
+Route::post('/login','Modulos\Auth\LoginController@login')->name('login');
+Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
+//->middleware('transform.input:' . UserTransformer::class);
  
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/administrador', 'HomeController@index')->name('home');
+    //ADMINISTRADOR PRINCIPAL VIEW
+        Route::get('/administrador', 'AdministradorController@index')->name('administrador');
+
+    //EMPRESA VIEW
+    Route::get('/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresas.index');
+
+    //ADMINISTRADOR PRINCIPAL JSON
+    Route::post('/administrador/lista', 'AdministradorController@list')->name('administrador.list');
+     
 
 });

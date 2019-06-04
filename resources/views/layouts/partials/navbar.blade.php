@@ -15,7 +15,7 @@
                     <img src="images/user8-128x128.jpg" alt="User Avatar" class="img-size-32 img-circle mr-2">
                     <div class="media-body">
                         <p class="dropdown-item-title d-flex align-items-center">
-                            Brad Diesel  
+                            {{ Auth()->user()->username}}  
                             <span class="float-right text-sm text-success ml-1"><i class="fa fa-circle-o"></i></span>
                         </p>
                     </div>
