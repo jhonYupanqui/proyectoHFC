@@ -24,11 +24,11 @@ Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
 Route::group(['middleware' => 'auth'], function () {
 
     //ADMINISTRADOR PRINCIPAL VIEW
-        Route::get('/administrador', 'AdministradorController@index')->name('administrador');
+    Route::get('/administrador', 'AdministradorController@index')->name('administrador');
 
     //EMPRESA VIEW
-    Route::get('/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresas.index');
-
+    Route::get('/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresas.index')
+    ->middleware('permiso:modulo.rol.index');
     //ADMINISTRADOR PRINCIPAL JSON
     Route::post('/administrador/lista', 'AdministradorController@list')->name('administrador.list');
      

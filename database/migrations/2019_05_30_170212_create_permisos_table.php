@@ -22,6 +22,7 @@ class CreatePermisosTable extends Migration
             $table->bigInteger('referencia')->nullable();
             $table->text('descripcion');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

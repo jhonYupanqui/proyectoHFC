@@ -68,5 +68,30 @@ class User extends Authenticatable
     public function permisos(){
         return $this->belongsToMany(Permiso::class);
     }
+
+    private function tienePermisoEspecial(){
+       return $this->role->especial == Role::CON_PERMISOS_TOTAL;
+       
+    }
+
+    public function HasPermiso($permiso){
+
+        if($this->tienePermisoEspecial()){
+           return true;  
+        }
+
+        $resultado_permiso = false;
+
+        if (isset($this->role->permisos)) { //verifica si tiene permisos para evaluar
+
+            $resultado_permiso = $this->role->permisos()->where('slug','=',$permiso)->first() != null;
+
+        }
+        if(!$resultado_permiso){ //si continua en false
+            $resultado_permiso = $this->permisos()->where('slug','=', $permiso)->first() != null; 
+        }
+         return $resultado_permiso;
+      
+    }
  
 }

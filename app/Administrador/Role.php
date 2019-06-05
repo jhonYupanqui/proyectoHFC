@@ -11,7 +11,11 @@ class Role extends Model
 {
    use SoftDeletes;
 
+   const SIN_PERMISOS_TOTAL = "NO";
+   const CON_PERMISOS_TOTAL = "SI";
+   
    protected $table = 'roles';
+
 
     protected $fillable = [
         'nombre'

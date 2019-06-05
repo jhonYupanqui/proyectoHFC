@@ -12,6 +12,65 @@ class PermisosSeeder extends Seeder
      */
     public function run()
     {
+        #EMPRESA
+            $permisoModulo = new Permiso;
+            $permisoModulo->nombre = "Empresas";
+            $permisoModulo->slug = "modulo.empresa.index";
+            $permisoModulo->tipo = "Modulo";
+            $permisoModulo->imagen = "default.png";
+            $permisoModulo->referencia = null;
+            $permisoModulo->descripcion = "Ver Modulo de Empresa";
+            $permisoModulo->save();
+            $permisos = new Permiso;
+            $permisos->nombre = "Listar empresas";
+            $permisos->slug = "submodulo.empresa.list";
+            $permisos->tipo = "Submodulo";
+            $permisos->imagen = "default.png";
+            $permisos->referencia = $permisoModulo->id;
+            $permisos->descripcion = "Listar empresas del sistema";
+            $permisos->save();
+            $permisos = new Permiso;
+            $permisos->nombre = "Crear empresa";
+            $permisos->slug = "submodulo.empresa.store";
+            $permisos->tipo = "Submodulo";
+            $permisos->imagen = "default.png";
+            $permisos->referencia = $permisoModulo->id;
+            $permisos->descripcion = "Crear empresas del sistema";
+            $permisos->save();
+            $permisos = new Permiso;
+            $permisos->nombre = "Detalles empresa";
+            $permisos->slug = "submodulo.empresa.show";
+            $permisos->tipo = "Submodulo";
+            $permisos->imagen = "default.png";
+            $permisos->referencia = $permisoModulo->id;
+            $permisos->descripcion = "Detalles de empresa del sistema";
+            $permisos->save();
+            $permisos = new Permiso;
+            $permisos->nombre = "Editar empresa";
+            $permisos->slug = "submodulo.empresa.edit";
+            $permisos->tipo = "Submodulo";
+            $permisos->imagen = "default.png";
+            $permisos->referencia = $permisoModulo->id;
+            $permisos->descripcion = "Editar empresa del sistema";
+            $permisos->save();
+            $permisos = new Permiso;
+            $permisos->nombre = "Actualizar empresa";
+            $permisos->slug = "submodulo.empresa.update";
+            $permisos->tipo = "Submodulo";
+            $permisos->imagen = "default.png";
+            $permisos->referencia = $permisoModulo->id;
+            $permisos->descripcion = "Actualizar empresa del sistema";
+            $permisos->save();
+            $permisos = new Permiso;
+            $permisos->nombre = "Eliminar empresa";
+            $permisos->slug = "submodulo.empresa.delete";
+            $permisos->tipo = "Submodulo";
+            $permisos->imagen = "default.png";
+            $permisos->referencia = $permisoModulo->id;
+            $permisos->descripcion = "Eliminar empresa del sistema";
+            $permisos->save();
+        #END EMPRESA
+
         #USUARIOS
             $permisoModulo = new Permiso;
             $permisoModulo->nombre = "Usuarios";
