@@ -2,7 +2,11 @@
  <nav class="main-header navbar navbar-expand bg-success navbar-dark border-bottom">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
-            @yield('top-left-submenus')
+            @section('top-left-submenus')
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
+            </li>
+            @show
         </ul>
         
          
@@ -12,7 +16,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link m-0 p-0 d-flex align-items-center" data-toggle="dropdown" href="#" >
                 <div class="media media align-items-center">
-                    <img src="images/user8-128x128.jpg" alt="User Avatar" class="img-size-32 img-circle mr-2">
+                    <img src="{{url('images')}}/user8-128x128.jpg" alt="User Avatar" class="img-size-32 img-circle mr-2">
                     <div class="media-body">
                         <p class="dropdown-item-title d-flex align-items-center">
                             {{ Auth()->user()->username}}  

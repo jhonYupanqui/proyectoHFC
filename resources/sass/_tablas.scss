@@ -1,0 +1,43 @@
+/*Tabla*/
+.table th, .table td {
+    padding: 0.2rem;
+    vertical-align: middle; 
+  }
+  .table thead th{
+    background: #0097a7;
+    border-top: 0px;
+    text-align: center;
+    color: #fff;
+  }
+  .info-table {
+    font-size: 12px;
+    border: 1px solid #cddcde;
+    padding: 2px 5px;
+  }
+  .icon-orde_by,.icon-orde_by-filterDataPersonal {
+    color: #151515;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .icon-orde_by.active,.icon-orde_by-filterDataPersonal.active {
+    color: #fff;
+  }
+  .icon-orde_by:hover,.icon-orde_by-filterDataPersonal:hover {
+    color: #fff;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .table-personalizate{
+  font-size: 12px;
+  }
+  .img-personalizate {
+    width: 90px;
+    max-width: 100px;
+    height: auto;
+  }
+  .tableFixHead {
+    height: 400px;
+    max-height: 400px;
+  }

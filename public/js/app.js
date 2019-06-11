@@ -49306,6 +49306,33 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 var app = new Vue({
   el: '#app'
 });
+/** Cerrar modal con enter el de error y success */
+
+$('#errorsModal').on('shown.bs.modal', function (e) {
+  $(this).keydown(function (e) {
+    if (e.which == 13) {
+      $('#errorsModal').modal('hide');
+    }
+  });
+});
+$('#successModal').on('shown.bs.modal', function (e) {
+  $(this).keydown(function (e) {
+    if (e.which == 13) {
+      $('#successModal').modal('hide');
+    }
+  });
+});
+$('#reloadModal').on('shown.bs.modal', function (e) {
+  $(this).keydown(function (e) {
+    if (e.which == 13) {
+      $('#reloadModal').modal('hide');
+    }
+  });
+});
+$('#reloadModal').on('hidden.bs.modal', function (e) {
+  location.reload();
+});
+/** fin modal cerrar con enter */
 
 /***/ }),
 

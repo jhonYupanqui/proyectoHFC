@@ -4,7 +4,9 @@ namespace App\Administrador;
 
 use App\Administrador\Role;
 use App\Administrador\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use App\Transformers\PermisoTransformer;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Permiso extends Model
@@ -14,8 +16,10 @@ class Permiso extends Model
     const TIPO_MODULO = "Modulo";
     const TIPO_SUBMODULO = "Submodulo";
 
-    protected $table = 'permisos';
+    public $transformer = PermisoTransformer::class;
 
+    protected $table = 'permisos';
+    
     protected $fillable = [
         'nombre',
         'slug',
@@ -25,6 +29,7 @@ class Permiso extends Model
         'descripcion',
     ];
 
+    
    public function roles(){
        return $this->belongsToMany(Role::class);
    }
@@ -32,5 +37,6 @@ class Permiso extends Model
    public function users(){
        return $this->belongsToMany(User::class);
    }
+ 
 
 }

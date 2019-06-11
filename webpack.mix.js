@@ -12,5 +12,19 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    .js('resources/js/administrador/index.js','public/js/sistema/administrador/index.js')
+    //USUARIOS
+    .js('resources/js/administrador/modulos/user/index.js','public/js/sistema/modulos/users/index.min.js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/login.scss', 'public/css');
+
+mix.webpackConfig({
+    resolve: {
+        alias: {
+            "@": path.resolve(
+                __dirname,
+                "resources/js"
+            )
+        }
+    }
+    });

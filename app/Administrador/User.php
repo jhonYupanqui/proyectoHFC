@@ -3,6 +3,8 @@
 namespace App\Administrador;
 
 use App\Administrador\Role;
+use App\Administrador\Permiso;
+use Illuminate\Support\Facades\Auth;
 use App\Transformers\UserTransformer;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -76,7 +78,7 @@ class User extends Authenticatable
 
     public function HasPermiso($permiso){
 
-        if($this->tienePermisoEspecial()){
+        if($this->tienePermisoEspecial()){//Si tiene permisos especiales de administrador
            return true;  
         }
 
@@ -92,6 +94,81 @@ class User extends Authenticatable
         }
          return $resultado_permiso;
       
+    }
+
+    public static function getModulosByUserAuth(User $user, $search=""){
+
+        if($user->tienePermisoEspecial()){//Si tiene permisos especiales de administrador
+            
+            $modulos = Permiso::where('tipo',Permiso::TIPO_MODULO)
+                        ->where('slug','like','%'.$search.'%')->get();
+            return $modulos;
+         }
+
+         //permisos por rol
+
+         $permisos_rol = $user->role
+                        ->permisos()
+                        ->where('tipo',Permiso::TIPO_MODULO)
+                        ->where('slug','like','%'.$search.'%')->get();
+         
+         $permisos_user = $user->permisos()
+                          ->where('tipo',Permiso::TIPO_MODULO)
+                          ->where('slug','like','%'.$search.'%')
+                          ->get();
+
+         $modulos = $permisos_rol->merge($permisos_user)->unique('id')->values();
+
+         return $modulos;
+    }
+
+    public function scopefilterData($query)
+    {
+      //dd(request()->all());
+      //dd($this);
+      foreach (request()->all() as $key => $value) {
+         //dd($key."--".$value); 
+        $attribute = $this->transformer::originalAttribute($key);
+         //dd($attribute."--".$value);
+        if(isset($attribute,$value)){
+          $query->where($attribute,"like","%$value%");
+        }
+      }
+
+      return $query;
+    }
+
+    public function scopesortData($query)
+    {
+      if (request()->filled('sort')) {
+          $attribute  = $this->transformer::originalAttribute(request()->sort);
+          if(isset($attribute)){
+            $query->orderBy($attribute,'asc');
+          } 
+      }
+      return $query;
+    }
+
+    public static function permisosGenerales()
+    {
+     //verifica permisos para el listado de acciones en front end
+      $instanciaPermiso =  Auth::user();
+      $permiso_listar = $instanciaPermiso->HasPermiso('submodulo.usuario.list');
+      $permiso_crear = $instanciaPermiso->HasPermiso('submodulo.usuario.store');
+      $permiso_ver = $instanciaPermiso->HasPermiso('submodulo.usuario.show');
+      $permiso_editar = $instanciaPermiso->HasPermiso('submodulo.usuario.edit');
+      $permiso_actualizar = $instanciaPermiso->HasPermiso('submodulo.usuario.update');
+      $permiso_eliminar = $instanciaPermiso->HasPermiso('submodulo.usuario.delete');
+        
+
+      return [
+        "list"=>$permiso_listar,
+        "store"=>$permiso_crear,
+        "show"=>$permiso_ver,
+        "edit"=>$permiso_editar,
+        "update"=>$permiso_actualizar,
+        "delete"=>$permiso_eliminar
+      ];
     }
  
 }

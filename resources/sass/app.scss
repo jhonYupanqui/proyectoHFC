@@ -3,9 +3,21 @@
 
 // Variables
 @import 'variables';
+@import 'loaders';
 @import 'scroll';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 @import '~admin-lte/dist/css/adminlte.css';
 @import '~font-awesome/scss/font-awesome';
+
+//// 
+@import 'tablas';
+
+.main-sidebar{
+    z-index: 1000;
+}
+
+
+
+

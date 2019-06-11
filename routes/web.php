@@ -27,10 +27,45 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador', 'AdministradorController@index')->name('administrador');
 
     //EMPRESA VIEW
-    Route::get('/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresas.index')
+    Route::get('/administrador/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
+    ->middleware('permiso:modulo.empresa.index'); 
+
+    //USUARIOS VIEW
+    Route::get('/administrador/usuarios','Modulos\User\UserController@index')->name('modulo.usuario.index')
+    ->middleware('permiso:modulo.usuario.index');
+    Route::get('/administrador/usuarios/create','Modulos\User\UserController@create')->name('submodulo.usuario.store')
+    ->middleware('permiso:submodulo.usuario.store');
+    Route::get('/administrador/usuarios/{usuario}/show','Modulos\User\UserController@show')->name('submodulo.usuario.show')
+    ->middleware('permiso:submodulo.usuario.show');
+    Route::get('/administrador/usuarios/{usuario}/edit','Modulos\User\UserController@edit')->name('submodulo.usuario.edit')
+    ->middleware('permiso:submodulo.usuario.edit');
+
+    //MODULOS VIEW
+    Route::get('/administrador/roles','Modulos\Rol\RolController@index')->name('modulo.rol.index')
     ->middleware('permiso:modulo.rol.index');
-    //ADMINISTRADOR PRINCIPAL JSON
-    Route::post('/administrador/lista', 'AdministradorController@list')->name('administrador.list');
+
+    //MULTICONSULTA VIEW
+    Route::get('/administrador/multiconsulta','Modulos\Multiconsulta\MulticonsultaController@index')->name('modulo.multiconsulta.index')
+    ->middleware('permiso:modulo.multiconsulta.index');
+
+    //ALBOL DE DECISIONES VIEW
+    Route::get('/administrador/arbol-decisiones','Modulos\Arbol\ArbolController@index')->name('modulo.arbol-decision.index')
+    ->middleware('permiso:modulo.arbol-decision.index');
+
+    //LLamadas VIEW
+    Route::get('/administrador/llamadas','Modulos\Llamada\LlamadaController@index')->name('modulo.llamadas.index')
+    ->middleware('permiso:modulo.llamadas.index');
+
+    // --------------      -------------- //
+    // -------------- JSON -------------- //
+    // --------------      -------------- //
+
+    //ADMINISTRADOR PRINCIPAL
+    Route::get('/administrador/lista', 'AdministradorController@list')->name('administrador.list');
+     
+    //ADMINISTRADOR USUARIOS
+    Route::post('/administrador/usuarios/lista', 'Modulos\User\UserController@list')->name('submodulo.usuario.list')
+    ->middleware('permiso:submodulo.usuario.list');
      
 
 });

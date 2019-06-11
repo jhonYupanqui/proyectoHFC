@@ -3,8 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Http\Controllers\GeneralController;
 
-class CheckPermiso
+class CheckPermiso extends GeneralController
 {
     /**
      * Handle an incoming request.
@@ -15,18 +16,34 @@ class CheckPermiso
      */
     public function handle($request, Closure $next, $permiso)
     {
+        $permiso_usuario = $request->user()->HasPermiso($permiso);
 
-        if ($this->isFrontend($request)) {
-            echo "si es front end"; 
+        if ($this->isFrontend($request)) { //verifica si la peticion es por web 
+            if(!$permiso_usuario && $request->ajax()){ // Si el permiso es falso y si la peticion es ajax de la web
+                return $this->errorMessage("Unauthorised",403);
+            }
+             
+            //Si es web pero no es ajax, es en el navegador
+            if(!$permiso_usuario){// Si el permiso es falso . 
+                abort(403, 'Unauthorized action.');
+            }
+
+           //Si el permiso es verdadero y si la peticion es ajax de la web
+            if($permiso_usuario){
+                $next($request);
+            }
+              
+           // return ($permiso_usuario && $request->ajax())? $next($request) : abort(404, 'Página no encontrada');
+           ///$next($request);
+            //Si la peticion es correcta con su permisos,
+            //no se mostrará el resultado, ya que no es peticion web
+            //mostrará error 404 porque no existe a nivel web eta peitcion solo ajax
+           
         }
-        dd("no es front end");
-        if(! $request->user()->HasPermiso($permiso)){
-             return redirect('errors.403');
-            // return response()->json(['error' => 'Unauthorised'], 401);
-            //return $this->errorResponse('No posee permisos para ejecutar esta acción', 403);
-        } 
-
-        return $next($request);
+       
+        //La peticion no es por web - sino es en API
+        return (!$permiso_usuario) ? $this->errorMessage("Unauthorised",403) : $next($request);
+         
     }
 
     private function isFrontend($request)

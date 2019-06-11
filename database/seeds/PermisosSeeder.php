@@ -17,7 +17,7 @@ class PermisosSeeder extends Seeder
             $permisoModulo->nombre = "Empresas";
             $permisoModulo->slug = "modulo.empresa.index";
             $permisoModulo->tipo = "Modulo";
-            $permisoModulo->imagen = "default.png";
+            $permisoModulo->imagen = "company.png";
             $permisoModulo->referencia = null;
             $permisoModulo->descripcion = "Ver Modulo de Empresa";
             $permisoModulo->save();
@@ -76,7 +76,7 @@ class PermisosSeeder extends Seeder
             $permisoModulo->nombre = "Usuarios";
             $permisoModulo->slug = "modulo.usuario.index";
             $permisoModulo->tipo = "Modulo";
-            $permisoModulo->imagen = "default.png";
+            $permisoModulo->imagen = "usuarios.png";
             $permisoModulo->referencia = null;
             $permisoModulo->descripcion = "Ver Modulo de Usuario";
             $permisoModulo->save();
@@ -135,7 +135,7 @@ class PermisosSeeder extends Seeder
             $permisoModulo->nombre = "roles";
             $permisoModulo->slug = "modulo.rol.index";
             $permisoModulo->tipo = "Modulo";
-            $permisoModulo->imagen = "default.png";
+            $permisoModulo->imagen = "role.png";
             $permisoModulo->referencia = null;
             $permisoModulo->descripcion = "Ver Modulo de rol";
             $permisoModulo->save();
@@ -194,7 +194,7 @@ class PermisosSeeder extends Seeder
             $permisoModulo->nombre = "Multiconsulta";
             $permisoModulo->slug = "modulo.multiconsulta.index";
             $permisoModulo->tipo = "Modulo";
-            $permisoModulo->imagen = "default.png";
+            $permisoModulo->imagen = "multiconsulta.png";
             $permisoModulo->referencia = null;
             $permisoModulo->descripcion = "Ver Modulo de Multiconsulta";
             $permisoModulo->save();
@@ -397,7 +397,7 @@ class PermisosSeeder extends Seeder
             $permisoModulo->nombre = "Arbol de Deciciones";
             $permisoModulo->slug = "modulo.arbol-decision.index";
             $permisoModulo->tipo = "Modulo";
-            $permisoModulo->imagen = "default.png";
+            $permisoModulo->imagen = "default.jpg";
             $permisoModulo->referencia = null;
             $permisoModulo->descripcion = "Ver Modulo de Arbol de Decisiones";
             $permisoModulo->save();
@@ -456,7 +456,7 @@ class PermisosSeeder extends Seeder
             $permisoModulo->nombre = "Llamadas";
             $permisoModulo->slug = "modulo.llamadas.index";
             $permisoModulo->tipo = "Modulo";
-            $permisoModulo->imagen = "default.png";
+            $permisoModulo->imagen = "llamadas.png";
             $permisoModulo->referencia = null;
             $permisoModulo->descripcion = "Ver Modulo de Llamadas en el sistema";
             $permisoModulo->save();

@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('titulo_pagina_sistema', 'Dashboard')
+
 @section('estilos')
     
 @endsection
@@ -8,9 +10,7 @@
 @endsection
 
 @section('top-left-submenus')
-    <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
-    </li>
+    @parent 
     <li class="nav-item d-none d-sm-inline-block">
         <a href="javascript:void(0)" class="nav-link">Home</a>
     </li>
@@ -20,7 +20,8 @@
 @endsection
 
 @section('title-container')
-    <h3 class="m-0 text-dark">Dashboard</h3>
+    {{--<h3 class="m-0 text-dark">Dashboard</h3>--}}
+    <input type="text" id="filter_modulos" name="filter_modulos" class="form-control form-control-sm shadow-sm">
 @endsection
 @section('ruta-navegacion-container')
     @parent
@@ -32,25 +33,14 @@
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-                <div class="card">
-                    <div class="card-header">Dashboard</div>
+    @parent
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        Bienvenido al Sistema!!
-                    </div>
-                </div>
-        </div>
+    <div class="row" id="listModulos">
+        
     </div>
+ 
 @endsection
 
 @section('scripts-footer')
-    
+    <script src="/js/sistema/administrador/index.js"></script>
 @endsection

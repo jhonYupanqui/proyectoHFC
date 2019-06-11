@@ -8,13 +8,13 @@
    <!-- CSRF Token -->
    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-   <title>{{ config('app.name', 'Sistema') }}</title>
+   <title>{{ config('app.name', 'Sistema') }} | @yield('titulo_pagina_sistema')</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="css/icofont.min.css">
-  <link rel="stylesheet" href="css/app.css">
-  
+  <link href=" {{ mix('css/app.css') }}" rel="stylesheet">
+  <!-- Font Awesome -->  
+  <link rel="stylesheet" href="{{ asset('css/icofont.min.css') }}"> 
+
   @yield('estilos')
   @yield('scripts-header')
 
@@ -38,7 +38,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             @section('ruta-navegacion-container') 
-                                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{{route('administrador')}}">Dashboard</a></li>
                             @show
                         
                         </ol>
@@ -50,8 +50,14 @@
 
                 <!-- Main content -->
                 <section class="content" id="app">
-                <div class="container-fluid">
-                    @yield('content')
+                <div class="container-fluid"> 
+                    @section('content')
+                        <!-- Modales -->
+                        @include("errors.modalErrors")
+                        @include("errors.modalReload")
+                        @include("success.successModal")
+                      <!-- Fin modales-->
+                    @show
                 </div>
                 </section>
                 <!-- /.content -->
@@ -69,7 +75,7 @@
         </div>
         <!-- ./wrapper -->
     
-    <script src="/js/app.js"></script>
+        <script src="{{ mix('js/app.js') }}"></script>
     @yield('scripts-footer')
 
     </body>
