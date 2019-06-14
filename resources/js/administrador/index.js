@@ -44,12 +44,18 @@ function load_modulos()
           $("#reloadModal").modal("show")
           return false
         }
+        console.log("la ruta es: ",data.response.data.length)
+        if(data.response.data.length == 0){ 
+          console.log("esta ingresando por vacio")
+          $("#body-errors-modal").html(`<p>No hay modulos disponibles asignados para su rol</p>`)
+          $("#errorsModal").modal("show")
+        }
         
         let lista_modulos = data.response.data
         let estructura = ``
         lista_modulos.forEach(el => {
           estructura += `<div class="col-6 col-sm-4 col-md-3 col-lg-3">
-                            <a href="${el.ruta}" class="text-decoration-none">
+                            <a href="${el.url}" class="text-decoration-none">
                               <div class="card">
                                 <img class="card-img-top" src="${el.imagen}" alt="Modulos publicos list">
                                 <div class="card-body text-center text_decoration_none">

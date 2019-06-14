@@ -29,12 +29,18 @@ errors.codigos = function codigos(codigo){
 }
 
 errors.mensajeErrorJson = function mensajeErrorJson(erroresJson){
-        let msj = ``
-        Object.keys(erroresJson).forEach(key =>{
-          msj +=`${key} : ${erroresJson[key]} <br/>`
-          
-        })
-        return msj
+ 
+          console.log("el tipo de mensaje es:",typeof(erroresJson))
+          if (typeof(erroresJson) == "string") { 
+              return erroresJson
+          }
+          //recorreo objeto como array
+          let msj = ``
+          Object.keys(erroresJson).forEach(key =>{
+              msj +=`${key} : ${erroresJson[key]} <br/>`
+              
+          }) 
+          return msj; 
 }
 
 export default errors

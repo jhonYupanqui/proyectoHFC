@@ -17,6 +17,7 @@ class CreateRolesTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre',50);
             $table->enum('especial',['SI','NO'])->default('NO'); //si-> permisos de todo
+            $table->bigInteger('referencia')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

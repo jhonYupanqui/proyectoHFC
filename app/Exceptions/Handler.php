@@ -4,9 +4,16 @@ namespace App\Exceptions;
 
 use Exception;
 use App\Traits\SystemResponser;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -61,7 +68,7 @@ class Handler extends ExceptionHandler
 
         if($exception instanceof ModelNotFoundException){ //si hubiera un error de un modelo no encontrado jemplo: /users/1345498754 :get
             $modelo = strtolower(class_basename($exception->getModel()));//acceediendo al modelo que sale error
-            return $this->ErrorsExceptionGeneral($request,"No existe ninguna instancia de {$modelo}", 404);
+            return $this->ErrorsExceptionGeneral($request,"No existe ningun dato en {$modelo} de lo indicado", 404);//No existe ninguna instancia de
         }
 
         if($exception instanceof AuthorizationException){ // Validar errores cuando no tiene permisos el usuario
@@ -70,6 +77,7 @@ class Handler extends ExceptionHandler
         }
 
         if($exception instanceof NotFoundHttpException){//valida una ruta que no existe
+            return abort(404, 'Página no encontrada',[]);
             return $this->ErrorsExceptionGeneral($request,"No se encontro el recurso solicitado: ".$request->path(), 404);
         }
 
@@ -125,33 +133,39 @@ class Handler extends ExceptionHandler
     }
 
     private function isFrontend($request)
-    {
-        return $request->acceptsHtml() && collect($request->route()->middleware())->contains('web');
+    { 
+        
+        //return $request->acceptsHtml() && collect($request->route()->middleware())->contains('web');
+        return $request->acceptsHtml();
     }
-
+  
     private function ErrorsExceptionGeneral($request, $mensaje, $codigo)
-    {
+    { 
+
         if($this->isFrontend($request)){
 
             if($request->ajax()){
                 return $this->errorResponse($mensaje, $codigo);
             }
-
+            
             switch ($codigo) {
-                case 403:
-                    abort(403, 'Página no autorizada.');
+                case 403: 
+                   //return abort(403, 'Página no autorizada.');
+                    abort(404, 'Unauthorized action.');
+                   
+                   //return redirect()->route('modulo.login.index');
                     break; 
                 case 404:
-                    abort(404, 'Página no encontrada.');
+                    return abort(404, 'Página no encontrada.');
                     break;
                 case 405:
-                    abort(405, 'Error en el servicio.');
+                    return abort(405, 'Error en el servicio.');
                     break;
                 case 409:
-                    abort(409, 'Conflicto con la BD.');
+                    return abort(409, 'Conflicto con la BD.');
                     break;
                 default:
-                    abort($codigo, 'Error en el servicio.');
+                    return abort($codigo, 'Error en el servicio.');
                     break;
             } 
          }

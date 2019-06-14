@@ -14,7 +14,7 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,19 +24,28 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'empresa_id' => 'required',
-            'role_id' => 'required',
-            'nombre' => 'required|max:100',
-            'apellidos' => 'required|max:100',
-            'dni' => 'required|max:8',
-            'telefono' => 'required|max:7',
-            'email' => 'required|unique:email,users',
-            'usuario' => 'required|unique:usuario,users',
-            'clave' => 'required',
+        $validar_update ='';
+         
+        if(isset($this->route('user')->id)){
+            $validar_update=$this->route('user')->id>0 ?", ". $this->route('user')->id:"";
+        }
+
+        return [ 
+            'nombre' => 'required|max:100|unico_compuesto:users,nombre,deleted_at'.$validar_update,
+            'apellidos' => 'required|max:100|unico_compuesto:users,apellidos,deleted_at'.$validar_update,
+            'dni' => 'required|max:8|unico_compuesto:users,dni,deleted_at'.$validar_update,
+            'celular' => 'required|max:7',
+            'email' => 'required|email|unico_compuesto:users,email,deleted_at'.$validar_update,
             'estado' => 'required|in:'.User::ESTADO_ACTIVO.','.User::ESTADO_INACTIVO,
         ];
-
-         
+          
     }
+
+    public function messages()
+    {
+        return [
+            'nombre.unico_compuesto'  => 'Ya existe un registro con el mismo nombre, intente cambiarlos.'
+        ];
+    }
+    
 }

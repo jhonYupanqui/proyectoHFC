@@ -131,10 +131,18 @@ function load_modulos() {
       return false;
     }
 
+    console.log("la ruta es: ", data.response.data.length);
+
+    if (data.response.data.length == 0) {
+      console.log("esta ingresando por vacio");
+      $("#body-errors-modal").html("<p>No hay modulos disponibles asignados para su rol</p>");
+      $("#errorsModal").modal("show");
+    }
+
     var lista_modulos = data.response.data;
     var estructura = "";
     lista_modulos.forEach(function (el) {
-      estructura += "<div class=\"col-6 col-sm-4 col-md-3 col-lg-3\">\n                            <a href=\"".concat(el.ruta, "\" class=\"text-decoration-none\">\n                              <div class=\"card\">\n                                <img class=\"card-img-top\" src=\"").concat(el.imagen, "\" alt=\"Modulos publicos list\">\n                                <div class=\"card-body text-center text_decoration_none\">\n                                  <h4 class=\"font-weight-bold text-uppercase text_modulo_publico\">").concat(el.nombre, "</h4>\n                                </div>\n                              </div>\n                            </a>\n                        </div> ");
+      estructura += "<div class=\"col-6 col-sm-4 col-md-3 col-lg-3\">\n                            <a href=\"".concat(el.url, "\" class=\"text-decoration-none\">\n                              <div class=\"card\">\n                                <img class=\"card-img-top\" src=\"").concat(el.imagen, "\" alt=\"Modulos publicos list\">\n                                <div class=\"card-body text-center text_decoration_none\">\n                                  <h4 class=\"font-weight-bold text-uppercase text_modulo_publico\">").concat(el.nombre, "</h4>\n                                </div>\n                              </div>\n                            </a>\n                        </div> ");
     });
     $("#listModulos").html(estructura);
   }).fail(function (jqXHR, textStatus) {
@@ -172,6 +180,8 @@ function load_modulos() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 var errors = {};
 
 errors.codigos = function codigos(codigo) {
@@ -207,6 +217,13 @@ errors.codigos = function codigos(codigo) {
 };
 
 errors.mensajeErrorJson = function mensajeErrorJson(erroresJson) {
+  console.log("el tipo de mensaje es:", _typeof(erroresJson));
+
+  if (typeof erroresJson == "string") {
+    return erroresJson;
+  } //recorreo objeto como array
+
+
   var msj = "";
   Object.keys(erroresJson).forEach(function (key) {
     msj += "".concat(key, " : ").concat(erroresJson[key], " <br/>");

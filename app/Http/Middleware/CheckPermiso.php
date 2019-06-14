@@ -17,22 +17,23 @@ class CheckPermiso extends GeneralController
     public function handle($request, Closure $next, $permiso)
     {
         $permiso_usuario = $request->user()->HasPermiso($permiso);
-
+        
         if ($this->isFrontend($request)) { //verifica si la peticion es por web 
+            
             if(!$permiso_usuario && $request->ajax()){ // Si el permiso es falso y si la peticion es ajax de la web
                 return $this->errorMessage("Unauthorised",403);
             }
-             
+            
             //Si es web pero no es ajax, es en el navegador
             if(!$permiso_usuario){// Si el permiso es falso . 
                 abort(403, 'Unauthorized action.');
             }
-
+            
            //Si el permiso es verdadero y si la peticion es ajax de la web
             if($permiso_usuario){
                 $next($request);
             }
-              
+           
            // return ($permiso_usuario && $request->ajax())? $next($request) : abort(404, 'Página no encontrada');
            ///$next($request);
             //Si la peticion es correcta con su permisos,

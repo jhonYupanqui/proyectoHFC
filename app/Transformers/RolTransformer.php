@@ -15,22 +15,39 @@ class RolTransformer extends TransformerAbstract
     public function transform(Role $rol)
     {
         return [
-            'identificador'=> (int) $rol->id,
-            'nombre'=> (string) $rol->nombre,
-            'fechaCreacion'=> (string) $rol->created_at,
-            'fechaActualizacion'=> (string) $rol->updated_at,
-            'fechaEliminacion'=> ($rol->deleted_at == null)? null : (string) $rol->deleted_at,
+            'identificador' => (int)$rol->id,
+            'rol' => (string)$rol->nombre,
+            'fechaCreacion' => isset($rol->created_at)? (string)$rol->created_at : null,
+            'fechaActualizacion' => isset($rol->updated_at)? (string)$rol->updated_at : null,
+            'fechaEliminacion' => isset($rol->deleted_at)? (string)$rol->deleted_at : null,
         ];
     }
-    
-    public function originalAttribute($data){
-        return [
+
+    public static function originalAttribute($index){
+        $attributes = [
             'identificador' => 'id',
-            'nombre' = >'nombre',
+            'rol' =>'nombre',
             'fechaCreacion' => 'created_at',
             'fechaActualizacion' => 'updated_at',
             'fechaEliminacion' => 'deleted_at',
             '_method' => '_method',
+            '_token' => '_token',
         ];
+
+        return isset($attributes[$index]) ? $attributes[$index] : null;
+
+    }
+
+    public static function transformedAttribute($index)
+    {
+      $attributes = [
+            'id' => 'identificador',
+            'nombre' => 'rol',
+            'created_at' => 'fechaCreacion',
+            'updated_at' => 'fechaActualizacion',
+            'deleted_at' => 'fechaEliminacion',
+            '_method' => '_method',
+      ];
+      return isset($attributes[$index]) ? $attributes[$index] : null;
     }
 }

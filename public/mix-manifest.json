@@ -3,5 +3,10 @@
     "/css/app.css": "/css/app.css",
     "/css/login.css": "/css/login.css",
     "/js/sistema/administrador/index.js": "/js/sistema/administrador/index.js",
-    "/js/sistema/modulos/users/index.min.js": "/js/sistema/modulos/users/index.min.js"
+    "/js/sistema/modulos/users/delete.min.js": "/js/sistema/modulos/users/delete.min.js",
+    "/js/sistema/modulos/users/edit.min.js": "/js/sistema/modulos/users/edit.min.js",
+    "/js/sistema/modulos/users/index.min.js": "/js/sistema/modulos/users/index.min.js",
+    "/js/sistema/modulos/users/show.min.js": "/js/sistema/modulos/users/show.min.js",
+    "/js/sistema/modulos/users/store.min.js": "/js/sistema/modulos/users/store.min.js",
+    "/js/sistema/modulos/users/update.min.js": "/js/sistema/modulos/users/update.min.js"
 }

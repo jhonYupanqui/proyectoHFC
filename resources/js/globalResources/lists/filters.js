@@ -2,11 +2,11 @@ import paginacionGlobal from '@/globalResources/lists/paginacionGlobal.js'
 
 const filters = {}
 
-filters.loadListGeneral = function loadListGeneral(dataEnvio,ruta,PersonalityPeticion,callBack)
+filters.loadListGeneral = function loadListGeneral(dataEnvio,ruta,PersonalityPeticion,method,callBack)
 {
   let envio = dataEnvio
   let route = ruta
-  
+  let metodo = method
   //search
     
   if (parseInt(PersonalityPeticion.pageFilter) > 0) {
@@ -18,7 +18,7 @@ filters.loadListGeneral = function loadListGeneral(dataEnvio,ruta,PersonalityPet
   $.ajax({
     url:route,
     async: true,
-    method:"post",
+    method:metodo,
     data:envio,
     cache: false, 
     dataType: "json", 

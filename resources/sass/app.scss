@@ -17,6 +17,16 @@
 .main-sidebar{
     z-index: 1000;
 }
+//Modal
+.modal-height-responsive {
+    max-height: calc(100vh - 120px);
+    overflow: auto;
+}
+//Erros
+.errors_message{
+        color: #c33232;
+        font-size: 0.9em;
+}
 
 
 

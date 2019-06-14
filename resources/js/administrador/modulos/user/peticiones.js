@@ -16,6 +16,7 @@ peticiones.cargaCompletaUsuarios = function cargaCompletaUsuarios(orden,paginate
     envio = resultEnvioUser
   
     let route = `/administrador/usuarios/lista`
+    let method ="GET"
     let PersonalityPeticion = {
       'pageFilter':paginateSearch
     }
@@ -34,12 +35,14 @@ peticiones.cargaCompletaUsuarios = function cargaCompletaUsuarios(orden,paginate
        
     //End previo al envio
     
-    filters.loadListGeneral(envio,route,PersonalityPeticion,function(res){
+    filters.loadListGeneral(envio,route,PersonalityPeticion,method,function(res){
       console.log("la data return list es: ",res)
       //Errores
         if(res.error == "failed"){
           //console.log("Error: ",res.errorThrown,res.jqXHR,res.textStatus) 
-          mensajeCodigo = errors.codigos(res.jqXHR.status);
+          let mensajeCodigo = errors.codigos(res.jqXHR.status);
+          console.log("se detecta el failed: ",mensajeCodigo)
+          
           $("#result_iteraction_list").html(`<tr>
                                     <td colspan="6" class="text-center">${mensajeCodigo}</td>
                                     </tr>`);
@@ -47,7 +50,7 @@ peticiones.cargaCompletaUsuarios = function cargaCompletaUsuarios(orden,paginate
         }
         if(res.error == true){
           let error_rpta = ``
-          data.message.forEach(el => { 
+          data.mensaje.forEach(el => { 
             error_rpta += `${el} <br/>`
           })
           $("#result_iteraction_list").html(`<tr>
@@ -191,12 +194,12 @@ peticiones.cargalistUsuariosTable = function cargalistUsuariosTable(res){
         tabla += `<td class="text-center">`
         if (permisos.show) {
           tabla += `
-              <a href="/administrador/usuarios/create" class="btn btn-outline-primary btn-sm shadow-sm p-1 accionUsuarioShow"><i class="fa fa-eye icon-accion"></i></a>
+              <a href="/administrador/usuario/${el.identificador}/detalle" class="btn btn-outline-primary btn-sm shadow-sm p-1 accionUsuarioShow"><i class="fa fa-eye icon-accion"></i></a>
           `
         }
         if (permisos.edit) {
           tabla += `
-              <a href="/administrador/usuarios/${el.identificador}/show" class="btn btn-outline-success btn-sm shadow-sm p-1 accionUsuarioEdit" ><i class="fa fa-pencil icon-accion"></i></a>
+              <a href="/administrador/usuario/${el.identificador}/editar" class="btn btn-outline-success btn-sm shadow-sm p-1 accionUsuarioEdit" ><i class="fa fa-pencil icon-accion"></i></a>
           `
         }
         if (permisos.delete) {
@@ -212,6 +215,36 @@ peticiones.cargalistUsuariosTable = function cargalistUsuariosTable(res){
 
     $("#result_iteraction_list").html(tabla)
  
+}
+
+//Store
+///administrador/roles/{rol}/permisos
+peticiones.seleccionarPermisosByRoles = function seleccionarPermisosByRoles(idRol,dataIdent,modalShow){
+
+  $.ajax({
+    url:`/administrador/roles/${parseInt(idRol)}/permisos`,
+    method:"get",
+    dataType: "json", 
+  })
+  .done(function(data){
+    //console.log("los permisos del rol seleccionado:", data)
+    let permisosSegunRol = data.response.data
+    
+    permisosSegunRol.forEach(el => {
+        //console.log(el);
+        $(`input#check${dataIdent}`+el.identificador).prop('checked', true)
+        $(`input#check${dataIdent}`+el.identificador).prop('disabled', true)
+    }) 
+    modalShow.modal("show")
+    
+  })
+  .fail(function(jqXHR, textStatus){
+    console.log( "Request failed: " ,textStatus ,jqXHR);
+    $("#body-errors-modal").html(`Hubo un error en el servicio de permisos, intente nuevamente por favor!`)
+    $('#errorsModal').modal('show')  
+    //console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);
+    
+  });
 }
 
 export default peticiones

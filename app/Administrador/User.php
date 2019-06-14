@@ -71,7 +71,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Permiso::class);
     }
 
-    private function tienePermisoEspecial(){
+    public function tienePermisoEspecial(){
        return $this->role->especial == Role::CON_PERMISOS_TOTAL;
        
     }
@@ -95,11 +95,11 @@ class User extends Authenticatable
          return $resultado_permiso;
       
     }
-
+ 
     public static function getModulosByUserAuth(User $user, $search=""){
-
+      
         if($user->tienePermisoEspecial()){//Si tiene permisos especiales de administrador
-            
+           
             $modulos = Permiso::where('tipo',Permiso::TIPO_MODULO)
                         ->where('slug','like','%'.$search.'%')->get();
             return $modulos;
@@ -153,20 +153,18 @@ class User extends Authenticatable
     {
      //verifica permisos para el listado de acciones en front end
       $instanciaPermiso =  Auth::user();
-      $permiso_listar = $instanciaPermiso->HasPermiso('submodulo.usuario.list');
+      $permiso_modulo = $instanciaPermiso->HasPermiso('submodulo.usuario.index');
       $permiso_crear = $instanciaPermiso->HasPermiso('submodulo.usuario.store');
       $permiso_ver = $instanciaPermiso->HasPermiso('submodulo.usuario.show');
       $permiso_editar = $instanciaPermiso->HasPermiso('submodulo.usuario.edit');
-      $permiso_actualizar = $instanciaPermiso->HasPermiso('submodulo.usuario.update');
       $permiso_eliminar = $instanciaPermiso->HasPermiso('submodulo.usuario.delete');
         
 
       return [
-        "list"=>$permiso_listar,
+        "modulo"=>$permiso_modulo,
         "store"=>$permiso_crear,
         "show"=>$permiso_ver,
         "edit"=>$permiso_editar,
-        "update"=>$permiso_actualizar,
         "delete"=>$permiso_eliminar
       ];
     }

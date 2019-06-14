@@ -30,7 +30,7 @@ class LoginController extends Controller
         }
         
         return back()
-                ->withErrors(['auth'=>trans('auth.failed'),"username"=>"problemas con el ususario"])
+                ->withErrors(['auth'=>trans('auth.failed'),"username"=>"problemas con el usuario"])
                 ->withInput(request(['username','auth']));
         
     }

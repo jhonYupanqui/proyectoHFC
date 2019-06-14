@@ -104,10 +104,10 @@ Trait SystemResponser {
         
         //ordenando datos
         if ($sort) $collection = $this->sortData($collection, $transformer);
-       
+        
         //paginacion de datos
         if ($paginacion) $collection = $this->paginate($collection);
-
+       
         $collection = $this->transformData($collection, $transformer);
 
         

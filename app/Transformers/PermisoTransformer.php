@@ -17,7 +17,8 @@ class PermisoTransformer extends TransformerAbstract
         return [
             'identificador' => (int)$permiso->id,
             'nombre' => (string)$permiso->nombre,
-            'ruta' =>  route($permiso->slug),
+            'permiso' =>  (string)$permiso->slug,
+            'url' =>  url($permiso->ruta),
             'imagen' => url("images/modulos/{$permiso->imagen}"),
             'tipo' => (string)$permiso->tipo,
             'identificadorModulo' => (int)$permiso->referencia,
@@ -32,7 +33,8 @@ class PermisoTransformer extends TransformerAbstract
         $attributes = [
             'identificador' => 'id',
             'nombre' => 'nombre',
-            'ruta' => 'slug',
+            'permiso' => 'slug',
+            'url' => 'ruta',
             'imagen' => 'imagen',
             'tipo' => 'tipo',
             'identificadorModulo' => 'email',
@@ -54,7 +56,8 @@ class PermisoTransformer extends TransformerAbstract
       $attributes = [
                 'id' => 'identificador',
                 'nombre' => 'nombre',
-                'slug' => 'ruta',
+                'slug' => 'permiso',
+                'ruta' => 'url',
                 'imagen' => 'imagen',
                 'tipo' => 'tipo',
                 'email' => 'identificadorModulo',

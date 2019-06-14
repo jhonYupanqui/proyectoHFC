@@ -17,6 +17,7 @@ class CreatePermisosTable extends Migration
             $table->bigIncrements('id');
             $table->string('nombre',100);
             $table->string('slug',100);
+            $table->string('ruta',100);
             $table->string('imagen',100)->nullable();
             $table->enum('tipo',['null','Modulo', 'Submodulo'])->nullable();
             $table->bigInteger('referencia')->nullable();

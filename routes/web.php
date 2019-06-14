@@ -18,37 +18,40 @@ use App\Transformers\UserTransformer;
  
 Route::get('/','Modulos\Auth\LoginController@index')->name('modulo.login.index')->middleware('guest');
 Route::post('/login','Modulos\Auth\LoginController@login')->name('login');
-Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
+
 //->middleware('transform.input:' . UserTransformer::class);
  
 Route::group(['middleware' => 'auth'], function () {
 
     //ADMINISTRADOR PRINCIPAL VIEW
     Route::get('/administrador', 'AdministradorController@index')->name('administrador');
+    Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
+    /* 
 
-    //EMPRESA VIEW
+    //ADMINISTRADOR EMPRESA VIEW
     Route::get('/administrador/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
     ->middleware('permiso:modulo.empresa.index'); 
 
-    //USUARIOS VIEW
-    Route::get('/administrador/usuarios','Modulos\User\UserController@index')->name('modulo.usuario.index')
+    // ADMINISTRADOR USUARIOS VIEW
+    Route::get('/administrador/usuario','Modulos\User\UserController@index')->name('modulo.usuario.index')
     ->middleware('permiso:modulo.usuario.index');
-    Route::get('/administrador/usuarios/create','Modulos\User\UserController@create')->name('submodulo.usuario.store')
+    Route::get('/administrador/usuarios/crear','Modulos\User\UserController@create')->name('submodulo.usuario.store')
     ->middleware('permiso:submodulo.usuario.store');
-    Route::get('/administrador/usuarios/{usuario}/show','Modulos\User\UserController@show')->name('submodulo.usuario.show')
+    Route::get('/administrador/usuario/{usuario}/detalle','Modulos\User\UserController@show')->name('submodulo.usuario.show')
     ->middleware('permiso:submodulo.usuario.show');
-    Route::get('/administrador/usuarios/{usuario}/edit','Modulos\User\UserController@edit')->name('submodulo.usuario.edit')
+    Route::get('/administrador/usuario/{usuario}/editar','Modulos\User\UserController@edit')->name('submodulo.usuario.edit')
     ->middleware('permiso:submodulo.usuario.edit');
 
-    //MODULOS VIEW
+    //ADMINISTRADOR ROLES VIEW
+    Route::get('/administrador/roles/{rol}/permisos', 'Modulos\Rol\RolController@permisos')->name('submodulo.rol.permisos.lista');
     Route::get('/administrador/roles','Modulos\Rol\RolController@index')->name('modulo.rol.index')
     ->middleware('permiso:modulo.rol.index');
 
-    //MULTICONSULTA VIEW
+    //ADMINISTRADOR MULTICONSULTA VIEW
     Route::get('/administrador/multiconsulta','Modulos\Multiconsulta\MulticonsultaController@index')->name('modulo.multiconsulta.index')
     ->middleware('permiso:modulo.multiconsulta.index');
 
-    //ALBOL DE DECISIONES VIEW
+    //ADMINISTRADOR ALBOL DE DECISIONES VIEW
     Route::get('/administrador/arbol-decisiones','Modulos\Arbol\ArbolController@index')->name('modulo.arbol-decision.index')
     ->middleware('permiso:modulo.arbol-decision.index');
 
@@ -64,8 +67,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/lista', 'AdministradorController@list')->name('administrador.list');
      
     //ADMINISTRADOR USUARIOS
-    Route::post('/administrador/usuarios/lista', 'Modulos\User\UserController@list')->name('submodulo.usuario.list')
-    ->middleware('permiso:submodulo.usuario.list');
-     
+    Route::get('/administrador/usuarios/lista', 'Modulos\User\UserController@list')->name('submodulo.usuario.list')
+    ->middleware('permiso:modulo.usuario.index');
+    Route::post('/administrador/empresa/{empresa}/rol/{rol}/usuario/store', 'Modulos\User\UserController@store')->name('submodulo.usuario.store.ajax')
+    ->middleware('permiso:submodulo.usuario.store');
+   // ->middleware('transform.input:'. UserTransformer::class);
 
+    //ADMINISTRADOR EMPRESA
+    Route::get('/administrador/empresa/lista','Modulos\Empresa\EmpresaController@list')->name('submodulo.empresa.list')
+    ->middleware('permiso:modulo.empresa.index'); */
+      
 });

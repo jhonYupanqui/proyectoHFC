@@ -15,7 +15,7 @@ valida.isValidPassword = function isValidPassword(password) {
   }
 
 valida.isValidNumber = function isValidNumber(text) {
-    return /[0-9]/.test(text)
+    return /^[0-9]+$/.test(text) //solo numeros
   }
 
 valida.isValidPrecios = function isValidPrecios(text) {
@@ -23,7 +23,8 @@ valida.isValidPrecios = function isValidPrecios(text) {
   }
 
 valida.isValidLetters= function isValidLetters(text) {
-    return /[a-zA-Z]/.test(text)
+    return /^[a-zA-Z]+(\s*[a-zA-Z]*)*[a-zA-Z]+$/.test(text)//solo letras y espacios intermedios
+    //return /^[a-zA-Z]+$/.test(text)
   }
 
 valida.isValidateInputText = function isValidateInputText(campo)
