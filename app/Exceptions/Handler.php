@@ -77,8 +77,7 @@ class Handler extends ExceptionHandler
         }
 
         if($exception instanceof NotFoundHttpException){//valida una ruta que no existe
-            return abort(404, 'Página no encontrada',[]);
-            return $this->ErrorsExceptionGeneral($request,"No se encontro el recurso solicitado: ".$request->path(), 404);
+           return $this->ErrorsExceptionGeneral($request,"No se encontro el recurso solicitado: ".$request->path(), 404);
         }
 
         if ($exception instanceof MethodNotAllowedHttpException){//la ruta es correcta pero el method usado no es el correcto
@@ -133,14 +132,22 @@ class Handler extends ExceptionHandler
     }
 
     private function isFrontend($request)
-    { 
-        
-        //return $request->acceptsHtml() && collect($request->route()->middleware())->contains('web');
-        return $request->acceptsHtml();
+    {  
+        return $request->acceptsHtml() && collect($request->route()->middleware())->contains('web'); 
     }
   
     private function ErrorsExceptionGeneral($request, $mensaje, $codigo)
     { 
+
+        if ($codigo == 404) { 
+            if($request->acceptsHtml()){
+                if($request->ajax()){ 
+                    return $this->errorResponse($mensaje, $codigo);
+                }
+                return response()->view('errors.404', ["mensaje"=>$mensaje], 404);
+            }
+            return $this->errorResponse($mensaje, $codigo);
+        }
 
         if($this->isFrontend($request)){
 
@@ -150,22 +157,18 @@ class Handler extends ExceptionHandler
             
             switch ($codigo) {
                 case 403: 
-                   //return abort(403, 'Página no autorizada.');
-                    abort(404, 'Unauthorized action.');
-                   
+                   //return abort(403, 'Página no autorizada.'); 
+                    return response()->view('errors.403', ["mensaje"=>$mensaje], 403);
                    //return redirect()->route('modulo.login.index');
                     break; 
-                case 404:
-                    return abort(404, 'Página no encontrada.');
-                    break;
                 case 405:
-                    return abort(405, 'Error en el servicio.');
+                    return response()->view('errors.405', ["mensaje"=>$mensaje], 405);
                     break;
                 case 409:
-                    return abort(409, 'Conflicto con la BD.');
+                    return response()->view('errors.409', ["mensaje"=>$mensaje], 409);
                     break;
                 default:
-                    return abort($codigo, 'Error en el servicio.');
+                    return response()->view('errors.405', ["mensaje"=>$mensaje], 405);
                     break;
             } 
          }

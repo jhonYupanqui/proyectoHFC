@@ -14,6 +14,6 @@
   
 </head>
     <body class="hold-transition sidebar-mini" >
-          <h1>Sin permisos para ejecutar esta acción!!</h1>
+          <h1>{{$mensaje}}</h1>
     </body>
 </html>

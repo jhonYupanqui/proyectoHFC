@@ -9,6 +9,7 @@ use App\Administrador\Empresa;
 use App\Administrador\Permiso;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GeneralController;
 
 class UserController extends GeneralController
@@ -50,9 +51,7 @@ class UserController extends GeneralController
         $empresas = Empresa::all(); 
         $roles = Role::getSubRolesByRol();
         $modulos_permisos = Permiso::all();
- 
-        dd($roles);
-        
+  
         return view('administrador.modulos.user.create',[
             "empresas"=>$this->showContJsonAll($empresas),
             "roles"=>$this->showContJsonAll($roles),
@@ -63,15 +62,14 @@ class UserController extends GeneralController
     public function store(Empresa $empresa, Role $rol, Request $request)
     {
         $usuario = new User;
-
-        //dd($request);
+ 
         $nombre=strtolower($request->nombre);
         $apellidos = strtolower($request->apellidos);
 
         $primeraletraNombre = substr($nombre,0,1);
         $seperadorApellidos=stripos(" ",$apellidos);
 
-         dd($seperadorApellidos);
+        dd($seperadorApellidos);
          /*try { 
 
             //generando Usuario y Password

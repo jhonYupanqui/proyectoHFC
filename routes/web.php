@@ -26,7 +26,7 @@ Route::group(['middleware' => 'auth'], function () {
     //ADMINISTRADOR PRINCIPAL VIEW
     Route::get('/administrador', 'AdministradorController@index')->name('administrador');
     Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
-    /* 
+    
 
     //ADMINISTRADOR EMPRESA VIEW
     Route::get('/administrador/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
@@ -75,6 +75,6 @@ Route::group(['middleware' => 'auth'], function () {
 
     //ADMINISTRADOR EMPRESA
     Route::get('/administrador/empresa/lista','Modulos\Empresa\EmpresaController@list')->name('submodulo.empresa.list')
-    ->middleware('permiso:modulo.empresa.index'); */
+    ->middleware('permiso:modulo.empresa.index'); 
       
 });
