@@ -16,7 +16,8 @@ class UserController extends GeneralController
 {
     public function index()
     {
-        return view('administrador.modulos.user.index');
+        $usuarios = User::all();
+        return view('administrador.modulos.user.index',["usuarios"=>$usuarios]);
     }
 
     public function list(Request $request)

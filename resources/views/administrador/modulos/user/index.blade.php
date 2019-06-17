@@ -3,10 +3,11 @@
 @section('titulo_pagina_sistema', 'Usuarios')
 
 @section('estilos')
-    
+
+
 @endsection
 @section('scripts-header')
-    
+
 @endsection
 
 @section('top-left-submenus')
@@ -101,6 +102,31 @@
                     </div>
                 </div>
         </div>
+    </div>
+
+    <div class="content_table_ajax">
+        <table id="listUsersPrint" class="table table-hover w-100">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Usuario</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($usuarios as $users)
+                    <tr>
+                        <td>{{$users->id}}</td>
+                        <td>{{$users->nombre}}</td>
+                        <td>{{$users->apellidos}}</td>
+                        <td>{{$users->username}}</td>
+                        <td>{{$users->email}}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
 
