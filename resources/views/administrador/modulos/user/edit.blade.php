@@ -39,12 +39,14 @@
                         <a href="{{route('modulo.usuario.index')}}" class="btn btn-sm btn-outline-success mx-1"><i class="fa fa-arrow-left"></i> Atras</a>
                     </div> 
                     <div class="card-body px-2 py-1"> 
-                          <form class="form row my-2 mx-0">
+                        <div id="form_update_load"></div>
+                        <section class="form row my-2 mx-0" id="form_update_detail">
                                @php $usDetalle = $usuario->getData(); @endphp 
  
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="nombreUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Nombre: </label>
                                     <input type="text" name="nombreUpdate" id="nombreUpdate" value="{{ $usDetalle->response->data->nombre }}" class="col-sm-7 col-md-8 form-control form-control-sm shadow-sm">
+                                    <input type="hidden" name="idUpdate" id="idUpdate" value="{{ $usDetalle->response->data->identificador }}" class="col-sm-7 col-md-8 form-control form-control-sm shadow-sm">
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="apellidosUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Apellidos: </label>
@@ -106,12 +108,12 @@
 
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="usuarioUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Usuario: </label>
-                                    <input type="text" name="usuarioUpdate" id="usuarioUpdate" value="{{ $usDetalle->response->data->usuario }}" class="col-sm-7 col-md-8 form-control form-control-sm shadow-sm">
+                                    {{ $usDetalle->response->data->usuario }}
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="claveUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Contraseña: </label>    
                                     <div class="input-group col-sm-7  col-md-8 p-0">  
-                                        <input type="text" name="claveUpdate" id="claveUpdate" class="form-control form-control-sm shadow-sm">
+                                        <input type="password" name="claveUpdate" id="claveUpdate" class="form-control form-control-sm shadow-sm">
                                         <span class="input-group-btn">
                                             <a href="javascript: void(0)" id="verPasswordUser" class="btn btn-outline-success btn-sm shadow-sm w-100" ><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         </span>
@@ -136,7 +138,7 @@
                                    <a href="javascript:void(0)" class="btn btn-sm btn-outline-primary shadow-sm" id="actualizarUsuario">Actualizar Usuario</a>
                               </div>
                               
-                          </form>
+                        </section>
                     </div>
                 </div>
         </div>

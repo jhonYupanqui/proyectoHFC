@@ -67,6 +67,69 @@ class UserController extends GeneralController
         ]);
     }
 
+    public function update(Empresa $empresa, Role $rol, User $usuario,UserRequest $request)
+    {
+       
+        try {
+            DB::beginTransaction();
+              #begin Transaction Update User
+                  if($request->filled('nombre')){//preguntamos si mando un campo nombre y no esta vacio
+                    $usuario->nombre = $request->nombre;
+                  }
+            
+                  if($request->filled('apellidos')){
+                      $usuario->apellidos = $request->apellidos;
+                  }
+
+                  if($request->filled('dni')){
+                      $usuario->dni = $request->dni;
+                  }
+
+                  if($request->filled('telefono')){
+                      $usuario->telefono = $request->telefono;
+                  }
+    
+                  if($request->filled('email') && $usuario->email != $request->email){
+                      $usuario->email = $request->email;
+                  }
+    
+                  if($request->filled('password')){
+                      $usuario->password = bcrypt($request->password);
+                  }
+
+                  if($request->filled('estado')){
+                      $usuario->estado = bcrypt($request->estado);
+                  }
+      
+                  if($request->filled('role_id')){
+                      
+                      $usuario->role_id = $request->role_id;//actualza el rol signado
+                  }
+                  
+                  
+                   $usuario->permisos()->sync($request->get('permisos'));//actualiza los permisos por usuario 
+              
+                  
+                  $usuario->save();
+    
+              #End Begin Transaction update User
+            DB::commit();
+    
+          }catch(QueryException $ex){ 
+              dd($ex->getMessage()); 
+              DB::rollback();
+              return $this->errorResponse(["Hubo un problema en la actualización, intente nuevamente!."],402);
+          }catch(\Exception $e){
+              dd($e->getMessage()); 
+              DB::rollback();
+              return $this->errorResponse(["Hubo un error inesperado!, intente nuevamente!."],402);
+          }
+           
+           //return response()->json(['data'=>$user],200); 
+            return $this->showModJsonOne($usuario);
+
+    }
+
     public function create()
     {
         $empresas = Empresa::all(); 

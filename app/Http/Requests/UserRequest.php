@@ -27,9 +27,11 @@ class UserRequest extends FormRequest
         //dd(request()->all());
         $validar_update ='';
          
-        if(isset($this->route('user')->id)){
-            $validar_update=$this->route('user')->id>0 ?", ". $this->route('user')->id:"";
+        if(isset($this->route('usuario')->id)){
+            $validar_update=$this->route('usuario')->id>0 ?", ". $this->route('usuario')->id:"";
         }
+        
+    if(request()->isMethod('put')) {
         
         return [ 
             'nombre' => 'required|max:100|',
@@ -37,8 +39,22 @@ class UserRequest extends FormRequest
             'dni' => 'required|max:8|unico_compuesto:users,dni,deleted_at'.$validar_update,
             'telefono' => 'required|max:9|min:9',
             'email' => 'required|email|unico_compuesto:users,email,deleted_at'.$validar_update,
-           // 'estado' => 'required|in:'.User::ESTADO_ACTIVO.','.User::ESTADO_INACTIVO
+            'estado' => 'required|in:'.User::ESTADO_ACTIVO.','.User::ESTADO_INACTIVO,
+            'password'=>'nullable|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/',
         ];
+
+    }else{
+        
+        return [ 
+            'nombre' => 'required|max:100|',
+            'apellidos' => 'required|max:100',
+            'dni' => 'required|max:8|unico_compuesto:users,dni,deleted_at',
+            'telefono' => 'required|max:9|min:9',
+            'email' => 'required|email|unico_compuesto:users,email,deleted_at',
+        ];
+
+    } 
+       
           
     }
 
