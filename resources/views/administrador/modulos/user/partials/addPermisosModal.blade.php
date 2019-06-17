@@ -42,6 +42,11 @@
                                     @if(isset($submodulos))
                                       @if(count($submodulos)> 0)
 
+                                        <label class=" form-control-sm b-0">
+                                          <input type="checkbox" name="permissions[]" class="validateCheckbox" value="{{$modulo->id}}" id="checkstore{{$modulo->id}}">
+                                            <span>{{$modulo->nombre}}</span>
+                                        </label>
+
                                         @foreach ($submodulos as $submodulo)
                                           <label class=" form-control-sm b-0">
                                               <input type="checkbox" name="permissions[]" class="validateCheckbox" value="{{$submodulo->id}}" id="checkstore{{$submodulo->id}}">

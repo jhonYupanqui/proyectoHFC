@@ -70,8 +70,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/usuarios/lista', 'Modulos\User\UserController@list')->name('submodulo.usuario.list')
     ->middleware('permiso:modulo.usuario.index');
     Route::post('/administrador/empresa/{empresa}/rol/{rol}/usuario/store', 'Modulos\User\UserController@store')->name('submodulo.usuario.store.ajax')
-    ->middleware('permiso:submodulo.usuario.store');
-   // ->middleware('transform.input:'. UserTransformer::class);
+    ->middleware('permiso:submodulo.usuario.store')
+    ->middleware('transform.input:'. UserTransformer::class);
 
     //ADMINISTRADOR EMPRESA
     Route::get('/administrador/empresa/lista','Modulos\Empresa\EmpresaController@list')->name('submodulo.empresa.list')

@@ -23,7 +23,7 @@ class PersonalizateValidator extends Validator
            
             // data being validated
             $data = $validator->getData(); //datos a validar
-             //dd($data); 
+            //dd($data); 
               
 
             // remove whitespaces
@@ -130,5 +130,5 @@ class PersonalizateValidator extends Validator
 
       return !empty($result); 
     }
-
+ 
 }

@@ -47,15 +47,15 @@ class TransformInput
             if($data->error){
               
               $transformedErrors = [];
-              
-              foreach ($data->message as $field => $error) {
+              //dd($data);
+              foreach ($data->mensaje as $field => $error) {
                 
                   $transformedField = $transformer::transformedAttribute($field);
                   
                   $transformedErrors[$transformedField] = str_replace($field, $transformedField, $error);
               }
               
-              $data->message = $transformedErrors;
+              $data->mensaje = $transformedErrors;
               
               $response->setData($data);
              

@@ -48,6 +48,7 @@ class UserTransformer extends TransformerAbstract
             'fechaCreacion' => 'created_at',
             'fechaActualizacion' => 'updated_at',
             'fechaEliminacion' => 'deleted_at',
+            'permisos' => 'permisos',
             '_method' => '_method',
             '_token' => '_token',
         ];
@@ -70,6 +71,7 @@ class UserTransformer extends TransformerAbstract
             'username' => 'usuario',
             'password' => 'clave',
             'estado' => 'estado',
+            'permisos' => 'permisos',
             'created_at' => 'fechaCreacion',
             'updated_at' => 'fechaActualizacion',
             'deleted_at' => 'fechaEliminacion',

@@ -53,7 +53,19 @@ function registroUserStore()
     let empresa = $("#empresaStore").val()
     let rol = $("#rolStore").val()
 
+    let permisos = []
     let permisosGenerales = $("#modulosAndPermisosList input[type=checkbox]")
+
+    for (let index = 0; index < permisosGenerales.length; index++) {
+     
+      if(permisosGenerales[index].checked && permisosGenerales[index].disabled == false){ 
+        //formData.append('permisos[]', permisosGenerales[index].value); 
+        permisos.push(permisosGenerales[index].value);
+ 
+      }
+    }
+
+    console.log("Los permisos a enviarse son: ",permisos)
      
     //console.log("el tipo de permisos es:",typeof(permisos), "permisos son:", permisos)
 
@@ -65,7 +77,8 @@ function registroUserStore()
             apellidos,
             documento,
             celular,
-            correo
+            correo,
+            permisos
         },
         dataType: "json", 
     })

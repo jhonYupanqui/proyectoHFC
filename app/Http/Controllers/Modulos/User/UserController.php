@@ -59,52 +59,78 @@ class UserController extends GeneralController
         ]);
     }
 
-    public function store(Empresa $empresa, Role $rol, Request $request)
+    public function store(Empresa $empresa, Role $rol, UserRequest $request)
     {
         $usuario = new User;
- 
-        $nombre=strtolower($request->nombre);
-        $apellidos = strtolower($request->apellidos);
+       
+        #Generando usuario
+            $nombre=strtolower($request->nombre);
+            $apellidos = strtolower($request->apellidos);
 
-        $primeraletraNombre = substr($nombre,0,1);
-        $seperadorApellidos=stripos(" ",$apellidos);
+            $primeraletraNombre = substr($nombre,0,1);
 
-        dd($seperadorApellidos);
-         /*try { 
+            $array_apellidos=explode(" ",$apellidos);
+            $apellidos_letras = $array_apellidos[0];
+            
+            if (count($array_apellidos) > 1) {
+                for ($i=1; $i < count($array_apellidos); $i++) { 
+                    $apellidos_letras .= substr($array_apellidos[$i],0,1);
+                }
+            }
+             
+            $usuario_nuevo = $primeraletraNombre.$apellidos_letras;
+            //dd( $usuario_nuevo );
+        #End Usuarios
+
+        #Generando Password
+            $charsPwd = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+";
+            $lengthPwd = 8;
+            $nuevaPassword = substr( str_shuffle( $charsPwd ), 0, $lengthPwd );
+        #End Password
+            
+        
+         try { 
 
             //generando Usuario y Password
 
             DB::beginTransaction();
 
             $campos = $request->all();
-            $campos['password'] = bcrypt($request->password);
-               
-      
+            $campos['usuario'] = $usuario_nuevo;    
+            $campos['password'] = bcrypt($nuevaPassword);
+                
             // $usuario = User::create($campos); 
               
-              $usuario->name = $request->name;
-              $usuario->code = $request->code;
+              $usuario->empresa_id = $empresa->id;
+              $usuario->role_id = $rol->id;
+              $usuario->nombre = $request->nombre;
+              $usuario->apellidos = $request->apellidos;
+              $usuario->dni = $request->dni;
+              $usuario->telefono = $request->telefono;
               $usuario->email = $request->email;
-              $usuario->password = $campos['password'];
-              $usuario->avatar = $campos['avatar'];
-              $usuario->status = $request->status;
+              $usuario->username = $campos['usuario'];
+              $usuario->password = $campos['password']; 
+              $usuario->estado = User::ESTADO_ACTIVO;
               $usuario->save();
-  
-              $usuario->roles()->sync($request->role_id);//crea vinculo al id del rol
-              $usuario->permisos()->sync($request->permiso_id);//crea vinculo al id del permiso
-  
-               
    
+              $usuario->permisos()->sync($request->permisos);//crea vinculo al id del permiso
+  
+                
               DB::commit();
         }catch(QueryException $ex){ 
-            //dd($ex->getMessage()); 
+             dd($ex->getMessage()); 
             DB::rollback();
-            return $this->errorResponse(["Hubo un problema en el registro, intente nuevamente!."],402);
+            return $this->errorMessage("Hubo un problema en el registro, intente nuevamente!.",402);
         }catch(\Exception $e){
-            //dd($e->getMessage()); 
+             dd($e->getMessage()); 
             DB::rollback();
-            return $this->errorResponse(["Hubo un error inesperado!, intente nuevamente!."],402);
-        }*/
+            return $this->errorMessage("Hubo un error inesperado!, intente nuevamente!.",402);
+        }
+
+        return response()->json(["error"=>false,"data"=>array(
+            "usuario"=>$usuario_nuevo,
+            "clave"=>$nuevaPassword
+        )]);
 
     }   
 }
