@@ -26,9 +26,13 @@ class UserTransformer extends TransformerAbstract
             'usuario' => (string)$user->username,
            // 'clave' => (string)$user->password,
             'estado' => (string)$user->estado,
+            'empresa'=>(string)$user->empresa->nombre,
+            'rol'=>(string)$user->role->nombre,
+            'permisosEspeciales'=>$user->permisos,
             'fechaCreacion' => isset($user->created_at)? (string)$user->created_at : null,
             'fechaActualizacion' => isset($user->updated_at)? (string)$user->updated_at : null,
             'fechaEliminacion' => isset($user->deleted_at)? (string)$user->deleted_at : null,
+            
         ];
     }
 

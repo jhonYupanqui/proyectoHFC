@@ -56,7 +56,7 @@
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="celularUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Celular: </label>
-                                    <input type="text" name="celularUpdate" id="celularUpdate" value="{{ $usDetalle->response->data->telefono }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm">
+                                    <input type="text" name="celularUpdate" id="celularUpdate" value="{{ $usDetalle->response->data->celular }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm">
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="correoUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Correo: </label>
@@ -113,7 +113,7 @@
                                     <div class="input-group col-sm-7  col-md-8 p-0">  
                                         <input type="text" name="claveUpdate" id="claveUpdate" class="form-control form-control-sm shadow-sm">
                                         <span class="input-group-btn">
-                                            <a href="javascript: void(0)" id="activarModalPermisos" class="btn btn-outline-success btn-sm shadow-sm w-100" ><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <a href="javascript: void(0)" id="verPasswordUser" class="btn btn-outline-success btn-sm shadow-sm w-100" ><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         </span>
                                     </div> 
                                    
@@ -145,7 +145,7 @@
 
 @section('scripts-footer')
     @if (Auth::user()->HasPermiso('submodulo.usuario.update'))
-        <script src="{{ asset('js/sistema/modulos/users/update.min.js') }}"></script>
+        <script src="{{ asset('js/sistema/modulos/users/edit.min.js') }}"></script>
     @endif
  
 @endsection

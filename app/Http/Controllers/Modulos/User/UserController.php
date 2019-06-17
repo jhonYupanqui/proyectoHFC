@@ -23,14 +23,34 @@ class UserController extends GeneralController
     public function list(Request $request)
     { 
         if($request->ajax()){
-            // $usuarios = User::all(); 
+             $usuarios = User::all()->toJson(); 
             // $usuarios = DB::table('users')->get();
             //   dd($usuarios);
             //return $this->showContJsonAll($usuarios,true,true,true,true);
-            $usuario = new User;
-            return $this->showModJsonAll($usuario,true,false,true,false,true,true);
+            /*$usuario = new User;
+            return $this->showModJsonAll($usuario,true,false,true,false,true,true);*/
+            return  $usuarios;
         }
         return abort(404); 
+    }
+
+    public function listAjax()
+    {
+        return datatables()
+                ->eloquent(User::query())
+                ->only(['id','nombre','apellidos','username','email','btn'])
+                ->addColumn('btn', 'administrador.modulos.user.partials.acciones')
+                ->rawColumns(['btn'])
+                ->toJson();
+        ///administrador/usuarios/lista-ajax
+    }
+
+    public function show(User $usuario)
+    {
+       
+        return view('administrador.modulos.user.detalle',[
+            "usuario"=>$this->showModJsonOne($usuario)
+        ]);
     }
 
     public function edit(User $usuario)
@@ -88,8 +108,7 @@ class UserController extends GeneralController
             $lengthPwd = 8;
             $nuevaPassword = substr( str_shuffle( $charsPwd ), 0, $lengthPwd );
         #End Password
-            
-        
+             
          try { 
 
             //generando Usuario y Password
@@ -119,13 +138,13 @@ class UserController extends GeneralController
                 
               DB::commit();
         }catch(QueryException $ex){ 
-             dd($ex->getMessage()); 
+            // dd($ex->getMessage()); 
             DB::rollback();
-            return $this->errorMessage("Hubo un problema en el registro, intente nuevamente!.",402);
+            return $this->errorMessage("Hubo un problema en el registro, intente nuevamente verificando que los campos estén completos!.",402);
         }catch(\Exception $e){
-             dd($e->getMessage()); 
+            // dd($e->getMessage()); 
             DB::rollback();
-            return $this->errorMessage("Hubo un error inesperado!, intente nuevamente!.",402);
+            return $this->errorMessage("Hubo un error inesperado!, intente nuevamente verificando que los campos estén completos!!.",402);
         }
 
         return response()->json(["error"=>false,"data"=>array(

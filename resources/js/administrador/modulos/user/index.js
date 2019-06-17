@@ -1,7 +1,5 @@
 import peticiones from './peticiones.js'
-
-var SORTBY = ''
-
+  
  $(function(){
 
     $.ajaxSetup({
@@ -10,10 +8,19 @@ var SORTBY = ''
         }
       });
 
-    peticiones.cargaCompletaUsuarios(SORTBY,0)
-
-    $(function(){
-        $('#listUsersPrint').DataTable({
+     //peticiones.cargaCompletaUsuarios(SORTBY,0)
+ 
+         $('#listUsersPrint').DataTable({
+            "serverSide": true,
+            "ajax": "/administrador/usuarios/lista-ajax",
+            "columns": [
+                {data: 'id'},
+                {data: 'nombre'},
+                {data: 'apellidos'},
+                {data: 'username'},
+                {data: 'email'},
+                {data: 'btn'},
+            ],
             "language": {
                 "info": "_TOTAL_ registros",
                 "search": "Buscar",
@@ -22,8 +29,9 @@ var SORTBY = ''
                     "previous": "Anterior",
                 },
                 "lengthMenu": 'Mostrar <select >'+
-                            '<option value="10">10</option>'+
-                            '<option value="30">30</option>'+
+                            '<option value="15">15</option>'+
+                            '<option value="50">50</option>'+
+                            '<option value="100">100</option>'+
                             '<option value="-1">Todos</option>'+
                             '</select> registros',
                 "loadingRecords": "Cargando...",
@@ -34,69 +42,9 @@ var SORTBY = ''
                 "infoFiltered": ""
             }
         });
-    })
 
-    //FILTRO TABLA
-    $("#nombre").keydown(function(event){
-        if(event.which == 13){
-            event.preventDefault()
-            peticiones.cargaCompletaUsuarios(SORTBY,0)
-        }
-    });
-    $("#apellidos").keydown(function(event){
-        if(event.which == 13){
-            event.preventDefault()
-            peticiones.cargaCompletaUsuarios(SORTBY,0)
-        }
-    });
-    $("#documento").keydown(function(event){
-        if(event.which == 13){
-            event.preventDefault()
-            peticiones.cargaCompletaUsuarios(SORTBY,0)
-        }
-    });
-    $("#usuario").keydown(function(event){
-        if(event.which == 13){
-            event.preventDefault()
-            peticiones.cargaCompletaUsuarios(SORTBY,0)
-        }
-    });
-    $("#searchData").click(function(){
-        peticiones.cargaCompletaUsuarios(SORTBY,0)
-    }) 
-    $('body').on("keydown", "#paginateData", function(event) {
-        if(event.which == 13){
-            event.preventDefault()
-            peticiones.cargaCompletaUsuarios(SORTBY,0)
-        } 
-    })
-    $('body').on("click", "#paginarResult", function(e) {
-        peticiones.cargaCompletaUsuarios(SORTBY,0)
-
-    })
-    $('body').on("click", "#result_page_list .page-link-filter", function(e) {
-        let paginateSearch = $(this).data("paginate")
-        peticiones.cargaCompletaUsuarios(SORTBY,paginateSearch)
-
-    })
-
-    //ORDER TABLA
-  $("#table_list_general_index .icon-orde_by").click(function(){
-    let orderBy = ''
-
-    if($(this).hasClass("active")){
-      $("#table_list_general_index .icon-orde_by").removeClass("active")
-    }else{
-      $("#table_list_general_index .icon-orde_by").removeClass("active")
-      $(this).addClass("active")
-      orderBy = $(this).data("order")
-    }
-
-    //alert("se ordenara por :"+orderBy)
-    SORTBY = orderBy
-    peticiones.cargaCompletaUsuarios(SORTBY,0)
-  })
-
+        $("#listUsersPrint").parent().addClass("table-responsive tableFixHead") 
+     
   /**Tabla fixed */
   var th = $('.tableFixHead').find('thead th')
  

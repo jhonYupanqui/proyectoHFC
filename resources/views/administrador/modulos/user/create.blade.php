@@ -36,11 +36,12 @@
         <div class="col-12">
                 <div class="card">
                     <div class="card-header px-2 py-1">
-                        <a href="{{route('modulo.usuario.index')}}" class="btn btn-sm btn-outline-success mx-1"><i class="fa fa-arrow-left"></i> Atras</a>
+                        <a href="{{route('modulo.usuario.index')}}" class="btn btn-sm btn-outline-success shadow-sm mx-1"><i class="fa fa-arrow-left"></i> Atras</a>
                     </div> 
 
                     <div class="card-body px-2 py-1"> 
-                          <section class="form row my-2 mx-0">
+                            <section id="form_store_load"></section>
+                          <section class="form row my-2 mx-0" id="form_store_detail">
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="nombreStore" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Nombre: </label>
                                     <input type="text" name="nombreStore" id="nombreStore" class="col-sm-7 col-md-8 form-control form-control-sm shadow-sm validateText">

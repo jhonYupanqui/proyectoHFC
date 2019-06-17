@@ -1,4 +1,5 @@
 import valida from  "@/globalResources/forms/valida.js"
+import limpia from  "@/globalResources/forms/limpia.js"
 import errors from  "@/globalResources/errors.js"
 import peticiones from './peticiones.js'
 
@@ -38,10 +39,10 @@ $(function(){
 
 function registroUserStore()
 {
-   /* let validacionConitnueStore = validacionContinueStore()
+   let validacionConitnueStore = validacionContinueStore()
     if(!validacionConitnueStore){ 
         return false
-    } */
+    }
    
  //luego de validar  
  //registrar
@@ -69,6 +70,11 @@ function registroUserStore()
      
     //console.log("el tipo de permisos es:",typeof(permisos), "permisos son:", permisos)
 
+    $("#form_store_detail").css({'display':'none'})
+    $("#form_store_load").html(`<div id="carga_person">
+                                  <div class="loader">Loading...</div>
+                                </div>`) 
+
     $.ajax({
         url:`/administrador/empresa/${empresa}/rol/${rol}/usuario/store`,
         method:"post",
@@ -83,6 +89,12 @@ function registroUserStore()
         dataType: "json", 
     })
     .done(function(data){
+
+        $("#form_store_load").css({'display':'none'})
+        $("#form_store_load").html('')
+        $("#form_store_detail").css({'display':'flex'})
+        limpia.limpiaFormUser()
+
          console.log(data)
          $("#errors_store").html(data)
         if(data.error){
@@ -91,13 +103,37 @@ function registroUserStore()
             return false
         }
 
-        /*$("#body-success-modal").html("Se eliminó al usuario seleccionado correctamente!.")
+        let usuario = data.data.usuario
+        let password = data.data.clave
+
+         $("#body-success-modal").html(`
+          <h5 class="text-success text-center text-uppercase font-weight-bold">Usuario creado correctamente</h5>
+          <p class="text-center font-weight-bold font-italic">Los accesos del usuario son:</p>
+          <div class="table-responsive"> 
+          <table class="table table-hover table-bordered w-100">
+            <thead>
+              <tr>
+                <th>Usuario</th>
+                <th>Password</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${usuario}</td>
+                <td>${password}</td>
+              </tr>
+            </tbody>
+          </table>
+         `)
         $("#successModal").modal("show")
-
-        _this.closest('tr').remove();*/
-
+  
     })
-    .fail(function(jqXHR, textStatus){ 
+    .fail(function(jqXHR, textStatus){
+      
+      $("#form_store_load").css({'display':'none'})
+      $("#form_store_load").html('')
+      $("#form_store_detail").css({'display':'flex'})
+
         console.log( "Error: " ,jqXHR, textStatus);
         //console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);
          $("#errors_store").html(jqXHR.responseText)
@@ -117,87 +153,7 @@ function registroUserStore()
         }
        $("#body-errors-modal").html("hubo un problema en la red del internet, intente nuevamente por favor.")
         $('#errorsModal').modal('show') 
-    })
-   return false
-   let fileInput = document.getElementById('avatarCreate');
-   let imagen = fileInput.files[0];
-   //console.log("file es:",imagen, "=>",imagen.name)
-   let formData = new FormData();
-   if(imagen){
-     formData.append('imagen', imagen,`${imagen.name}`);
-   } 
-   formData.append('datoPersonal', dataPersonalId); 
-   formData.append('usuario', usuario); 
-   formData.append('codigo', codigo); 
-   formData.append('correo', correo); 
-   formData.append('password', password); 
-   formData.append('password_confirmation', password_confirmation); 
-   formData.append('estado', estado); 
-   formData.append('roles', roles); 
-
-   for (let index = 0; index < permisosGenerales.length; index++) {
-     
-     if(permisosGenerales[index].checked && permisosGenerales[index].disabled == false){
-
-       formData.append('permisos[]', permisosGenerales[index].value); 
-
-     }
-   }
-    
-   console.log("la data ha enviar es:", formData)
-    $("#formStore").css({'display':'none'})
-   $("#formSendStore").html(`<div id="carga_person">
-                           <div class="loader">Loading...</div>
-                         </div>`) 
-       $.ajax({
-         url:'/users/store',
-         method:"post",
-         data:formData,
-         cache:false,
-         contentType: false,
-         processData: false,
-       })
-       .done(function(data){
-            $("#formSendStore").html(``)
-            $("#formStore").css({'display':'block'})
- 
-           console.log("la respuesta del registro es: ",data) 
-           $("#errors_store").html(data) 
-            if(data.error){
-             $("#errors_store").html('Hubo un error en la creacion, intentar nuevamente!.')
-             return false
-           }
-           
-             limpia.limpiaFormUser()
-             $("#userStore .validateText").removeClass("valida-error-input")
-             $(".validateSelect").removeClass("valida-error-input")
-             $("#errors_store").html('') 
-             $("#response-rol-rtpa").html('')
-         
-
-           $("#body-success-modal").html("Se registro correctamente!.")
-           $("#successModal").modal("show")
-          
-             
-       })
-       .fail(function(jqXHR, textStatus){
-          $("#formSendStore").html(``)
-          $("#formStore").css({'display':'block'})
-         console.log( "Request failed: " ,textStatus ,jqXHR);
-          console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);
-         if(jqXHR.responseJSON.mensaje){
-           let errors = jqXHR.responseJSON.mensaje  //captura objeto
-           //recorreo objeto como array
-           let msj = ``
-           Object.keys(errors).forEach(key =>{
-             msj +=`${key} : ${errors[key]} <br/>`
-             
-           })
-           $("#errors_store").html(msj)
- 
-         } 
-         
-       });
+    }) 
 }
 
 function validacionContinueStore()
