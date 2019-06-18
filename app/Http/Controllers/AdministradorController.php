@@ -25,4 +25,5 @@ class AdministradorController extends GeneralController
         return abort(404);
        
     }
+ 
 }

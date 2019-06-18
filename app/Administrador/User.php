@@ -121,7 +121,7 @@ class User extends Authenticatable
 
          return $modulos;
     }
-
+ 
     public function scopefilterData($query)
     {
       //dd(request()->all());

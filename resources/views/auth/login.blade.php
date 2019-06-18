@@ -38,10 +38,11 @@
                     <div class="form-group">
                         <div id="respuesta-server-login">
                             @error('auth')
-                                <span class="invalid-feedback" role="alert">
+                                <span class="details_erros" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
+                             
                         </div>
                     </div>
 

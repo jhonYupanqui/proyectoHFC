@@ -11,6 +11,7 @@ use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GeneralController;
+use UserFunctions;
 
 class UserController extends GeneralController
 {
@@ -69,49 +70,86 @@ class UserController extends GeneralController
 
     public function update(Empresa $empresa, Role $rol, User $usuario,UserRequest $request)
     {
-       
+
+        $userFunctions = new UserFunctions;
+
+        if($request->filled('password')){
+           $userFunctions->esValidoNuevoPassword($usuario,$request->password);//valida password
+        }
+
+        $registroActionAdmin = false;
+        $oldEmpresa = $usuario->empresa_id != $empresa->id ? $usuario->empresa->nombre : "";
+        $oldRol = $usuario->role_id != $rol->id ? $usuario->role->nombre : "";
+
+        if ($usuario->empresa_id != $empresa->id || $usuario->role_id != $rol->id) {
+            $registroActionAdmin = true;
+        }
+         
         try {
             DB::beginTransaction();
               #begin Transaction Update User
-                  if($request->filled('nombre')){//preguntamos si mando un campo nombre y no esta vacio
+                //insertamos el password actual en el log
+                if($request->filled('password')){
+                    $userFunctions->registrarPasswordOld($request->password,$usuario->username);
+                }
+                 
+
+                $usuario->empresa_id = $empresa->id;
+                $usuario->role_id = $rol->id;
+                
+
+                if($request->filled('nombre')){ //preguntamos si mando un campo nombre y no esta vacio
                     $usuario->nombre = $request->nombre;
-                  }
+                }
+        
+                if($request->filled('apellidos')){
+                    $usuario->apellidos = $request->apellidos;
+                }
+
+                if($request->filled('dni')){
+                    $usuario->dni = $request->dni;
+                }
+
+                if($request->filled('telefono')){
+                    $usuario->telefono = $request->telefono;
+                }
+
+                if($request->filled('email') && $usuario->email != $request->email){
+                    $usuario->email = $request->email;
+                }
+
+                if($request->filled('password')){ 
+                    $usuario->password = bcrypt($request->password);
+                }
+
+                if($request->filled('estado')){
+                    $usuario->estado = bcrypt($request->estado);
+                }
+    
+                if($request->filled('role_id')){
+                    
+                    $usuario->role_id = $request->role_id;//actualza el rol signado
+                }
+                
+                
+                $usuario->permisos()->sync($request->get('permisos'));//actualiza los permisos por usuario 
             
-                  if($request->filled('apellidos')){
-                      $usuario->apellidos = $request->apellidos;
-                  }
+                $usuario->save();
 
-                  if($request->filled('dni')){
-                      $usuario->dni = $request->dni;
-                  }
+                //limpia ultimos registros password manteniendo solo los ultimos 8
+                $cantidad_historial = $userFunctions->cantidadHistorialPasswordByIdUser($usuario->username);
+                if ($cantidad_historial > 8) { //si excede los 8 registros
+                    $limit = $cantidad_historial - 8; //conservamos los 8 ultimos
+                    $userFunctions->eliminarUltimoPasswordHistorial($usuario->username,$limit);
+                }
 
-                  if($request->filled('telefono')){
-                      $usuario->telefono = $request->telefono;
-                  }
-    
-                  if($request->filled('email') && $usuario->email != $request->email){
-                      $usuario->email = $request->email;
-                  }
-    
-                  if($request->filled('password')){
-                      $usuario->password = bcrypt($request->password);
-                  }
-
-                  if($request->filled('estado')){
-                      $usuario->estado = bcrypt($request->estado);
-                  }
-      
-                  if($request->filled('role_id')){
-                      
-                      $usuario->role_id = $request->role_id;//actualza el rol signado
-                  }
-                  
-                  
-                   $usuario->permisos()->sync($request->get('permisos'));//actualiza los permisos por usuario 
-              
-                  
-                  $usuario->save();
-    
+                //Registrar Acciones Update del Usuario 
+                if ($registroActionAdmin) { //si hubo cambios de administracion o rol y debe registrarse
+                    $newEmpresa = $oldEmpresa == "" ? "" : $empresa->nombre;
+                    $newRol = $oldRol == "" ? "" : $rol->nombre;
+                    $userFunctions->logActionUpdateByAdmin($usuario->username,$oldEmpresa,$oldRol,$newEmpresa,$newRol);
+                }
+ 
               #End Begin Transaction update User
             DB::commit();
     
@@ -124,6 +162,7 @@ class UserController extends GeneralController
               DB::rollback();
               return $this->errorResponse(["Hubo un error inesperado!, intente nuevamente!."],402);
           }
+ 
            
            //return response()->json(['data'=>$user],200); 
             return $this->showModJsonOne($usuario);

@@ -42,6 +42,7 @@ $(function(){
         let documento = $("#documentoUpdate").val() 
         let celular = $("#celularUpdate").val() 
         let correo = $("#correoUpdate").val() 
+        let clave = $("#claveUpdate").val() 
         let empresa = $("#empresaUpdate").val() 
         let rol = $("#rolUpdate").val() 
         let estado = $("#estadoUpdate").val()
@@ -72,6 +73,7 @@ $(function(){
                 documento,
                 celular,
                 correo,
+                clave,
                 estado,
                 permisos,
             },
@@ -85,15 +87,15 @@ $(function(){
            // limpia.limpiaFormUser()
     
              console.log(data)
-            /* $("#errors_Update").html(data)
+             $("#errors_Update").html(data)
             if(data.error){
                 $("#body-errors-modal").html(data.error)
                 $('#errorsModal').modal('show') 
                 return false
             }
       
-             $("#body-success-modal").html(` `)
-            $("#successModal").modal("show")*/
+             $("#body-success-modal").html(`Los datos se actualizarón correctamente.`)
+             $("#successModal").modal("show") 
       
         })
         .fail(function(jqXHR, textStatus){
@@ -134,6 +136,7 @@ function validacionCotinueUpdate()
     let dni = $("#documentoUpdate") 
     let celular = $("#celularUpdate") 
     let correo = $("#correoUpdate") 
+    let clave = $("#claveUpdate")
     let empresa = $("#empresaUpdate") 
     let rol = $("#rolUpdate") 
         
@@ -231,6 +234,14 @@ function validacionCotinueUpdate()
         valida.isValidateInputText(rol)
         $("#errors_Update").html(`Seleccione un rol válido`)
         return false
+    } 
+
+    if (clave.val().trim().length > 0) {
+        if(!valida.isValidPassword(clave.val())){
+            valida.isValidateInputText(clave)
+            $("#errors_Update").html(`El campo clave no tiene el formato correcto`)
+            return false
+        }
     } 
   
     $(".validateText").removeClass("valida-error-input")

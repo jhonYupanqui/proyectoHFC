@@ -45,24 +45,24 @@
  
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="nombreUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Nombre: </label>
-                                    <input type="text" name="nombreUpdate" id="nombreUpdate" value="{{ $usDetalle->response->data->nombre }}" class="col-sm-7 col-md-8 form-control form-control-sm shadow-sm">
+                                    <input type="text" name="nombreUpdate" id="nombreUpdate" value="{{ $usDetalle->response->data->nombre }}" class="col-sm-7 col-md-8 form-control form-control-sm shadow-sm validateText">
                                     <input type="hidden" name="idUpdate" id="idUpdate" value="{{ $usDetalle->response->data->identificador }}" class="col-sm-7 col-md-8 form-control form-control-sm shadow-sm">
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="apellidosUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Apellidos: </label>
-                                    <input type="text" name="apellidosUpdate" id="apellidosUpdate" value="{{ $usDetalle->response->data->apellidos }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm">
+                                    <input type="text" name="apellidosUpdate" id="apellidosUpdate" value="{{ $usDetalle->response->data->apellidos }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm validateText">
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="documentoUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">DNI: </label>
-                                    <input type="text" name="documentoUpdate" id="documentoUpdate" value="{{ $usDetalle->response->data->documento }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm">
+                                    <input type="text" name="documentoUpdate" id="documentoUpdate" value="{{ $usDetalle->response->data->documento }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm validateText">
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="celularUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Celular: </label>
-                                    <input type="text" name="celularUpdate" id="celularUpdate" value="{{ $usDetalle->response->data->celular }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm">
+                                    <input type="text" name="celularUpdate" id="celularUpdate" value="{{ $usDetalle->response->data->celular }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm validateText">
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="correoUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Correo: </label>
-                                    <input type="text" name="correoUpdate" id="correoUpdate" value="{{ $usDetalle->response->data->correo }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm">
+                                    <input type="text" name="correoUpdate" id="correoUpdate" value="{{ $usDetalle->response->data->correo }}" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm validateText">
                               </div>
 
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
@@ -79,7 +79,7 @@
                                        $lista_empresa = $empresas->getData();
                                        $data_empresa = $lista_empresa->response->data;
                                     @endphp
-                                    <select name="empresaUpdate" id="empresaUpdate" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm">
+                                    <select name="empresaUpdate" id="empresaUpdate" class="col-sm-7  col-md-8 form-control form-control-sm shadow-sm validateSelect">
                                             <option value="seleccionar">Seleccionar</option>
                                         @foreach ($data_empresa as $empresa)
                                             <option value="{{$empresa->identificador}}" 
@@ -95,7 +95,7 @@
                                         $lista_roles = $roles->getData();
                                         $data_rol = $lista_roles->response->data;
                                     @endphp
-                                    <select name="rolUpdate" id="rolUpdate" class="col-sm-6  col-md-8 form-control form-control-sm shadow-sm">
+                                    <select name="rolUpdate" id="rolUpdate" class="col-sm-6  col-md-8 form-control form-control-sm shadow-sm validateSelect">
                                         <option value="seleccionar">Seleccionar</option>
                                         @foreach ($data_rol as $rol)
                                             <option value="{{$rol->identificador}}" 
@@ -113,7 +113,7 @@
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="claveUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Contraseña: </label>    
                                     <div class="input-group col-sm-7  col-md-8 p-0">  
-                                        <input type="password" name="claveUpdate" id="claveUpdate" class="form-control form-control-sm shadow-sm">
+                                        <input type="password" name="claveUpdate" id="claveUpdate" class="form-control form-control-sm shadow-sm validateText">
                                         <span class="input-group-btn">
                                             <a href="javascript: void(0)" id="verPasswordUser" class="btn btn-outline-success btn-sm shadow-sm w-100" ><i class="fa fa-eye" aria-hidden="true"></i></a>
                                         </span>
@@ -131,7 +131,7 @@
                                     </div> 
                               </div> 
     
-                            <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-12 col-lg-12 errors" id="errors_Update">
+                            <div class="form-group row justify-content-center mx-0 px-2 col-12 errors_message" id="errors_Update">
                                 
                             </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">

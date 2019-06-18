@@ -18,6 +18,7 @@ use App\Transformers\UserTransformer;
  
 Route::get('/','Modulos\Auth\LoginController@index')->name('modulo.login.index')->middleware('guest');
 Route::post('/login','Modulos\Auth\LoginController@login')->name('login');
+ 
 
 //->middleware('transform.input:' . UserTransformer::class);
  
@@ -27,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador', 'AdministradorController@index')->name('administrador');
     Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
     
+
 
     //ADMINISTRADOR EMPRESA VIEW
     Route::get('/administrador/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
