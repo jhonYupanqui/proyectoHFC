@@ -33,7 +33,7 @@ class UsersSeeder extends Seeder
         foreach ($empresas as $empresa) {
             $empresa_id = $empresa->id;
            // factory(User::class,500)->create([
-            factory(User::class,500)->create([
+            factory(User::class,50)->create([
                 'empresa_id' =>$empresa_id,
                 'role_id' =>$role_id
             ]);
