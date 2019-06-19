@@ -276,5 +276,14 @@ class UserController extends GeneralController
             "clave"=>$nuevaPassword
         )]);
 
-    }   
+    }  
+    
+    public function delete(User $usuario)
+    {
+        $usuario->permisos()->sync([]);//elimina vinculo
+
+        $usuario->delete();
+
+        return $this->showModJsonOne($usuario);
+    }
 }

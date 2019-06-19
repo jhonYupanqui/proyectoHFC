@@ -65,4 +65,7 @@
 
 @section('scripts-footer')  
     <script src="{{ asset('js/sistema/modulos/users/index.min.js') }}"></script>
+    @if(Auth::user()->HasPermiso('submodulo.usuario.delete'))
+     <script src="{{ asset('js/sistema/modulos/users/delete.min.js') }}"></script>
+    @endif
 @endsection

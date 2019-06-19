@@ -75,7 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/lista', 'AdministradorController@list')->name('administrador.list');
      
     //ADMINISTRADOR USUARIOS
-    Route::get('/administrador/usuarios/lista', 'Modulos\User\UserController@lista')->name('submodulo.usuario.list')
+    Route::get('/administrador/usuarios/lista', 'Modulos\User\UserController@lista')->name('submodulo.usuario.list.ajax')
     ->middleware('permiso:modulo.usuario.index');
     Route::post('/administrador/empresa/{empresa}/rol/{rol}/usuario/store', 'Modulos\User\UserController@store')->name('submodulo.usuario.store.ajax')
     ->middleware('permiso:submodulo.usuario.store')
@@ -83,6 +83,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/administrador/empresa/{empresa}/rol/{rol}/usuario/{usuario}/update', 'Modulos\User\UserController@update')->name('submodulo.empresa.edit.ajax')
     ->middleware('permiso:submodulo.empresa.edit')
     ->middleware('transform.input:'. UserTransformer::class);
+    Route::post('/administrador/usuario/{usuario}/delete', 'Modulos\User\UserController@delete')->name('submodulo.usuario.delete.ajax')
+    ->middleware('permiso:submodulo.usuario.delete');
 
     //ADMINISTRADOR EMPRESA
     Route::get('/administrador/empresa/lista','Modulos\Empresa\EmpresaController@list')->name('submodulo.empresa.list')
