@@ -12,7 +12,7 @@ import peticiones from './peticiones.js'
  
          $('#listUsersPrint').DataTable({
             "serverSide": true,
-            "ajax": "/administrador/usuarios/lista-ajax",
+            "ajax": "/administrador/usuarios/lista",
             "columns": [
                 {data: 'id'},
                 {data: 'nombre'},

@@ -20,7 +20,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/administrador/modulos/user/store.js','public/js/sistema/modulos/users/store.min.js')
     .js('resources/js/administrador/modulos/user/delete.js','public/js/sistema/modulos/users/delete.min.js')
     .sass('resources/sass/app.scss', 'public/css')
-    .sass('resources/sass/login.scss', 'public/css');
+    .sass('resources/sass/login.scss', 'public/css')
+    .sass('resources/sass/bootstrap.scss', 'public/css');
 
 mix.webpackConfig({
     resolve: {

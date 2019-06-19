@@ -81,19 +81,24 @@
                                     <label for="usuarioUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Usuario: </label>
                                     {{$usDetalle->response->data->usuario}}
                               </div>
-                              <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
+                              <div class="form-group row mx-0 px-2 col-12">
                                     <label for="permisosUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Permisos: </label>
-                                    <ul>
-                                        @forelse ($usDetalle->response->data->permisosEspeciales as $permiso)
-                                                <li>{{$permiso->nombre}}</li>
-                                        @empty
-                                    </ul>   
-                                    @endforelse
+                                    <section class="col-12 card">
+                                         <div class="card-body">
+                                                @php $permisosGenerales = $permisos->getData()->response->data;@endphp 
+                                                @forelse ($permisosGenerales as $permiso)
+                                                            <span class="items_permisos_details">{{$permiso->descripcion}}</span>
+                                                @empty
+                                                      
+                                                @endforelse
+                                         </div>
+                                    </section>   
+                                    
                               </div>
                                 
                               @if (Auth::user()->HasPermiso('submodulo.usuario.edit'))
                                     <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">
-                                            <a href="{{ route('submodulo.usuario.edit', $usDetalle->response->data->identificador) }}" class="btn btn-outline-success btn-sm shadow-sm p-1 accionUsuarioEdit" >Editar<i class="fa fa-pencil icon-accion"></i></a>
+                                          <a href="{{ route('submodulo.usuario.edit', $usDetalle->response->data->identificador) }}" class="btn btn-outline-success btn-sm shadow-sm p-1 accionUsuarioEdit" >Editar<i class="fa fa-pencil icon-accion"></i></a>
                                     </div>
                                 @endif
                               
@@ -106,5 +111,5 @@
 @endsection
 
 @section('scripts-footer') 
-        <script src="{{ asset('js/sistema/modulos/users/detalle.min.js') }}"></script>
+        <script src="{{ asset('js/sistema/modulos/users/show.min.js') }}"></script>
 @endsection

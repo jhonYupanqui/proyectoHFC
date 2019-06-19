@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Modulos\Auth;
 use UserFunctions;
 use App\Administrador\User;
 use Illuminate\Http\Request;
+use App\Administrador\Parametro;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,11 +29,15 @@ class LoginController extends Controller
         $userFunctions = new UserFunctions;
 
         #CANTIDAD DE INTENTOS VALIDACION
-            $cantidad_max_intentos = 5;
-            $intentos_max_minutos = 30;
+            //$cantidad_max_intentos = 5;
+            //$intentos_max_minutos = 30;
+            //$cantidad_max_intentos = Parametro::find(3)->period;
+            $cantidad_max_intentos = Parametro::getIntentosMaximosLogin();
+            $intentos_max_minutos = Parametro::getMinutosReactivacionLogin();
+            
             $cantidad_intentos = $userFunctions->getCantidadUltimosIntentosPorTiempo($request->username,$intentos_max_minutos);
              
-            if($cantidad_intentos >= 5){
+            if($cantidad_intentos >= $cantidad_max_intentos){
                 return back()
                 ->withErrors(['auth'=>"Superaste el numero de intentos para acceder al sistema, intenta dentro de $intentos_max_minutos minutos nuevamente!."])
                 ->withInput(request(['username']));
@@ -59,9 +64,14 @@ class LoginController extends Controller
             }else{
                 $userFunctions->registraIntentosUserLogin($request->username,"NO");//registra intento fallido
     
-                $intentos_maximos_disponibles = $cantidad_max_intentos - ($cantidad_intentos +1);
+                $intentos_maximos_disponibles = $cantidad_max_intentos - ($cantidad_intentos + 1);
                 $texto_plural_singular = $intentos_maximos_disponibles > 1 ? "intentos" : "intento";
                 
+                if ($intentos_maximos_disponibles == 0) {
+                    return back()
+                    ->withErrors(['auth'=>"Superaste el numero de intentos para acceder al sistema, intenta dentro de $intentos_max_minutos minutos nuevamente!."])
+                    ->withInput(request(['username']));
+                }
                     return back()
                     ->withErrors(['auth'=>"Las credenciales son incorrectas, intente nuevamente, recuerde solo tiene $intentos_maximos_disponibles $texto_plural_singular !."])
                     ->withInput(request(['username']));

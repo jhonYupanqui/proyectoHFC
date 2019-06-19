@@ -117,5 +117,15 @@
 @endsection
 
 @section('scripts-footer') 
-        <script src="{{ asset('js/sistema/modulos/users/store.min.js') }}"></script>
+    @php
+        $lista_modulos = $modulos->getData();
+        $lista_permisos_rol = $permisosRol->getData();
+        $lista_permisos_especiales = $permisosEspeciales->getData();
+    @endphp
+    <script>
+        const MODULOS = {!! json_encode($lista_modulos) !!};
+        const PERMISOS_ROL = {!! json_encode($lista_permisos_rol) !!};
+        const PERMISOS_ESPECIALES = {!! json_encode($lista_permisos_especiales) !!};
+    </script>
+    <script src="{{ asset('js/sistema/modulos/users/store.min.js') }}"></script>
 @endsection

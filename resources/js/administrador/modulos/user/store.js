@@ -21,7 +21,7 @@ $(function(){
             return false
         }
         if (idRol) { 
-            peticiones.seleccionarPermisosByRoles(idRol,"store",$("#addPermisosModal"))
+            peticiones.seleccionarPermisosByRoles(idRol,"store",$("#addPermisosModal"),$("#storeModulosAndPermisosList"),$("#rpta_store_checked_permisos"))
         }else{
             $("#body-errors-modal").html(`Ocurrio un error al traer los permisos del rol seleccionado, intente nuevamente!`)
             $("#errorsModal").modal("show")  
@@ -33,6 +33,13 @@ $(function(){
     $("#crearUsuario").click(function(){
         registroUserStore()
     })
+
+    $("#rolStore").change(function(){
+      $("#storeModulosAndPermisosList input[type='checkbox']").prop('checked', false)
+      $("#storeModulosAndPermisosList input[type='checkbox']").prop('disabled', false)
+    })
+
+    loadStoreModulosPermisosUser()
 
     
 })
@@ -270,5 +277,14 @@ function validacionContinueStore()
   return true
  
 }
+
+function loadStoreModulosPermisosUser()
+{
+    //Armando esquema
+    let dataModulos = MODULOS.response.data;
+    peticiones.armandoEsquemaModulosPermisos(dataModulos,"store",$("#storeModulosAndPermisosList"))
+ 
+}
+
 
  

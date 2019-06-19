@@ -24,12 +24,18 @@ Route::post('/login','Modulos\Auth\LoginController@login')->name('login');
  
 Route::group(['middleware' => 'auth'], function () {
 
+
+    //CIERRE DE SESION
+    Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
+
     //ADMINISTRADOR PRINCIPAL VIEW
     Route::get('/administrador', 'AdministradorController@index')->name('administrador');
-    Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
-    
 
-
+    //PASSWORD VIEWS
+    Route::get('/password/cambio', 'Modulos\Password\PasswordController@primerCambio')->name('password.change.view');
+    Route::post('/password/usuario/{usuario}/update', 'Modulos\Password\PasswordController@update')->name('password.usuario.update');
+ 
+ 
     //ADMINISTRADOR EMPRESA VIEW
     Route::get('/administrador/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
     ->middleware('permiso:modulo.empresa.index'); 
@@ -69,9 +75,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/lista', 'AdministradorController@list')->name('administrador.list');
      
     //ADMINISTRADOR USUARIOS
-    Route::get('/administrador/usuarios/lista', 'Modulos\User\UserController@list')->name('submodulo.usuario.list')
-    ->middleware('permiso:modulo.usuario.index');
-    Route::get('/administrador/usuarios/lista-ajax', 'Modulos\User\UserController@listAjax')->name('submodulo.usuario.list-ajax')
+    Route::get('/administrador/usuarios/lista', 'Modulos\User\UserController@lista')->name('submodulo.usuario.list')
     ->middleware('permiso:modulo.usuario.index');
     Route::post('/administrador/empresa/{empresa}/rol/{rol}/usuario/store', 'Modulos\User\UserController@store')->name('submodulo.usuario.store.ajax')
     ->middleware('permiso:submodulo.usuario.store')

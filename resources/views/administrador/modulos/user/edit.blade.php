@@ -30,7 +30,7 @@
  
 @section('content')
     @parent
-    @include("administrador.modulos.user.partials.addPermisosModal")
+    @include("administrador.modulos.user.partials.editPermisosModal")
   
     <div class="row">
         <div class="col-12">
@@ -108,7 +108,7 @@
 
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="usuarioUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Usuario: </label>
-                                    {{ $usDetalle->response->data->usuario }}
+                                    <div class="col-sm-7 col-md-8 font-weight-bold p-0">{{ $usDetalle->response->data->usuario }}</div>
                               </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
                                     <label for="claveUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Contraseña: </label>    
@@ -126,7 +126,7 @@
                                     <div class="input-group">  
                                             <label for="permisosUsuarioUpdate" class="col-sm-5 col-md-4 col-form-label col-form-label-sm mb-0 px-0">Permisos: </label>
                                         <span class="input-group-btn col-sm-6  col-md-8 p-0">
-                                            <a href="javascript: void(0)" id="activarModalPermisos" class="btn btn-outline-success btn-sm shadow-sm w-100" >Agregar nuevos permisos <i class="fa fa-plus"></i></a>
+                                            <a href="javascript: void(0)" id="verPermisosUsuario" class="btn btn-outline-success btn-sm shadow-sm w-100" >Agregar nuevos permisos <i class="fa fa-plus"></i></a>
                                         </span>
                                     </div> 
                               </div> 
@@ -146,6 +146,21 @@
 @endsection
 
 @section('scripts-footer')
+    @php
+        $lista_modulos = $modulos->getData();
+        $lista_permisos_rol = $permisosRol->getData();
+        $lista_permisos_especiales = $permisosEspeciales->getData();
+        $lista_permisos_checked_rol = $permisosCheckedRol->getData();
+        $lista_permisos_checked_user = $permisosCheckedUser->getData();
+    @endphp
+    <script>
+        const MODULOS = {!! json_encode($lista_modulos) !!};
+        const PERMISOS_ROL = {!! json_encode($lista_permisos_rol) !!};
+        const PERMISOS_ESPECIALES = {!! json_encode($lista_permisos_especiales) !!};
+        const PERMISOS_CHECKED_ROL = {!! json_encode($lista_permisos_checked_rol) !!};
+        const PERMISOS_CHECKED_USER = {!! json_encode($lista_permisos_checked_user) !!};
+        
+    </script>
     @if (Auth::user()->HasPermiso('submodulo.usuario.update'))
         <script src="{{ asset('js/sistema/modulos/users/edit.min.js') }}"></script>
     @endif

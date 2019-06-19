@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Modulos\User;
 
+use UserFunctions;
 use App\Administrador\Role;
 use App\Administrador\User;
 use Illuminate\Http\Request;
 use App\Administrador\Empresa;
 use App\Administrador\Permiso;
+use App\Administrador\Parametro;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GeneralController;
-use UserFunctions;
 
 class UserController extends GeneralController
 {
@@ -20,50 +21,56 @@ class UserController extends GeneralController
         $usuarios = User::all();
         return view('administrador.modulos.user.index',["usuarios"=>$usuarios]);
     }
-
-    public function list(Request $request)
-    { 
+ 
+    public function lista(Request $request)
+    {
         if($request->ajax()){
-             $usuarios = User::all()->toJson(); 
-            // $usuarios = DB::table('users')->get();
-            //   dd($usuarios);
-            //return $this->showContJsonAll($usuarios,true,true,true,true);
-            /*$usuario = new User;
-            return $this->showModJsonAll($usuario,true,false,true,false,true,true);*/
-            return  $usuarios;
+            return datatables()
+                    ->eloquent(User::query())
+                    ->only(['id','nombre','apellidos','username','email','btn'])
+                    ->addColumn('btn', 'administrador.modulos.user.partials.acciones')
+                    ->rawColumns(['btn'])
+                    ->toJson();
         }
         return abort(404); 
     }
 
-    public function listAjax()
-    {
-        return datatables()
-                ->eloquent(User::query())
-                ->only(['id','nombre','apellidos','username','email','btn'])
-                ->addColumn('btn', 'administrador.modulos.user.partials.acciones')
-                ->rawColumns(['btn'])
-                ->toJson();
-        ///administrador/usuarios/lista-ajax
-    }
-
     public function show(User $usuario)
-    {
-       
+    { 
+        $permisosGenerales = Permiso::getAllPermisosByUser($usuario);
+  
         return view('administrador.modulos.user.detalle',[
-            "usuario"=>$this->showModJsonOne($usuario)
+            "usuario"=>$this->showModJsonOne($usuario),
+            "permisos"=>$this->showContJsonAll($permisosGenerales)
         ]);
     }
 
     public function edit(User $usuario)
     {
-        $empresas = Empresa::all(); 
-        $roles = Role::all();
-        $modulos_permisos = Permiso::all();
+        $usuarioAuth = Auth::user();
 
+        $empresas = Empresa::all(); 
+        $roles = Role::getSubRolesByRolUser($usuarioAuth);
+       // $modulos_permisos = Permiso::all();//arma el esquema de modulos
+ 
+       //Armar esquema de Modulos y permisos segùn disponga el admin o subadmin 
+        $modulos = User::getModulosByUserAuth($usuarioAuth);//arma el esquema de modulos
+        $permisos_role = Permiso::getPermisosRoleByUser($usuarioAuth);//arma permisos segun rol en el esquema de modulos
+        $permisos_user = Permiso::getPermisosSpecialByUser($usuarioAuth);//arma permisos especiales en el esquema de modulos
+
+        //Checked de permisos de usuario a editar
+        $permisosCheckedRol = Permiso::getPermisosRoleByUser($usuario);
+        $permisosCheckedUser = Permiso::getPermisosSpecialByUser($usuario);
+
+        
         return view('administrador.modulos.user.edit',[
             "empresas"=>$this->showContJsonAll($empresas),
             "roles"=>$this->showContJsonAll($roles),
-            "modulos_permisos"=>$modulos_permisos,
+            "modulos"=>$this->showContJsonAll($modulos),
+            "permisosRol"=>$this->showContJsonAll($permisos_role),
+            "permisosEspeciales"=>$this->showContJsonAll($permisos_user),
+            "permisosCheckedRol"=>$this->showContJsonAll($permisosCheckedRol),
+            "permisosCheckedUser"=>$this->showContJsonAll($permisosCheckedUser),
             "usuario"=>$this->showModJsonOne($usuario)
         ]);
     }
@@ -171,21 +178,33 @@ class UserController extends GeneralController
 
     public function create()
     {
+        $usuarioAuth = Auth::user();
+
         $empresas = Empresa::all(); 
-        $roles = Role::getSubRolesByRol();
+        $roles = Role::getSubRolesByRolUser($usuarioAuth);
+
+        //Armar esquema de Modulos y permisos segùn disponga el admin o subadmin 
+        $modulos = User::getModulosByUserAuth($usuarioAuth);//arma el esquema de modulos
+        $permisos_role = Permiso::getPermisosRoleByUser($usuarioAuth);//arma permisos segun rol en el esquema de modulos
+        $permisos_user = Permiso::getPermisosSpecialByUser($usuarioAuth);//arma permisos especiales en el esquema de modulos
+
+
         $modulos_permisos = Permiso::all();
   
         return view('administrador.modulos.user.create',[
             "empresas"=>$this->showContJsonAll($empresas),
             "roles"=>$this->showContJsonAll($roles),
-            "modulos_permisos"=>$modulos_permisos,
+            "modulos"=>$this->showContJsonAll($modulos),
+            "permisosRol"=>$this->showContJsonAll($permisos_role),
+            "permisosEspeciales"=>$this->showContJsonAll($permisos_user),
         ]);
     }
 
     public function store(Empresa $empresa, Role $rol, UserRequest $request)
     {
         $usuario = new User;
-       
+        $userFunctions = new UserFunctions;
+
         #Generando usuario
             $nombre=strtolower($request->nombre);
             $apellidos = strtolower($request->apellidos);
@@ -236,7 +255,10 @@ class UserController extends GeneralController
               $usuario->save();
    
               $usuario->permisos()->sync($request->permisos);//crea vinculo al id del permiso
-  
+   
+            //Registro de accion Store del Admin
+            $userFunctions->logActionStoreByAdmin($usuario->username,$usuario->empresa->nombre,$usuario->role->nombre);
+               
                 
               DB::commit();
         }catch(QueryException $ex){ 

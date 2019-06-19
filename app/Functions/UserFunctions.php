@@ -15,7 +15,7 @@ class UserFunctions
         $historial = DB::select(
                     "select * from 
                     zz_auditoria.log_acceso 
-                    WHERE usuario = ? AND 
+                    WHERE usuario = ? AND acceso_exitoso='NO' AND 
                     fecha >= DATE_SUB(NOW(), INTERVAL ? MINUTE)", [$usuario,$intentos_max_minutos]); 
 
         return count($historial);
@@ -41,8 +41,8 @@ class UserFunctions
                     "select COUNT(*) AS cantidad FROM 
                     zz_auditoria.log_password 
                     WHERE usuario=?", [$username]); 
-        
-        return count($cantidad_log_pass);
+         
+        return $cantidad_log_pass[0]->cantidad;
     }
 
     private function comparacionPasswordHistory($new_password,$username){
@@ -166,4 +166,19 @@ class UserFunctions
                 ]);
     }
 
+    public function logActionStoreByAdmin($username,$empresa,$rol)
+    {
+        $usuarioAuth = Auth::user();
+       
+        $estacionUsuario = $this->get_ip_address();
+
+        DB::insert(
+            "insert into 
+            zz_auditoria.log_actividad 
+            VALUES (null,?,?,?,?,?,'','',NOW(),?)", [
+                $usuarioAuth->username,"store",
+                $username,$empresa,$rol,$estacionUsuario
+                ]);
+    }
+ 
 }

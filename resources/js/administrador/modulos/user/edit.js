@@ -10,8 +10,10 @@ $(function(){
         }
       });
 
-    $("#activarModalPermisos").click(function(){
+    $("#verPermisosUsuario").click(function(){
           
+        $("#editPermisosModal").modal("show")
+
         let idRol = $("#rolUpdate").val()
         console.log("el idrol es: ",idRol)
         if(idRol.toLocaleLowerCase() == "seleccionar" || idRol.trim() == ""){
@@ -20,13 +22,12 @@ $(function(){
             return false
         }
         if (idRol) { 
-            peticiones.seleccionarPermisosByRoles(idRol,"store",$("#addPermisosModal"))
+            peticiones.seleccionarPermisosByRoles(idRol,"edit",$("#editPermisosModal"),$("#editModulosAndPermisos"),$("#rpta_update_checked_permisos"))
         }else{
             $("#body-errors-modal").html(`Ocurrio un error al traer los permisos del rol seleccionado, intente nuevamente!`)
             $("#errorsModal").modal("show")  
         }
-       
-
+        
     })
 
     $("#actualizarUsuario").click(function(){
@@ -126,6 +127,24 @@ $(function(){
           }) 
 
     })
+
+    $("#rolUpdate").change(function(){
+        $("#editModulosAndPermisos input[type='checkbox']").prop('checked', false)
+        $("#editModulosAndPermisos input[type='checkbox']").prop('disabled', false)
+    })
+
+    $("#verPasswordUser").click(function(){
+
+        let _this = $(this).children("i")
+        //console.log("el ellemento hijo es: ",_this)
+        peticiones.transformTextPassword($("#claveUpdate"),_this)
+    })
+     
+    loadEditModulosPermisosUser().then(function(){
+        checkedPermisosRol()
+        checkedPermisosUser()
+    });
+
 
 })
 
@@ -252,3 +271,33 @@ function validacionCotinueUpdate()
     return true
     
 }
+ 
+function checkedPermisosRol()
+{
+    let checkedUsers = PERMISOS_CHECKED_ROL.response.data
+
+    checkedUsers.forEach(el => {
+        $(`input#checkedit`+el.identificador).prop('checked', true)
+        $(`input#checkedit`+el.identificador).prop('disabled', true)
+    });
+ 
+}
+function checkedPermisosUser()
+{
+    let checkedUsers = PERMISOS_CHECKED_USER.response.data
+
+    checkedUsers.forEach(el => {
+        $(`input#checkedit`+el.identificador).prop('checked', true)
+    });
+ 
+}
+
+async function loadEditModulosPermisosUser()
+{
+    //Armando esquema
+    let dataModulos = MODULOS.response.data;
+    peticiones.armandoEsquemaModulosPermisos(dataModulos,"edit",$("#editModulosAndPermisos"))
+ 
+}
+
+ 

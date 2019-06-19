@@ -23,7 +23,9 @@ class Role extends Model
 
 
     protected $fillable = [
-        'nombre'
+        'nombre',
+        'especial',
+        'referencia'
     ];
 
     public function permisos(){
@@ -34,15 +36,17 @@ class Role extends Model
         return $this->hasMany(User::class);
     }
 
-    public static function getSubRolesByRol()
-    {
-        $rol_asignado = Auth::user()->role_id;
-         
-        if(Auth::user()->tienePermisoEspecial()){
+    public static function getSubRolesByRolUser(User $usuario)
+    { 
+        if($usuario->tienePermisoEspecial()){
             return Role::all();
         }
-        $roles_hijos = Role::where('referencia','=',$rol_asignado)->get();
-        return $roles_hijos;
+        return Role::where('referencia','=',$usuario->role_id)->get();
+    }
+
+    public function esRolEspecial()
+    { 
+        return  $this->especial == Role::CON_PERMISOS_TOTAL;
     }
 
 }

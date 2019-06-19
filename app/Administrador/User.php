@@ -70,7 +70,7 @@ class User extends Authenticatable
     public function permisos(){
         return $this->belongsToMany(Permiso::class);
     }
-
+ 
     public function tienePermisoEspecial(){
        return $this->role->especial == Role::CON_PERMISOS_TOTAL;
        
