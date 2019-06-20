@@ -65,7 +65,7 @@ peticiones.armandoEsquemaModulosPermisos = function armandoEsquemaModulosPermiso
         esquemaModulos += `<label class=" form-control-sm b-0">
                                 <input type="checkbox" name="permissions[]" class="validateCheckbox" 
                                         value="${el.identificador}" id="check${texto}${el.identificador}">
-                                <span>${el.nombre}</span>
+                                <span>${el.descripcion}</span>
                             </label>`
                                     
         let lista_modulosRol = this.traerPermisosPorRol(el)
@@ -73,7 +73,7 @@ peticiones.armandoEsquemaModulosPermisos = function armandoEsquemaModulosPermiso
                 esquemaModulos += `<label class=" form-control-sm b-0">
                                     <input type="checkbox" name="permissions[]" class="validateCheckbox" 
                                             value="${per.identificador}" id="check${texto}${per.identificador}">
-                                    <span>${per.nombre}</span>
+                                    <span>${per.descripcion}</span>
                                 </label>`
             });
         let lista_modulosEspecial = this.trearPermisosEspeciales(el)
@@ -81,7 +81,7 @@ peticiones.armandoEsquemaModulosPermisos = function armandoEsquemaModulosPermiso
                 esquemaModulos += `<label class=" form-control-sm b-0">
                                     <input type="checkbox" name="permissions[]" class="validateCheckbox" 
                                             value="${per.identificador}" id="check${texto}${per.identificador}">
-                                    <span>${per.nombre}</span>
+                                    <span>${per.descripcion}</span>
                                 </label>`
             });
 

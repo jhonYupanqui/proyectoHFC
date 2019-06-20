@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
     // ADMINISTRADOR USUARIOS VIEW
     Route::get('/administrador/usuario','Modulos\User\UserController@index')->name('modulo.usuario.index')
     ->middleware('permiso:modulo.usuario.index');
-    Route::get('/administrador/usuarios/crear','Modulos\User\UserController@create')->name('submodulo.usuario.store')
+    Route::get('/administrador/usuario/crear','Modulos\User\UserController@create')->name('submodulo.usuario.store')
     ->middleware('permiso:submodulo.usuario.store');
     Route::get('/administrador/usuario/{usuario}/detalle','Modulos\User\UserController@show')->name('submodulo.usuario.show')
     ->middleware('permiso:submodulo.usuario.show');
@@ -51,9 +51,9 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('permiso:submodulo.usuario.edit');
 
     //ADMINISTRADOR ROLES VIEW
-    Route::get('/administrador/roles/{rol}/permisos', 'Modulos\Rol\RolController@permisos')->name('submodulo.rol.permisos.lista');
-    Route::get('/administrador/roles','Modulos\Rol\RolController@index')->name('modulo.rol.index')
+    Route::get('/administrador/rol','Modulos\Rol\RolController@index')->name('modulo.rol.index')
     ->middleware('permiso:modulo.rol.index');
+  
 
     //ADMINISTRADOR MULTICONSULTA VIEW
     Route::get('/administrador/multiconsulta','Modulos\Multiconsulta\MulticonsultaController@index')->name('modulo.multiconsulta.index')
@@ -83,8 +83,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/administrador/empresa/{empresa}/rol/{rol}/usuario/{usuario}/update', 'Modulos\User\UserController@update')->name('submodulo.empresa.edit.ajax')
     ->middleware('permiso:submodulo.empresa.edit')
     ->middleware('transform.input:'. UserTransformer::class);
-    Route::post('/administrador/usuario/{usuario}/delete', 'Modulos\User\UserController@delete')->name('submodulo.usuario.delete.ajax')
+    Route::post('/administrador/usuario/{usuario}/eliminar', 'Modulos\User\UserController@delete')->name('submodulo.usuario.delete.ajax')
     ->middleware('permiso:submodulo.usuario.delete');
+
+    //ADMINISTRADOR ROLES
+     
+
+    //ROLES - PERMISOS
+    Route::get('/administrador/roles/{rol}/permisos', 'Modulos\Rol\RolController@permisos')->name('submodulo.rol.permisos.lista');
 
     //ADMINISTRADOR EMPRESA
     Route::get('/administrador/empresa/lista','Modulos\Empresa\EmpresaController@list')->name('submodulo.empresa.list')

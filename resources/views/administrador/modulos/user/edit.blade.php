@@ -36,7 +36,7 @@
         <div class="col-12">
                 <div class="card">
                     <div class="card-header px-2 py-1">
-                        <a href="{{route('modulo.usuario.index')}}" class="btn btn-sm btn-outline-success mx-1"><i class="fa fa-arrow-left"></i> Atras</a>
+                        <a href="{{route('modulo.usuario.index')}}" class="btn btn-sm btn-outline-success shadow-sm mx-1"><i class="fa fa-arrow-left"></i> Atras</a>
                     </div> 
                     <div class="card-body px-2 py-1"> 
                         <div id="form_update_load"></div>
@@ -161,7 +161,7 @@
         const PERMISOS_CHECKED_USER = {!! json_encode($lista_permisos_checked_user) !!};
         
     </script>
-    @if (Auth::user()->HasPermiso('submodulo.usuario.update'))
+    @if (Auth::user()->HasPermiso('submodulo.usuario.edit'))
         <script src="{{ asset('js/sistema/modulos/users/edit.min.js') }}"></script>
     @endif
  

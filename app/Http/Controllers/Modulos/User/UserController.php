@@ -18,21 +18,59 @@ class UserController extends GeneralController
 {
     public function index()
     {
-        $usuarios = User::all();
-        return view('administrador.modulos.user.index',["usuarios"=>$usuarios]);
+        return view('administrador.modulos.user.index');
     }
  
     public function lista(Request $request)
     {
-        if($request->ajax()){
-            return datatables()
-                    ->eloquent(User::query())
-                    ->only(['id','nombre','apellidos','username','email','btn'])
-                    ->addColumn('btn', 'administrador.modulos.user.partials.acciones')
-                    ->rawColumns(['btn'])
-                    ->toJson();
+
+      if($request->ajax()){
+
+        $usuarioAuth = Auth::user();
+        if ($usuarioAuth->tienePermisoEspecial()) {
+              return datatables()
+                ->eloquent(User::query())
+                ->only(['id','nombre','apellidos','username','email','btn'])
+                ->addColumn('btn', 'administrador.modulos.user.partials.acciones')
+                ->rawColumns(['btn'])
+                ->toJson();
         }
-        return abort(404); 
+        #Filtrando lista de usuarios segun los subroles del admin o subadmin
+          $roles = Role::getSubRolesByRolUser($usuarioAuth)->toJson();
+          
+          $array_lista_roles = array_map(function($element){
+              return $element->id;
+          },json_decode($roles));
+          
+          $dataListReturn = datatables()
+                            ->eloquent(User::filterByRole($array_lista_roles));
+        
+            if( $usuarioAuth->HasPermiso('submodulo.usuario.show') || 
+                $usuarioAuth->HasPermiso('submodulo.usuario.edit')  ||
+                $usuarioAuth->HasPermiso('submodulo.usuario.delete')
+              ){
+                
+                $dataListReturn = $dataListReturn
+                                  ->only(['id','nombre','apellidos','username','email','btn'])
+                                  ->addColumn('btn', 'administrador.modulos.user.partials.acciones')
+                                  ->rawColumns(['btn'])
+                                  ->toJson();
+                
+              }else{
+                $dataListReturn = $dataListReturn
+                                  ->only(['id','nombre','apellidos','username','email'])
+                                  ->toJson();
+              }  
+                
+              return $dataListReturn;
+          
+            
+          
+        #End Filtro
+        
+           
+      }
+      return abort(404); 
     }
 
     public function show(User $usuario)

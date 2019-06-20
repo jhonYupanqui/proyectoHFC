@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('titulo_pagina_sistema', 'Usuarios')
+@section('titulo_pagina_sistema', 'Roles')
 
 @section('estilos')
 
@@ -16,12 +16,12 @@
 @endsection
 
 @section('title-container')
-     <h4 class="m-0 text-dark text-uppercase">Usuarios</h4> 
+     <h4 class="m-0 text-dark text-uppercase">Roles</h4> 
     
 @endsection
 @section('ruta-navegacion-container')
     @parent
-     <li class="breadcrumb-item active">Usuarios</li>
+     <li class="breadcrumb-item active">Roles</li>
 @endsection
 
 @section('aside-right')

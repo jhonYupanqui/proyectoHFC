@@ -13,6 +13,7 @@ import peticiones from './peticiones.js'
          $('#listUsersPrint').DataTable({
             "serverSide": true,
             "ajax": "/administrador/usuarios/lista",
+            'processing': true,
             "columns": [
                 {data: 'id'},
                 {data: 'nombre'},
@@ -34,9 +35,9 @@ import peticiones from './peticiones.js'
                             '<option value="100">100</option>'+
                             '<option value="-1">Todos</option>'+
                             '</select> registros',
-                "loadingRecords": "Cargando...",
-                "processing": "Procesando...",
-                "emptyTable": "No hay datos",
+                "loadingRecords": "<div id='carga_person'> <div class='loader'>Cargando...</div></div>",
+                "processing": "<div id='carga_person'> <div class='loader'>Procesando...</div></div>",
+                "emptyTable": "No hay usuarios disponibles",
                 "zeroRecords": "No hay coincidencias", 
                 "infoEmpty": "",
                 "infoFiltered": ""

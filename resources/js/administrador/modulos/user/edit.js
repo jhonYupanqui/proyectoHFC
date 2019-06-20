@@ -11,9 +11,7 @@ $(function(){
       });
 
     $("#verPermisosUsuario").click(function(){
-          
-        $("#editPermisosModal").modal("show")
-
+         
         let idRol = $("#rolUpdate").val()
         console.log("el idrol es: ",idRol)
         if(idRol.toLocaleLowerCase() == "seleccionar" || idRol.trim() == ""){

@@ -18,7 +18,7 @@ $(function(){
     
       if(userIdSelect){
         $.ajax({
-          url:`/administrador/usuario/${userIdSelect}/delete`,
+          url:`/administrador/usuario/${userIdSelect}/eliminar`,
           method:"post",
           data:{},
           dataType: "json", 

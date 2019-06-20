@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use DB;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model; 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -97,7 +98,7 @@ Trait SystemResponser {
         }
        
         $transformer = $collection->first()->transformer; //utilizamos el transformer de cada modelo
-        $permisosModel = $permisos ? $collection->first()::permisosGenerales() : null;
+        $permisosModel = $permisos ? $collection->first()::permisosGenerales(Auth::user()) : null;
          
         //filtrar datos
         if ($filter) $collection = $this->filterData($collection, $transformer);
@@ -118,7 +119,7 @@ Trait SystemResponser {
     protected function showModJsonOne(Model $instance, $permiso = false, $code = 200){
 
         $transformer = $instance->transformer;
-        $permisosModel = $permiso ? $instance::permisosGenerales() : null;//permisos modelo
+        $permisosModel = $permiso ? $instance::permisosGenerales(Auth::user()) : null;//permisos modelo
         $instance = $this->transformData($instance, $transformer);
 
         return $this->successResponse($instance,$permisosModel,$code);

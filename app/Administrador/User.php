@@ -149,15 +149,23 @@ class User extends Authenticatable
       return $query;
     }
 
-    public static function permisosGenerales()
+    public function scopefilterByRole($query,$roles)
+    { 
+      if(count($roles) > 0){
+        return $query->whereIn('role_id',$roles);
+      }
+        
+      return  $query->where('role_id',0);
+    }
+
+    public static function permisosGenerales(User $usuario)
     {
-     //verifica permisos para el listado de acciones en front end
-      $instanciaPermiso =  Auth::user();
-      $permiso_modulo = $instanciaPermiso->HasPermiso('submodulo.usuario.index');
-      $permiso_crear = $instanciaPermiso->HasPermiso('submodulo.usuario.store');
-      $permiso_ver = $instanciaPermiso->HasPermiso('submodulo.usuario.show');
-      $permiso_editar = $instanciaPermiso->HasPermiso('submodulo.usuario.edit');
-      $permiso_eliminar = $instanciaPermiso->HasPermiso('submodulo.usuario.delete');
+     //verifica permisos para el listado de acciones en front end 
+      $permiso_modulo = $usuario->HasPermiso('submodulo.usuario.index');
+      $permiso_crear = $usuario->HasPermiso('submodulo.usuario.store');
+      $permiso_ver = $usuario->HasPermiso('submodulo.usuario.show');
+      $permiso_editar = $usuario->HasPermiso('submodulo.usuario.edit');
+      $permiso_eliminar = $usuario->HasPermiso('submodulo.usuario.delete');
         
 
       return [
