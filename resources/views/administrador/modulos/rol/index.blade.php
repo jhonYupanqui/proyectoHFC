@@ -36,23 +36,21 @@
                 <div class="card">
                     <div class="card-header px-2 py-1">
                         <a href="{{route('administrador')}}" class="btn btn-sm btn-outline-success mx-1 shadow-sm"><i class="fa fa-arrow-left"></i> Atras</a>
-                        @if(Auth::user()->HasPermiso('submodulo.usuario.store'))
-                            <a href="{{route('submodulo.usuario.store')}}" class="btn btn-sm btn-outline-primary shadow-sm mx-1" id="activeModalUserStore">Crear<i class="fa fa-user-plus" aria-hidden="true"></i></a>
+                        @if(Auth::user()->HasPermiso('submodulo.rol.store'))
+                            <a href="{{route('submodulo.rol.store')}}" class="btn btn-sm btn-outline-primary shadow-sm mx-1" id="activeModalRoleStore">Crear <i class="fa fa-plus-square" aria-hidden="true"></i> </a>
                         @endif
+                        
                     </div> 
                     <div class="card-body">
                         <section class="content_table_list">
-                            <table id="listUsersPrint" class="table table-hover table-bordered w-100 tableFixHead">
+                            <table id="listRolesPrint" class="table table-hover table-bordered w-100 tableFixHead">
                                 <thead>
                                     <tr>
                                         <th>Id</th>
                                         <th>Nombre</th>
-                                        <th>Apellidos</th>
-                                        <th>Usuario</th>
-                                        <th>Correo</th>  
-                                        @if(  Auth::user()->HasPermiso('submodulo.usuario.show') || 
-                                              Auth::user()->HasPermiso('submodulo.usuario.edit')  ||
-                                              Auth::user()->HasPermiso('submodulo.usuario.delete')
+                                        @if(  Auth::user()->HasPermiso('submodulo.rol.show') || 
+                                              Auth::user()->HasPermiso('submodulo.rol.edit')  ||
+                                              Auth::user()->HasPermiso('submodulo.rol.delete')
                                             )
                                           <th>Acciones</th>
                                         @endif
@@ -70,8 +68,8 @@
 @endsection
 
 @section('scripts-footer')  
-    <script src="{{ asset('js/sistema/modulos/users/index.min.js') }}"></script>
-    @if(Auth::user()->HasPermiso('submodulo.usuario.delete'))
-     <script src="{{ asset('js/sistema/modulos/users/delete.min.js') }}"></script>
+    <script src="{{ asset('js/sistema/modulos/roles/index.min.js') }}"></script>
+    @if(Auth::user()->HasPermiso('submodulo.rol.delete'))
+     <script src="{{ asset('js/sistema/modulos/roles/delete.min.js') }}"></script>
     @endif
 @endsection

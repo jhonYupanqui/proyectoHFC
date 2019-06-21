@@ -28,6 +28,11 @@ class Role extends Model
         'referencia'
     ];
 
+    public function setNombreAttribute($nombre)
+    {
+        $this->attributes['nombre'] = strtoupper($nombre);
+    }
+     
     public function permisos(){
         return $this->belongsToMany(Permiso::class);
     }
@@ -43,7 +48,7 @@ class Role extends Model
         }
         return Role::where('referencia','=',$usuario->role_id)->get();
     }
-
+  
     public function esRolEspecial()
     { 
         return  $this->especial == Role::CON_PERMISOS_TOTAL;

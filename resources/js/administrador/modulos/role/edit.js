@@ -47,7 +47,7 @@ $(function(){
         let estado = $("#estadoUpdate").val()
 
         let permisos = []
-        let permisosGenerales = $("#editModulosAndPermisos input[type=checkbox]")
+        let permisosGenerales = $("#modulosAndPermisosList input[type=checkbox]")
     
         for (let index = 0; index < permisosGenerales.length; index++) {
          

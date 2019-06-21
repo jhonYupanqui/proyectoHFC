@@ -1,5 +1,6 @@
 <?php
 
+use App\Transformers\RolTransformer;
 use App\Transformers\UserTransformer;
 
 /*
@@ -53,6 +54,12 @@ Route::group(['middleware' => 'auth'], function () {
     //ADMINISTRADOR ROLES VIEW
     Route::get('/administrador/rol','Modulos\Rol\RolController@index')->name('modulo.rol.index')
     ->middleware('permiso:modulo.rol.index');
+    Route::get('/administrador/rol/crear','Modulos\Rol\RolController@create')->name('submodulo.rol.store')
+    ->middleware('permiso:submodulo.rol.store');
+    Route::get('/administrador/rol/{rol}/detalle','Modulos\Rol\RolController@show')->name('submodulo.rol.show')
+    ->middleware('permiso:submodulo.rol.show');
+    Route::get('/administrador/rol/{rol}/editar','Modulos\Rol\RolController@edit')->name('submodulo.rol.edit')
+    ->middleware('permiso:submodulo.rol.edit');
   
 
     //ADMINISTRADOR MULTICONSULTA VIEW
@@ -87,10 +94,17 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('permiso:submodulo.usuario.delete');
 
     //ADMINISTRADOR ROLES
-     
+    Route::get('/administrador/roles/lista', 'Modulos\Rol\RolController@lista')->name('modulo.rol.index.ajax')
+    ->middleware('permiso:modulo.rol.index');
+    Route::post('/administrador/rol/store', 'Modulos\Rol\RolController@store')->name('submodulo.rol.store.ajax')
+    ->middleware('permiso:submodulo.rol.store')
+    ->middleware('transform.input:'. RolTransformer::class);
+    Route::get('/administrador/roles/lista', 'Modulos\Rol\RolController@lista')->name('modulo.rol.index.ajax')
+    ->middleware('permiso:modulo.rol.index');
 
     //ROLES - PERMISOS
     Route::get('/administrador/roles/{rol}/permisos', 'Modulos\Rol\RolController@permisos')->name('submodulo.rol.permisos.lista');
+     
 
     //ADMINISTRADOR EMPRESA
     Route::get('/administrador/empresa/lista','Modulos\Empresa\EmpresaController@list')->name('submodulo.empresa.list')

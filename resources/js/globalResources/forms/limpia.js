@@ -8,7 +8,10 @@ const limpia = {}
 
     function limpiaSelectInput()
     {
-      $(".validateSelect")[0].selectedIndex = 0
+      if ($(".validateSelect")[0]) {
+        $(".validateSelect")[0].selectedIndex = 0
+      }
+     
     }
 
     function limpiaCheckboxInput()
@@ -34,6 +37,13 @@ const limpia = {}
     }
 
     limpia.limpiaFormUser = function limpiaFormUser()
+    {
+      limpiaTexInput()
+      limpiaSelectInput()
+      limpiaCheckboxInput()
+    }
+
+    limpia.limpiaFormRol = function limpiaFormRol()
     {
       limpiaTexInput()
       limpiaSelectInput()

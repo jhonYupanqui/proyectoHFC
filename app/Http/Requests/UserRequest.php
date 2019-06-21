@@ -44,7 +44,7 @@ class UserRequest extends FormRequest
         ];
 
     }else{
-        
+       
         return [ 
             'nombre' => 'required|max:100|',
             'apellidos' => 'required|max:100',

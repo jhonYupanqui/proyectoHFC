@@ -38,6 +38,7 @@
           </li> 
           @if (Auth::user()->HasPermiso('modulo.usuario.index'))
             <li class="nav-item has-treeview @routeIs('modulo.usuario.index')) menu-open @endif">
+              {{-- Request::route()->usuario usar para cuando se pasa rutas--}}
               <a href="{{route('modulo.usuario.index')}}" class="nav-link @routeIs('modulo.usuario.index')) active @endif ">
                 <i class="nav-icon fa fa-user"></i>
                 <p>
@@ -46,16 +47,18 @@
               </a>
             </li>
           @endif
-          
-          <li class="nav-item has-treeview">
-            <a href="javascript:void(0)" class="nav-link">
-              <i class="nav-icon fa fa-user"></i>
-              <p>
-                  Roles
-               
-              </p>
-            </a>
-          </li>
+
+          @if (Auth::user()->HasPermiso('modulo.rol.index'))
+            <li class="nav-item has-treeview @routeIs('modulo.rol.index')) menu-open @endif">
+              <a href="javascript:void(0)" class="nav-link @routeIs('modulo.rol.index')) active @endif ">
+                <i class="nav-icon fa fa-user"></i>
+                <p>
+                    Roles
+                
+                </p>
+              </a>
+            </li>
+          @endif
           <li class="nav-header">CM</li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

@@ -242,7 +242,7 @@ errors.mensajeErrorJson = function mensajeErrorJson(erroresJson) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\laragon\www\proyectoHFC\resources\js\administrador\index.js */"./resources/js/administrador/index.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\new_system\resources\js\administrador\index.js */"./resources/js/administrador/index.js");
 
 
 /***/ })

@@ -62,8 +62,8 @@ function registroUserStore()
     let rol = $("#rolStore").val()
 
     let permisos = []
-    let permisosGenerales = $("#modulosAndPermisosList input[type=checkbox]")
-
+    let permisosGenerales = $("#storeModulosAndPermisosList input[type=checkbox]")
+ 
     for (let index = 0; index < permisosGenerales.length; index++) {
      
       if(permisosGenerales[index].checked && permisosGenerales[index].disabled == false){ 
