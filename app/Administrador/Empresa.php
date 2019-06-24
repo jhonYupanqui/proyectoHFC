@@ -24,6 +24,11 @@ class Empresa extends Model
         return $this->hasMany(User::class);
     }
 
+    public function setNombreAttribute($nombre)
+    {
+        $this->attributes['nombre'] = strtoupper($nombre);
+    }
+
     public static function permisosGenerales()
     {
      //verifica permisos para el listado de acciones en front end

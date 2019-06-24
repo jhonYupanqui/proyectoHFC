@@ -6,19 +6,19 @@ $(function(){
       }
     });
    
-    $('body').on("click",".accionRolDelete",function(){
-      let rolIdentificador = $(this).data('id')
+    $('body').on("click",".accionEmpresaDelete",function(){
+      let empresaId = $(this).data('id')
        
-      console.log("el id ha eliminar es:",rolIdentificador)
+      console.log("el id ha eliminar es:",empresaId)
       let _this = $(this)
-      var opcionDelete = confirm("¿Está seguro de eliminar al rol?, ¡confirme nuevamente por favor!.");
+      var opcionDelete = confirm("¿Está seguro de eliminar la empresa?, ¡confirme nuevamente por favor!.");
       if (!opcionDelete) {
           return false
         }  
     
-      if(rolIdentificador){
+      if(empresaId){
         $.ajax({
-          url:`/administrador/rol/${rolIdentificador}/eliminar`,
+          url:`/administrador/empresa/${empresaId}/eliminar`,
           method:"post",
           data:{},
           dataType: "json", 
@@ -26,15 +26,15 @@ $(function(){
         .done(function(data){
          // console.log(data)
           if(data.error){
-            $("#body-errors-modal").html("no se puedo eliminar al rol, intente nuevamente.")
+            $("#body-errors-modal").html("no se puedo eliminar la empresa, intente nuevamente.")
             $('#errorsModal').modal('show') 
             return false
           } 
 
-          let rol = data.response.data
+          let empresa = data.response.data
           $("#body-success-modal").html(`
-            <h5 class="text-success text-center text-uppercase font-weight-bold">Rol eliminado</h5>
-            <p class="text-center font-weight-bold font-italic">Se eliminó el rol ${rol.rol} correctamente</p>
+            <h5 class="text-success text-center text-uppercase font-weight-bold">Empresa eliminada</h5>
+            <p class="text-center font-weight-bold font-italic">Se eliminó la empresa:  "${empresa.empresa}" correctamente</p>
             
             `) 
           $("#successModal").modal("show")
@@ -49,7 +49,7 @@ $(function(){
           $('#errorsModal').modal('show') 
         })
       }else{
-          $("#body-errors-modal").html("No se puede encontrar al rol, recargue la página e intentelo de nuevo.")
+          $("#body-errors-modal").html("No se puede encontrar la empresa, recargue la página e intentelo de nuevo.")
           $('#errorsModal').modal('show') 
       }
       

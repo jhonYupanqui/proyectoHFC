@@ -1,7 +1,7 @@
 import valida from  "@/globalResources/forms/valida.js"
 import limpia from  "@/globalResources/forms/limpia.js"
 import errors from  "@/globalResources/errors.js"
-import peticiones from './peticiones.js'
+ 
 
 $(function(){
 
@@ -12,26 +12,16 @@ $(function(){
       });
 
       
-    loadStoreModulosPermisosUser()
- 
-    $("#crearRol").click(function(){
-        registroRolStore()
+     
+    $("#crearEmpresa").click(function(){
+        registroEmpresaStore()
     })
   
 })
 
-function loadStoreModulosPermisosUser()
-{
-    //Armando esquema
-    let dataModulos = MODULOS.response.data
-
-    PERMISOS_ROL = PERMISOS_ROL.response.data
-    
-    peticiones.armandoEsquemaModulosPermisos(dataModulos,"store",$("#storeModulosAndPermisosList"))
  
-}
 
-function registroRolStore()
+function registroEmpresaStore()
 {
   let validacionConitnueStore = validacionContinueStore()
     if(!validacionConitnueStore){ 
@@ -39,41 +29,19 @@ function registroRolStore()
     }
     
  //registrar
-    let datos = {}
-    let rol = $("#nombreStore").val()
-    datos.rol = rol
     
-    
-    if ($("#especialStore")) {
-      let esAdministrador = $("#especialStore").val()
-      datos.esAdministrador = esAdministrador
-    }
-    if ($("#referenciaStore")) {
-      let rolPadre = $("#referenciaStore").val()
-      datos.rolPadre = rolPadre
-    }
-
-    let permisos = []
-    let permisosGenerales = $("#storeModulosAndPermisosList input[type=checkbox]")
-    
-    for (let index = 0; index < permisosGenerales.length; index++) {
-     
-      if(permisosGenerales[index].checked && permisosGenerales[index].disabled == false){ 
-        //formData.append('permisos[]', permisosGenerales[index].value); 
-        permisos.push(permisosGenerales[index].value); 
-      }
-    }
-    datos.permisos = permisos
- 
+    let empresa = $("#nombreStore").val()
+      
     $("#form_store_detail").css({'display':'none'})
+    $("#form_store_load").css({'display':'block'})
     $("#form_store_load").html(`<div id="carga_person">
                                   <div class="loader">Loading...</div>
                                 </div>`) 
 
     $.ajax({
-        url:`/administrador/rol/store`,
+        url:`/administrador/empresa/store`,
         method:"post",
-        data:datos,
+        data:{empresa},
         dataType: "json", 
     })
     .done(function(data){
@@ -81,9 +49,9 @@ function registroRolStore()
         $("#form_store_load").css({'display':'none'})
         $("#form_store_load").html('')
         $("#form_store_detail").css({'display':'flex'})
-        limpia.limpiaFormRol()
+        limpia.limpiaFormEmpresa()
 
-         console.log(data)
+       //  console.log(data)
          $("#errors_store").html(data)
         if(data.error){
             $("#body-errors-modal").html(data.error)
@@ -91,11 +59,11 @@ function registroRolStore()
             return false
         }
 
-         let rol = data.response.data
+         let empresa = data.response.data
         
          $("#body-success-modal").html(`
-          <h5 class="text-success text-center text-uppercase font-weight-bold">Rol creado correctamente</h5>
-          <p class="text-center font-weight-bold font-italic">El rol ${rol.rol} se creo corretamente </p>
+          <h5 class="text-success text-center text-uppercase font-weight-bold">Empresa creada correctamente</h5>
+          <p class="text-center font-weight-bold font-italic">La empresa: "${empresa.empresa}" se creo corretamente.</p>
            
          `)
         $("#successModal").modal("show")

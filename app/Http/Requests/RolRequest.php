@@ -45,6 +45,8 @@ class RolRequest extends FormRequest
     public function messages()
     {
         return [
+            'nombre.max'  => 'Nombre superó los 50 caracteres',
+            'nombre.required'  => 'Nombre es requerido',
             'nombre.unico_compuesto'  => 'Nombre ya existente en los datos',
             'referencia.id_bd'  => 'No se encontrarón datos relacionados al referencia. verifique su selección.',
         ];

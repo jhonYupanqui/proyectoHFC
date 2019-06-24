@@ -49,6 +49,10 @@ const limpia = {}
       limpiaSelectInput()
       limpiaCheckboxInput()
     }
+    limpia.limpiaFormEmpresa = function limpiaFormEmpresa()
+    {
+      limpiaTexInput() 
+    }
 
     limpia.limpiaFormModulos = function limpiaFormModulos()
     {

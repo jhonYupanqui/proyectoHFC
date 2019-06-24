@@ -66,6 +66,7 @@ function registroRolStore()
     datos.permisos = permisos
  
     $("#form_store_detail").css({'display':'none'})
+    $("#form_store_load").css({'display':'block'})
     $("#form_store_load").html(`<div id="carga_person">
                                   <div class="loader">Loading...</div>
                                 </div>`) 

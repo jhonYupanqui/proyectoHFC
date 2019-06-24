@@ -16,8 +16,8 @@ class UserTransformer extends TransformerAbstract
     {
         return [
             'identificador' => (int)$user->id,
-            'idenfiticadorEmpresa' => (int)$user->empresa_id,
-            'identificadorRol' => (int)$user->role_id,
+            'idenfiticadorEmpresa' => isset($user->empresa_id)? (int)$user->empresa_id : 0,
+            'identificadorRol' => isset($user->role_id)? (int)$user->role_id : 0,
             'nombre' => (string)$user->nombre,
             'apellidos' => (string)$user->apellidos,
             'documento' => (string)$user->dni,
@@ -26,8 +26,8 @@ class UserTransformer extends TransformerAbstract
             'usuario' => (string)$user->username,
            // 'clave' => (string)$user->password,
             'estado' => (string)$user->estado,
-            'empresa'=>(string)$user->empresa->nombre,
-            'rol'=>(string)$user->role->nombre,
+            'empresa'=> isset($user->empresa) ? (string) $user->empresa->nombre : "",
+            'rol'=> isset($user->role) ? (string) $user->role->nombre: "",
             'permisosEspeciales'=>$user->permisos,
             'fechaCreacion' => isset($user->created_at)? (string)$user->created_at : null,
             'fechaActualizacion' => isset($user->updated_at)? (string)$user->updated_at : null,

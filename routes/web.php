@@ -2,6 +2,7 @@
 
 use App\Transformers\RolTransformer;
 use App\Transformers\UserTransformer;
+use App\Transformers\EmpresaTransformer;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/password/cambio', 'Modulos\Password\PasswordController@primerCambio')->name('password.change.view');
     Route::post('/password/usuario/{usuario}/update', 'Modulos\Password\PasswordController@update')->name('password.usuario.update');
  
+    //PERFIL VIEWS
+    Route::get('/administrador/perfil/{usuario}/detalle','Modulos\User\PerfilController@index')->name('modulo.perfil.usuario.index');
  
     //ADMINISTRADOR EMPRESA VIEW
     Route::get('/administrador/empresa','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
@@ -56,7 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('permiso:submodulo.usuario.show');
     Route::get('/administrador/usuario/{usuario}/editar','Modulos\User\UserController@edit')->name('submodulo.usuario.edit')
     ->middleware('permiso:submodulo.usuario.edit');
-
+ 
     //ADMINISTRADOR ROLES VIEW
     Route::get('/administrador/rol','Modulos\Rol\RolController@index')->name('modulo.rol.index')
     ->middleware('permiso:modulo.rol.index');
@@ -118,5 +121,13 @@ Route::group(['middleware' => 'auth'], function () {
     //ADMINISTRADOR EMPRESA
     Route::get('/administrador/empresas/lista','Modulos\Empresa\EmpresaController@lista')->name('modulo.empresa.index.ajax')
     ->middleware('permiso:modulo.empresa.index'); 
+    Route::post('/administrador/empresa/store','Modulos\Empresa\EmpresaController@store')->name('submodulo.empresa.store.ajax')
+    ->middleware('permiso:submodulo.empresa.store')
+    ->middleware('transform.input:'. EmpresaTransformer::class);
+    Route::put('/administrador/empresa/{empresa}/update','Modulos\Empresa\EmpresaController@update')->name('submodulo.empresa.edit.ajax')
+    ->middleware('permiso:submodulo.empresa.edit')
+    ->middleware('transform.input:'. EmpresaTransformer::class);
+    Route::post('/administrador/empresa/{empresa}/eliminar','Modulos\Empresa\EmpresaController@delete')->name('submodulo.empresa.delete.ajax')
+    ->middleware('permiso:submodulo.empresa.delete');
       
 });

@@ -59,6 +59,7 @@ $(function(){
         }
 
         $("#form_update_detail").css({'display':'none'})
+        $("#form_update_load").css({'display':'block'})
         $("#form_update_load").html(`<div id="carga_person">
                                   <div class="loader">Loading...</div>
                                 </div>`) 

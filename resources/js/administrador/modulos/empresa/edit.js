@@ -1,6 +1,5 @@
 import valida from  "@/globalResources/forms/valida.js"
 import errors from  "@/globalResources/errors.js"
-import peticiones from './peticiones.js'
 
 $(function(){
 
@@ -11,63 +10,34 @@ $(function(){
       });
 
     
-    $("#actualizarRol").click(function(){
-        actualizarRol()
+    $("#actualizarEmpresa").click(function(){
+        actualizarEmpresa()
     })
- 
-     
-    loadEditModulosPermisosUser().then(function(){
-        let checkedUsers = PERMISOS_CHECKED.response.data
-        peticiones.checkedPermisosRol(checkedUsers,"edit") 
-    });
-
+  
 
 })
 
-    function actualizarRol()
+    function actualizarEmpresa()
     {
-        /*let validacionConitnueStore = validacionCotinueUpdate()
+        let validacionConitnueStore = validacionCotinueUpdate()
             if(!validacionConitnueStore){ 
                 return false
             }
-        */
         //Actualizar
-        let rolUpdateId = $("#idUpdate").val()
-        let datos = {}
-        let rol = $("#nombreUpdate").val()
-        datos.rol = rol
+        let idEmpresa = $("#idUpdate").val()
         
-        
-        if ($("#especialUpdate")) {
-            let esAdministrador = $("#especialUpdate").val()
-            datos.esAdministrador = esAdministrador
-        }
-        if ($("#referenciaUpdate")) {
-            let rolPadre = $("#referenciaUpdate").val()
-            datos.rolPadre = rolPadre
-        }
-
-        let permisos = []
-        let permisosGenerales = $("#updateModulosAndPermisosList input[type=checkbox]")
-        
-        for (let index = 0; index < permisosGenerales.length; index++) {
-        
-        if(permisosGenerales[index].checked && permisosGenerales[index].disabled == false){ 
-            //formData.append('permisos[]', permisosGenerales[index].value); 
-            permisos.push(permisosGenerales[index].value); 
-        }
-        }
-        datos.permisos = permisos
-    
+        let empresa = $("#nombreUpdate").val()
+       
         $("#form_update_detail").css({'display':'none'})
+        $("#form_update_load").css({'display':'block'})
         $("#form_update_load").html(`<div id="carga_person">
                                     <div class="loader">Loading...</div>
                                     </div>`) 
 
         $.ajax({
-            url:`/administrador/rol/${rolUpdateId}/update`,
+            url:`/administrador/empresa/${idEmpresa}/update`,
             method:"put",
-            data:datos,
+            data:{empresa},
             dataType: "json", 
         })
         .done(function(data){
@@ -85,11 +55,11 @@ $(function(){
                 return false
             }
 
-            let rol = data.response.data
+            let empresa = data.response.data
             
             $("#body-success-modal").html(`
-            <h5 class="text-success text-center text-uppercase font-weight-bold">Rol actualizado</h5>
-            <p class="text-center font-weight-bold font-italic">Se actualizó el rol ${rol.rol} correctamente</p>
+            <h5 class="text-success text-center text-uppercase font-weight-bold">Empresa actualizada</h5>
+            <p class="text-center font-weight-bold font-italic">Se actualizó la empresa: ${empresa.empresa} correctamente</p>
             
             `)
             $("#successModal").modal("show")
@@ -130,29 +100,22 @@ $(function(){
             
         $(".validateText").removeClass("valida-error-input")
         $(".validateSelect").removeClass("valida-error-input")
-        $("#errors_Update").html(``)
+        $("#errors_update").html(``)
 
         if(!valida.isValidText(nombre.val())){
             valida.isValidateInputText(nombre)
-            $("#errors_Update").html(`El campo nombre es requerido`)
+            $("#errors_update").html(`El campo nombre es requerido`)
             return false
         } 
         
         $(".validateText").removeClass("valida-error-input")
         $(".validateSelect").removeClass("valida-error-input")
-        $("#errors_Update").html(``)
+        $("#errors_update").html(``)
   
         return true
         
     }
   
-async function loadEditModulosPermisosUser()
-{
-    //Armando esquema
-    let dataModulos = MODULOS.response.data
-    PERMISOS_ROL = PERMISOS_ROL.response.data
-    peticiones.armandoEsquemaModulosPermisos(dataModulos,"edit",$("#updateModulosAndPermisosList"))
  
-}
 
  
