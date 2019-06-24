@@ -26261,6 +26261,31 @@ div.dataTables_wrapper div.dataTables_processing {
   font-size: 0.9em;
 }
 
+/**Valida errors
+*/
+.response-rol-rtpa {
+  font-size: 11px;
+  color: red;
+  font-style: italic;
+}
+
+.errors_validate {
+  font-size: 12px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #ca0000;
+}
+
+.valida-error-input {
+  border: 1px solid #d81010;
+}
+
+.valida-error-html td {
+  border: 1px solid red;
+  outline: 1px solid red;
+  background: #fdffe8;
+}
+
 span.items_permisos_details {
   display: inline-block;
   border: 1px solid #38c172;

@@ -32,12 +32,14 @@ class RolRequest extends FormRequest
         if(isset($this->route('rol')->id)){
             $validar_update=$this->route('rol')->id>0 ?", ". $this->route('rol')->id:"";
         }
- 
-        return [
+
+        return [ 
             'nombre'=>'required|max:50|unico_compuesto:roles,nombre,deleted_at'.$validar_update,
             'especial'=>'nullable|in: '.Role::CON_PERMISOS_TOTAL.','.Role::SIN_PERMISOS_TOTAL,
             'referencia'=>'nullable|numeric|id_bd:roles,referencia',
         ];
+ 
+       
     }
 
     public function messages()

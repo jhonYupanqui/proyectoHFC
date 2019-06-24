@@ -48,7 +48,7 @@ class Role extends Model
         }
         return Role::where('referencia','=',$usuario->role_id)->get();
     }
-  
+ 
     public function esRolEspecial()
     { 
         return  $this->especial == Role::CON_PERMISOS_TOTAL;

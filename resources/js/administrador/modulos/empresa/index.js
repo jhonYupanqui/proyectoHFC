@@ -1,4 +1,3 @@
- 
   
  $(function(){
 
@@ -10,9 +9,9 @@
 
      //peticiones.cargaCompletaUsuarios(SORTBY,0)
  
-         $('#listRolesPrint').DataTable({
+         $('#listEmpresasPrint').DataTable({
             "serverSide": true,
-            "ajax": "/administrador/roles/lista",
+            "ajax": "/administrador/empresas/lista",
             'processing': true,
             "columns": [
                 {data: 'id'},
@@ -34,14 +33,14 @@
                             '</select> registros',
                 "loadingRecords": "<div id='carga_person'> <div class='loader'>Cargando...</div></div>",
                 "processing": "<div id='carga_person'> <div class='loader'>Procesando...</div></div>",
-                "emptyTable": "No hay roles disponibles",
+                "emptyTable": "No hay empresas disponibles",
                 "zeroRecords": "No hay coincidencias", 
                 "infoEmpty": "",
                 "infoFiltered": ""
             }
         });
 
-        $("#listRolesPrint").parent().addClass("table-responsive tableFixHead") 
+        $("#listEmpresasPrint").parent().addClass("table-responsive tableFixHead") 
      
   /**Tabla fixed */
   var th = $('.tableFixHead').find('thead th')

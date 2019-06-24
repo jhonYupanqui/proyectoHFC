@@ -38,8 +38,14 @@ Route::group(['middleware' => 'auth'], function () {
  
  
     //ADMINISTRADOR EMPRESA VIEW
-    Route::get('/administrador/empresas','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
-    ->middleware('permiso:modulo.empresa.index'); 
+    Route::get('/administrador/empresa','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
+    ->middleware('permiso:modulo.empresa.index');  
+    Route::get('/administrador/empresa/{empresa}/detalle','Modulos\Empresa\EmpresaController@show')->name('submodulo.empresa.show')
+    ->middleware('permiso:submodulo.empresa.show'); 
+    Route::get('/administrador/empresa/{empresa}/editar','Modulos\Empresa\EmpresaController@edit')->name('submodulo.empresa.edit')
+    ->middleware('permiso:submodulo.empresa.edit'); 
+    Route::get('/administrador/empresa/crear','Modulos\Empresa\EmpresaController@create')->name('submodulo.empresa.store')
+    ->middleware('permiso:submodulo.empresa.store'); 
 
     // ADMINISTRADOR USUARIOS VIEW
     Route::get('/administrador/usuario','Modulos\User\UserController@index')->name('modulo.usuario.index')
@@ -99,15 +105,18 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/administrador/rol/store', 'Modulos\Rol\RolController@store')->name('submodulo.rol.store.ajax')
     ->middleware('permiso:submodulo.rol.store')
     ->middleware('transform.input:'. RolTransformer::class);
-    Route::get('/administrador/roles/lista', 'Modulos\Rol\RolController@lista')->name('modulo.rol.index.ajax')
-    ->middleware('permiso:modulo.rol.index');
+    Route::put('/administrador/rol/{rol}/update', 'Modulos\Rol\RolController@update')->name('submodulo.rol.edit.ajax')
+    ->middleware('permiso:submodulo.rol.edit')
+    ->middleware('transform.input:'. RolTransformer::class);
+    Route::post('/administrador/rol/{rol}/eliminar', 'Modulos\Rol\RolController@delete')->name('submodulo.rol.delete.ajax')
+    ->middleware('permiso:submodulo.rol.delete'); 
 
     //ROLES - PERMISOS
     Route::get('/administrador/roles/{rol}/permisos', 'Modulos\Rol\RolController@permisos')->name('submodulo.rol.permisos.lista');
      
 
     //ADMINISTRADOR EMPRESA
-    Route::get('/administrador/empresa/lista','Modulos\Empresa\EmpresaController@list')->name('submodulo.empresa.list')
+    Route::get('/administrador/empresas/lista','Modulos\Empresa\EmpresaController@lista')->name('modulo.empresa.index.ajax')
     ->middleware('permiso:modulo.empresa.index'); 
       
 });

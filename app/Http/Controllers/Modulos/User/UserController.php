@@ -199,11 +199,11 @@ class UserController extends GeneralController
             DB::commit();
     
           }catch(QueryException $ex){ 
-              dd($ex->getMessage()); 
+             // dd($ex->getMessage()); 
               DB::rollback();
               return $this->errorResponse(["Hubo un problema en la actualización, intente nuevamente!."],402);
           }catch(\Exception $e){
-              dd($e->getMessage()); 
+             // dd($e->getMessage()); 
               DB::rollback();
               return $this->errorResponse(["Hubo un error inesperado!, intente nuevamente!."],402);
           }

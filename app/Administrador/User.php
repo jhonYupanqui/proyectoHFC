@@ -95,7 +95,7 @@ class User extends Authenticatable
          return $resultado_permiso;
       
     }
- 
+  
     public static function getModulosByUserAuth(User $user, $search=""){
       
         if($user->tienePermisoEspecial()){//Si tiene permisos especiales de administrador

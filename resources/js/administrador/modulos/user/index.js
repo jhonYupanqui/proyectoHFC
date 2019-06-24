@@ -1,5 +1,4 @@
-import peticiones from './peticiones.js'
-  
+ 
  $(function(){
 
     $.ajaxSetup({

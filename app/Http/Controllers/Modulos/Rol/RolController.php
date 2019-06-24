@@ -72,6 +72,96 @@ class RolController extends GeneralController
   }
 
   
+  public function show(Role $rol)
+  {
+    return view('administrador.modulos.rol.detalle',
+      [
+        "rol"=>$this->showModJsonOne($rol),
+        "permisos"=>$this->showContJsonAll($rol->permisos)
+      ]
+    );
+  }
+
+  public function edit(Role $rol)
+  {
+    $usuarioAuth = Auth::user();
+    
+    $rolesReferencia = Role::getSubRolesByRolUser($usuarioAuth);//Lista de roles según sus referencias
+    $rolesReferencia = $rolesReferencia->where('id','!=',$rol->id)->values()->unique();//retiramos el id editado para que no se referencie como padre
+     
+    if ($usuarioAuth->tienePermisoEspecial() && isset($rol->referencia)) { 
+        $modulos = Role::find($rol->referencia)->permisos()->where('tipo',Permiso::TIPO_MODULO)->get();
+    }else{
+      if (isset($rol->referencia)) {  
+        $modulos  = Role::find($rol->referencia)->permisos()->where('tipo',Permiso::TIPO_MODULO)->get();
+      }else{
+
+        $modulos  = Permiso::where('tipo',Permiso::TIPO_MODULO)->get(); 
+      }
+    }
+
+ 
+    $permisosSegunUser = Permiso::getPermisosRoleByUser($usuarioAuth);//arma permisos segun rol en el esquema de modulos
+     
+    $permisosSegunRol = $rol->permisos; //Permisos de rol editado
+    
+     
+    return view('administrador.modulos.rol.edit',[
+        "rol"=>$this->showModJsonOne($rol),
+        "roles"=>$this->showContJsonAll($rolesReferencia),
+        "modulos"=>$this->showContJsonAll($modulos),
+        "permisos"=>$this->showContJsonAll($permisosSegunUser),
+        "permisosChecked"=>$this->showContJsonAll($permisosSegunRol)
+    ]);
+  }
+
+  public function update(Role $rol, RolRequest $request)
+  {
+
+    $usuarioAuth = Auth::user();
+
+      try {
+        DB::beginTransaction();
+          #begin Transaction Update Rol
+        
+
+            if($request->filled('nombre')){ //preguntamos si mando un campo nombre y no esta vacio
+                $rol->nombre = $request->nombre;
+            }
+
+            if($request->filled('especial')){
+                $rol->especial = $request->especial;
+            }
+    
+            if ($usuarioAuth->tienePermisoEspecial()) {//(si es admin)
+              if($request->filled('referencia')){ // (si mando un campo referencia y no esta vacio)
+                $rol->referencia = $request->referencia;
+              } 
+            }else{
+              $rol->referencia = $usuarioAuth->role_id;
+            }
+   
+            $rol->permisos()->sync($request->get('permisos'));//actualiza los permisos por usuario 
+        
+            $rol->save();
+ 
+
+          #End Begin Transaction update Rol
+        DB::commit();
+
+      }catch(QueryException $ex){ 
+         // dd($ex->getMessage()); 
+          DB::rollback();
+          return $this->errorResponse(["Hubo un problema en la actualización, intente nuevamente!."],402);
+      }catch(\Exception $e){
+         // dd($e->getMessage()); 
+          DB::rollback();
+          return $this->errorResponse(["Hubo un error inesperado!, intente nuevamente!."],402);
+      }
+
+      return $this->showModJsonOne($rol);
+  }
+
 
   public function create()
   {
@@ -102,12 +192,12 @@ class RolController extends GeneralController
  
           $rol->nombre = $request->nombre;
 
-          if($request->filled('especial')){ //preguntamos si mando un campo nombre y no esta vacio
+          if($request->filled('especial')){ //preguntamos si mando un campo expecial y no esta vacio
               $rol->especial = $request->especial;
           }
          
           if ($usuarioAuth->tienePermisoEspecial()) {//(si es admin)
-            if($request->filled('referencia')){ // (si mando un campo nombre y no esta vacio)
+            if($request->filled('referencia')){ // (si mando un campo referencia y no esta vacio)
               $rol->referencia = $request->referencia;
             } 
           }else{
@@ -134,16 +224,16 @@ class RolController extends GeneralController
     }
     return $this->showModJsonOne($rol);
      
-  }  
-
-  public function show(Role $rol)
+  } 
+  
+  public function delete(Role $rol)
   {
+    $rol->permisos()->sync([]);//elimina vinculo
 
+    $rol->delete();
+
+    return $this->showModJsonOne($rol);
   }
-
-  public function edit(Role $rol)
-  {
-
-  }
+ 
 
 }
