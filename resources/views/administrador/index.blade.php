@@ -30,10 +30,14 @@
 
 @section('aside-right')
     {{-- Aqui el aside del lado derecho, ingresar lo que sedea mostrar--}}
+     
 @endsection
 
 @section('content')
     @parent
+    @if (isset($anuncio))
+        @include("administrador.globals.modals.anuncioPassword")
+    @endif
 
     <div class="row" id="listModulos">
         
@@ -43,4 +47,12 @@
 
 @section('scripts-footer')
     <script src="/js/sistema/administrador/index.js"></script>
+    @if (isset($anuncio))
+        <script>
+            $(function(){
+                $("#anuncioPassword").modal("show")
+            })
+        </script>
+    @endif
+   
 @endsection

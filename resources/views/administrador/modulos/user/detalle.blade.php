@@ -39,7 +39,7 @@
                         <a href="{{route('modulo.usuario.index')}}" class="btn btn-sm btn-outline-success mx-1"><i class="fa fa-arrow-left"></i> Atras</a>
                     </div> 
                     <div class="card-body px-2 py-1"> 
-                          <form class="form row my-2 mx-0">
+                        <section class="form row my-2 mx-0">
                                @php $usDetalle = $usuario->getData(); @endphp 
  
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-6 col-lg-6 ">
@@ -103,7 +103,7 @@
                                 @endif
                               
                               
-                          </form>
+                        </section>
                     </div>
                 </div>
         </div>

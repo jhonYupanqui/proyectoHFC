@@ -10,16 +10,17 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class UserFunctions
 { 
 
-    function getCantidadUltimosIntentosPorTiempo($usuario,$intentos_max_minutos)
+    function getUltimosIntentosPorTiempo($usuario,$acceso_exitoso,$numero_max,$iempo)
     {
         $historial = DB::select(
                     "select * from 
                     zz_auditoria.log_acceso 
-                    WHERE usuario = ? AND acceso_exitoso='NO' AND 
-                    fecha >= DATE_SUB(NOW(), INTERVAL ? MINUTE)", [$usuario,$intentos_max_minutos]); 
+                    WHERE usuario = ? AND acceso_exitoso=? AND 
+                    fecha >= DATE_SUB(NOW(), INTERVAL ? $iempo) ORDER BY fecha DESC", [$usuario,$acceso_exitoso,$numero_max]); 
 
-        return count($historial);
+        return $historial;
     }
+ 
 
     public function registraIntentosUserLogin($usuario,$acceso_si_no)
     { 
@@ -54,11 +55,13 @@ class UserFunctions
 
         
         $igualdad = false;
+        
         foreach ($result_cantidad_historial_pass as $historial) {
-            if($historial->pass_old == bcrypt($new_password)){ 
+               
+             if($historial->pass_old == sha1($new_password)){ 
                 $igualdad = true;
                 return $igualdad;
-              }
+              } 
         }
           
         return $igualdad; 
@@ -70,23 +73,32 @@ class UserFunctions
             trim($newPassword) == $usuario->apellidos || 
             trim($newPassword) == $usuario->telefono || 
             trim($newPassword) == $usuario->username || 
-            trim($newPassword) == $usuario->dni){
-                throw new HttpException(422,"La contraseña no puede concidir con sus datos personales.");
+            trim($newPassword) == $usuario->dni ){
+                throw new HttpException(422,"La contraseña no puede coincidir con sus datos personales.");
         } 
-
+        //dd($newPassword."-".strtolower($usuario->nombre));
         $cadena_password = strtolower($newPassword);
-        $contiene_nombre = strpos($cadena_password, $usuario->nombre); 
-        $contiene_apellidos = strpos($cadena_password, $usuario->apellidos); 
+        $contiene_nombre = strpos($cadena_password, strtolower($usuario->nombre)); 
+ 
+        $array_apellidos=explode(" ",strtolower($usuario->apellidos));
+         
+        if (count($array_apellidos) > 0) {
+            for ($i=0; $i < count($array_apellidos); $i++) { 
+                $contiene_apellidos = strpos($cadena_password,$array_apellidos[$i]);  
+                if ($contiene_apellidos !== false) {
+                    throw new HttpException(422,"No es seguro que su contraseña contenga datos personales");
+                } 
+            }
+        }
+
         $contiene_telefono = strpos($cadena_password, $usuario->telefono); 
-        $contiene_username= strpos($cadena_password, $usuario->username); 
+        $contiene_username= strpos($cadena_password, strtolower($usuario->username)); 
         $contiene_dni= strpos($cadena_password, $usuario->dni); 
 
         if ($contiene_nombre !== false) {
             throw new HttpException(422,"No es seguro que su contraseña contenga datos personales");
         }
-        if ($contiene_apellidos !== false) {
-            throw new HttpException(422,"No es seguro que su contraseña contenga datos personales");
-        }
+        
         if ($contiene_telefono !== false) {
             throw new HttpException(422,"No es seguro que su contraseña contenga datos personales");
         }
@@ -98,6 +110,7 @@ class UserFunctions
         }
 
         $cantidad_historial = $this->cantidadHistorialPasswordByIdUser($usuario->username);
+        
         if($cantidad_historial > 0){
             $verificar_igualdad_historial = $this->comparacionPasswordHistory($newPassword,$usuario->username);
             if($verificar_igualdad_historial){
@@ -122,7 +135,7 @@ class UserFunctions
         DB::insert(
             "insert into 
             zz_auditoria.log_password 
-            VALUES (null,?,?,NOW())", [$username,bcrypt($newPassword)]);
+            VALUES (null,?,?,NOW())", [$username,sha1($newPassword)]);
     }
 
     public function get_ip_address() {
@@ -179,6 +192,26 @@ class UserFunctions
                 $usuarioAuth->username,"store",
                 $username,$empresa,$rol,$estacionUsuario
                 ]);
+    }
+
+    public function ultimoAccesoUser($username)
+    {
+        $ultimoAcceso = DB::select("select * from 
+                    zz_auditoria.log_acceso
+                    where 
+                    usuario=? AND acceso_exitoso='SI' ORDER BY fecha DESC LIMIT 1, 1",
+                [$username]);
+
+        return $ultimoAcceso;
+    }
+
+    public function getCantidadDiasUltimoCambioPassword($username)
+    {
+        $dias_ultimo_cambio = DB::select("select DATEDIFF(NOW(),fecha) AS diascambio 
+                    FROM zz_auditoria.log_password 
+                    WHERE  usuario=? ORDER BY fecha DESC LIMIT 1", [$username]);
+    
+        return $dias_ultimo_cambio;
     }
  
 }

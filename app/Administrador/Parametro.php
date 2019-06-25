@@ -18,6 +18,9 @@ class Parametro extends Model
     const MINUTOS_INHABILITAR_CAMBIO_PASSWORD= 6; //Se esta evaluando aun esta opcion 
     const MINUTOS_INACTIVIDAD_SESION = 7;
 
+    //Parametros de olgura
+    const ANUNCIO_DIAS_CAMBIO_PASSWORD = 10; //Anuncio a mostrar con N° X dias antes de que venza
+
     protected $table = 'parametros';
     
     protected $fillable = [

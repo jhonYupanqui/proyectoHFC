@@ -14,10 +14,7 @@ use App\Transformers\EmpresaTransformer;
 | contains the "web" middleware group. Now create something great!
 |
 */
- 
-
-
- 
+  
 Route::get('/','Modulos\Auth\LoginController@index')->name('modulo.login.index')->middleware('guest');
 Route::post('/login','Modulos\Auth\LoginController@login')->name('login');
  
@@ -25,8 +22,7 @@ Route::post('/login','Modulos\Auth\LoginController@login')->name('login');
 //->middleware('transform.input:' . UserTransformer::class);
  
 Route::group(['middleware' => 'auth'], function () {
-
-
+ 
     //CIERRE DE SESION
     Route::post('/logout','Modulos\Auth\LoginController@logout')->name('logout');
 
@@ -38,8 +34,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/password/usuario/{usuario}/update', 'Modulos\Password\PasswordController@update')->name('password.usuario.update');
  
     //PERFIL VIEWS
-    Route::get('/administrador/perfil/{usuario}/detalle','Modulos\User\PerfilController@index')->name('modulo.perfil.usuario.index');
- 
+    Route::get('/perfil/{username}/detalle','Modulos\User\PerfilController@detalle')->name('perfil.usuario.detalle');
+     
     //ADMINISTRADOR EMPRESA VIEW
     Route::get('/administrador/empresa','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
     ->middleware('permiso:modulo.empresa.index');  
@@ -69,8 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('permiso:submodulo.rol.show');
     Route::get('/administrador/rol/{rol}/editar','Modulos\Rol\RolController@edit')->name('submodulo.rol.edit')
     ->middleware('permiso:submodulo.rol.edit');
-  
-
+   
     //ADMINISTRADOR MULTICONSULTA VIEW
     Route::get('/administrador/multiconsulta','Modulos\Multiconsulta\MulticonsultaController@index')->name('modulo.multiconsulta.index')
     ->middleware('permiso:modulo.multiconsulta.index');
@@ -129,5 +124,13 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('transform.input:'. EmpresaTransformer::class);
     Route::post('/administrador/empresa/{empresa}/eliminar','Modulos\Empresa\EmpresaController@delete')->name('submodulo.empresa.delete.ajax')
     ->middleware('permiso:submodulo.empresa.delete');
+
+    //PERFIL
+    Route::put('/perfil/usuario/{usuario}/update','Modulos\User\PerfilController@updatePerfil')->name('perfil.usuario.update')
+    ->middleware('transform.input:'. UserTransformer::class);
+    Route::post('/perfil/usuario/{usuario}/password/update','Modulos\User\PerfilController@updatePassword')->name('perfil.usuario-password.update')
+    ->middleware('transform.input:'. UserTransformer::class);
+   
+
       
 });

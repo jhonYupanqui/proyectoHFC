@@ -52,8 +52,7 @@ $(function(){
           $("#body-errors-modal").html("No se puede encontrar la empresa, recargue la página e intentelo de nuevo.")
           $('#errorsModal').modal('show') 
       }
-      
-   
+       
     })
   
   })

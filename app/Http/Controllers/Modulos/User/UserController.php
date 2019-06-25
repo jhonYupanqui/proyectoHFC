@@ -137,8 +137,7 @@ class UserController extends GeneralController
                 if($request->filled('password')){
                     $userFunctions->registrarPasswordOld($request->password,$usuario->username);
                 }
-                 
-
+                  
                 $usuario->empresa_id = $empresa->id;
                 $usuario->role_id = $rol->id;
                 

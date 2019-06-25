@@ -10,17 +10,13 @@ $(function(){
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
       });
-
-      
-     
+ 
     $("#crearEmpresa").click(function(){
         registroEmpresaStore()
     })
   
 })
-
  
-
 function registroEmpresaStore()
 {
   let validacionConitnueStore = validacionContinueStore()

@@ -28,7 +28,7 @@
               <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right bg-light">
                 <span class="dropdown-item dropdown-header">OPCIONES:</span>
                 <div class="dropdown-divider"></div>
-                <a href="javascript:void(0)" class="dropdown-item">
+                <a href="{{route('perfil.usuario.detalle',['usuario'=>Auth()->user()->username])}}" class="dropdown-item">
                     <i class="fa fa-user mr-2" aria-hidden="true"></i> Perfil
                 </a>
                 <div class="dropdown-divider"></div>
