@@ -194,17 +194,17 @@ class UserFunctions
                 ]);
     }
 
-    public function ultimoAccesoUser($username)
+    public function ultimoAccesoUser($username,$limit=" ")
     {
         $ultimoAcceso = DB::select("select * from 
                     zz_auditoria.log_acceso
                     where 
-                    usuario=? AND acceso_exitoso='SI' ORDER BY fecha DESC LIMIT 1, 1",
+                    usuario=? AND acceso_exitoso='SI' ORDER BY fecha DESC LIMIT 1 $limit",
                 [$username]);
 
         return $ultimoAcceso;
     }
-
+ 
     public function getCantidadDiasUltimoCambioPassword($username)
     {
         $dias_ultimo_cambio = DB::select("select DATEDIFF(NOW(),fecha) AS diascambio 
@@ -212,6 +212,22 @@ class UserFunctions
                     WHERE  usuario=? ORDER BY fecha DESC LIMIT 1", [$username]);
     
         return $dias_ultimo_cambio;
+    }
+
+    public function limpiarLogAccesosPorUsuario($username){
+        DB::delete("delete FROM zz_auditoria.log_acceso 
+                                            WHERE usuario = ? ", [$username]); 
+    }
+
+    public function limpiarLogPasswordPorUsuario($username){
+        DB::delete("delete FROM zz_auditoria.log_password 
+                                            WHERE usuario = ? ", [$username]); 
+    }
+
+    public function inactivarUsuario(User $usuario)
+    {  
+        $usuario->estado = User::ESTADO_INACTIVO;
+        $usuario->save();
     }
  
 }

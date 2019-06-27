@@ -204,9 +204,6 @@ class RolController extends GeneralController
             $rol->referencia = $usuarioAuth->role_id;
           }
            
-           
-
-          
  
           $rol->save();
 

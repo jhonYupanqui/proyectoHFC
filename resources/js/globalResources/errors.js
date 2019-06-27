@@ -2,8 +2,14 @@ const errors = {}
 
 errors.codigos = function codigos(codigo){
 
+  if (codigo == 401) {
+    location.reload();
+  }
     let texto = ``
     switch (codigo) {
+        case 401: 
+          texto = `Sesión terminada.` 
+          break;
         case 403: 
           texto = `Petición no autoriazada.`
           break;

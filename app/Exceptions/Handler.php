@@ -109,8 +109,8 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {//validamos que el usuario esta autenticado, caso contrario retorna error
        
-        if($this->isFrontend($request)){
-           return redirect()->route('modulo.login.index');
+        if($this->isFrontend($request)){ 
+           return $request->ajax() ? $this->errorResponse('No autenticado.', 401) : redirect()->route('modulo.login.index');
         }
         return $this->errorResponse('No autenticado.', 401); 
     }

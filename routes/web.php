@@ -36,6 +36,10 @@ Route::group(['middleware' => 'auth'], function () {
     //PERFIL VIEWS
     Route::get('/perfil/{username}/detalle','Modulos\User\PerfilController@detalle')->name('perfil.usuario.detalle');
      
+    //SEGURIDAD VIEW
+    Route::get('/administrador/seguridad','Modulos\Seguridad\SeguridadController@index')->name('modulo.seguridad.index')
+    ->middleware('permiso:modulo.seguridad.index');
+
     //ADMINISTRADOR EMPRESA VIEW
     Route::get('/administrador/empresa','Modulos\Empresa\EmpresaController@index')->name('modulo.empresa.index')
     ->middleware('permiso:modulo.empresa.index');  
@@ -130,6 +134,10 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('transform.input:'. UserTransformer::class);
     Route::post('/perfil/usuario/{usuario}/password/update','Modulos\User\PerfilController@updatePassword')->name('perfil.usuario-password.update')
     ->middleware('transform.input:'. UserTransformer::class);
+
+    //SEGURIDAD
+    Route::post('/administrador/seguridad/{parametro}/update','Modulos\Seguridad\SeguridadController@update')->name('modulo.seguridad.update.ajax');
+    //->middleware('permiso:modulo.seguridad.index');
    
 
       

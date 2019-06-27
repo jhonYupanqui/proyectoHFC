@@ -10,8 +10,8 @@
             <div class="modal-body modal-height-responsive">
               <div class="card-body">
                     <p class="text-secondary">Estimado <strong>{{ Auth()->user()->username}}</strong>.<br>
-                        Te informamos que solo tienes {{$diasCambio}} días para poder cambiar tu contraseña,
-                        caso contrario se estará desactivando tu cuenta actual.</p>
+                        Te informamos que solo tienes {{$diasCambio}} días para poder cambiar su contraseña,
+                        caso contrario se estará desactivando su cuenta actual.</p>
               </div>
             </div> 
           </div>

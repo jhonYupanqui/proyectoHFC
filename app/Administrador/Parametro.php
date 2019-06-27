@@ -20,7 +20,7 @@ class Parametro extends Model
 
     //Parametros de olgura
     const ANUNCIO_DIAS_CAMBIO_PASSWORD = 10; //Anuncio a mostrar con N° X dias antes de que venza
-
+     
     protected $table = 'parametros';
     
     protected $fillable = [

@@ -104,10 +104,10 @@ $(function(){
       })
 
       $("#actualizarPassword").click(function(){
-       /* let validacionUpdatePassword = validacionCotinueUpdatePassword()
+        let validacionUpdatePassword = validacionCotinueUpdatePassword()
         if(!validacionUpdatePassword){ 
             return false
-        }*/
+        } 
 
         let usuario = $("#idUpdate").val()  
         let clave = $("#claveUpdate").val() 
@@ -159,7 +159,7 @@ $(function(){
                   if(jqXHR.responseJSON.mensaje){
                       let erroresMensaje = jqXHR.responseJSON.mensaje  //captura objeto
                       let mensaje = errors.mensajeErrorJson(erroresMensaje)
-                    //  $("#errors_update_password").html(mensaje)
+                    $("#errors_update_password").html(mensaje)
                       return false
                   } 
               }

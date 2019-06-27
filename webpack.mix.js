@@ -12,6 +12,7 @@ const mix = require('laravel-mix');
  */
 
 mix.js('resources/js/app.js', 'public/js')
+    //ADMINISTRADOR
     .js('resources/js/administrador/index.js','public/js/sistema/administrador/index.js')
     //USUARIOS
     .js('resources/js/administrador/modulos/user/index.js','public/js/sistema/modulos/users/index.min.js')
@@ -35,6 +36,8 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/administrador/modulos/empresa/delete.js','public/js/sistema/modulos/empresas/delete.min.js')
     //PERFIL
     .js('resources/js/administrador/perfil/perfil.js','public/js/sistema/perfil/perfil.min.js')
+    //SEGURIDAD
+    .js('resources/js/administrador/modulos/seguridad/index.js','public/js/sistema/modulos/seguridad/index.min.js')
     .sass('resources/sass/app.scss', 'public/css')
     .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/bootstrap.scss', 'public/css');

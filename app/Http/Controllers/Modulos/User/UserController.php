@@ -137,6 +137,13 @@ class UserController extends GeneralController
                 if($request->filled('password')){
                     $userFunctions->registrarPasswordOld($request->password,$usuario->username);
                 }
+
+                if($request->filled('estado')){
+                    if ($request->estado == User::ESTADO_ACTIVO) {
+                        $userFunctions->limpiarLogAccesosPorUsuario($usuario->username);
+                        $userFunctions->limpiarLogPasswordPorUsuario($usuario->username);
+                    }
+                }
                   
                 $usuario->empresa_id = $empresa->id;
                 $usuario->role_id = $rol->id;
@@ -166,8 +173,8 @@ class UserController extends GeneralController
                     $usuario->password = bcrypt($request->password);
                 }
 
-                if($request->filled('estado')){
-                    $usuario->estado = bcrypt($request->estado);
+                if($request->filled('estado')){ 
+                    $usuario->estado = $request->estado;
                 }
     
                 if($request->filled('role_id')){

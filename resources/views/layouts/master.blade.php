@@ -7,8 +7,8 @@
 
    <!-- CSRF Token -->
    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-   <title>{{ config('app.name', 'Sistema') }} | @yield('titulo_pagina_sistema')</title>
+    {{-- Config::get('session.lifetime') //para ver la session actual si func--}}
+   <title>{{ config('app.name', 'Sistema') }} | @yield('titulo_pagina_sistema') | {{  Config::get('session.lifetime') }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href=" {{ mix('css/app.css') }}" rel="stylesheet">

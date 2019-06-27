@@ -34,8 +34,7 @@ class AdministradorController extends GeneralController
         //no se muestra el anuncio, se desactiva al usuario y se desloguea
         if ((int)$dias_ultimo_cambio_pass[0]->diascambio > $diasCambioPass) {
             $userUpdate = User::findOrFail($userAuth->id);
-            $userUpdate->estado = User::ESTADO_INACTIVO;
-            $userUpdate->save();
+            $userFunctions->inactivarUsuario($userUpdate);
 
             Auth::logout(); 
 

@@ -22,7 +22,7 @@ class PerfilController extends GeneralController
         }
         $usuariofunctions = new UserFunctions;
        
-        $ultimoAcceso = $usuariofunctions->ultimoAccesoUser($usuario->username);
+        $ultimoAcceso = $usuariofunctions->ultimoAccesoUser($usuario->username,", 1");
         $fechaUltimoAcceso = "";
 
         if (count($ultimoAcceso) > 0) {

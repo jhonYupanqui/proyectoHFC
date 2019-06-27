@@ -48,8 +48,8 @@ class LoginController extends Controller
 
                 if ($cantidad_intentos > 0) {
                     
-                   $mutable = Carbon::create($ultimosIntentos[0]->fecha);
-                   $ultimo_acceso_fallido_minutos_pasados = $mutable->diffInMinutes(Carbon::now());
+                   $fechaBDIntentosUltimo = Carbon::create($ultimosIntentos[0]->fecha);
+                   $ultimo_acceso_fallido_minutos_pasados = $fechaBDIntentosUltimo->diffInMinutes(Carbon::now());
                    $quedan_minutos_reintentar = (int) $intentos_max_minutos - $ultimo_acceso_fallido_minutos_pasados;
                 }
                    
@@ -59,10 +59,11 @@ class LoginController extends Controller
             }
         #FIN CANTIDAD INTENTOS
 
-         
+        config(['session.lifetime' => 5]);
         #VALIDANDO CREDENCIALES DE LOGIN
             if(Auth::attempt($credentials)){ //valida credenciales usuario y password
                 $userAuth = Auth::user();
+                $usuarioUpdate = User::find($userAuth->id);
 
                 //Valido si usuario está activo
                 if ($userAuth->estado == User::ESTADO_INACTIVO) { //usuario inactivo
@@ -77,27 +78,54 @@ class LoginController extends Controller
                 //Valido que no haya cambiado su password en el tiempo determinado caso contrario bloquear
                 $dias_ultimo_cambio_pass = $userFunctions->getCantidadDiasUltimoCambioPassword($request->username);
                 
-                if ((int)$dias_ultimo_cambio_pass[0]->diascambio > Parametro::getDiasCambioPassword()) { //supero los numeros de cambio de password
-                    //se desactiva su cuenta
-                    $userUpdate = User::findOrFail($userAuth->id);
-                    $userUpdate->estado = User::ESTADO_INACTIVO;
-                    $userUpdate->save();
+                if (count($dias_ultimo_cambio_pass) > 0) { // si tiene un último cambio 
 
-                    Auth::logout();
-
-                    return back()
-                    ->withErrors(['auth'=>$request->username." no actualizaste tu contraseña hace mas de ".Parametro::getDiasCambioPassword()." días. Tu cuenta está desactivada."])
-                    ->withInput(request(['username'])); 
+                    if ((int)$dias_ultimo_cambio_pass[0]->diascambio > Parametro::getDiasCambioPassword()) { //supero los numeros de dias en cambio de password
+                        //se desactiva su cuenta 
+                        $userFunctions->inactivarUsuario($usuarioUpdate);
+                         
+                        Auth::logout();
+    
+                        return back()
+                        ->withErrors(['auth'=>$request->username." no actualizaste tu contraseña hace mas de ".Parametro::getDiasCambioPassword()." días. Tu cuenta está desactivada."])
+                        ->withInput(request(['username'])); 
+                    }
                 }
+                
 
-                //Valido si su suenta estaba inactiva mucho tiempo segun la configuracion del sistema
-                    //falta realizarlo
+                //Valido si su suenta estaba inactiva mucho tiempo segun la configuracion del sistema 
+                $ultimoLoginCorrecto = $userFunctions->ultimoAccesoUser($request->username);
+                
+                if (count($ultimoLoginCorrecto) > 0) { // ya tiene inicios de sessiones antiguas
+                     //validar cuanto tiempo de inactividad tiene
+                    $fecha_ultima_session = Carbon::create($ultimoLoginCorrecto[0]->fecha);
+                    
+                    $diferencia_dias_ultimo_login = $fecha_ultima_session->diffInDays(Carbon::now());
+                    
+                    $maximos_dias_inactividad_sesion = Parametro::getDiasInactividadCuenta();
 
-                //si su estado está activo y cambio password con tiempo
+                    if ($diferencia_dias_ultimo_login > $maximos_dias_inactividad_sesion) {
+                        $userFunctions->inactivarUsuario($usuarioUpdate);
+                        Auth::logout();
+
+                        return back()
+                        ->withErrors(['auth'=>"No inició sessión en más de $maximos_dias_inactividad_sesion días. Su cuenta está desactivada."])
+                        ->withInput(request(['username'])); 
+                    }
+                      
+                }
+                //si su estado está activo, cambio password con tiempo y su ultima sesion no paso los dias de inactividad
                 $userFunctions->limpiaIntentosUserLogin($request->username); //limpia los accessos errados
                 $userFunctions->registraIntentosUserLogin($request->username,"SI");//registra acceso correcto
  
-                return redirect()->route('administrador');
+                 
+                    //config(['session.lifetime' => 1]);  
+                   // config('session.lifetime', 1);
+                    
+                   // $tiempo_session =  config('session.lifetime');
+                   // dd($tiempo_session);
+                    return redirect()->route('administrador');
+                
     
             }else{
                 $userFunctions->registraIntentosUserLogin($request->username,"NO");//registra intento fallido

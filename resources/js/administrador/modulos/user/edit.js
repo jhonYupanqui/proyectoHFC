@@ -121,7 +121,7 @@ $(function(){
                   $('#errorsModal').modal('show')
                   return false
               }
-             $("#body-errors-modal").html("hubo un problema en la red del internet, intente nuevamente por favor.")
+             $("#body-errors-modal").html("hubo un problema en la red, intente nuevamente por favor.")
               $('#errorsModal').modal('show') 
           }) 
 

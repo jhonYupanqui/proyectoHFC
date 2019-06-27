@@ -13314,6 +13314,29 @@ div.table-responsive > div.dataTables_wrapper > div.row > div[class^="col-"]:las
   padding-right: 0;
 }
 @charset "UTF-8";
+/*Girador*/
+.girador {
+  -webkit-animation: load2 0.7s infinite linear;
+  animation: load2 0.7s infinite linear;
+  transform: translateZ(0);
+}
+
+@-webkit-keyframes load2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes load2 {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 /*Loader*/
 .loader {
   font-size: 10px;

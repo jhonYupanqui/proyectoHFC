@@ -35,7 +35,7 @@
     <section class="container-fluid h-100 d-flex flex-wrap justify-content-center align-items-center" id="contenid_general_cambio">
         <div class="card col-7 p-0">
             <div class="card-header">
-                    <h3 class="w-100 text-center text-uppercase font-weight-bold mb-2">Cambio de contraseña {{$mensaje}}</h3>
+                    <h3 class="w-100 text-center text-uppercase font-weight-bold mb-2">Cambio de contraseña</h3>
             </div>
             <div class="card-body py-1"> 
                 <div class="row">
