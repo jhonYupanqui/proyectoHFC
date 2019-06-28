@@ -65,7 +65,8 @@ $(function(){
                                 </div>`) 
 
         $.ajax({
-            url:`/administrador/empresa/${empresa}/rol/${rol}/usuario/${usuario}/update`,
+            //url:`/administrador/empresa/${empresa}/rol/${rol}/usuario/${usuario}/update`,
+            url:`/administrador/usuario/${usuario}/empresa/${empresa}/rol/${rol}/update`,
             method:"put",
             data:{
                 nombre,
@@ -86,8 +87,8 @@ $(function(){
             $("#form_update_detail").css({'display':'flex'})
            // limpia.limpiaFormUser()
     
-             console.log(data)
-             $("#errors_Update").html(data)
+             console.log(data) 
+             //$("#errors_Update").html(data)
             if(data.error){
                 $("#body-errors-modal").html(data.error)
                 $('#errorsModal').modal('show') 
@@ -103,11 +104,12 @@ $(function(){
             $("#form_update_load").css({'display':'none'})
             $("#form_update_load").html('')
             $("#form_update_detail").css({'display':'flex'})
-      
+
+             
               console.log( "Error: " ,jqXHR, textStatus);
               //console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);
                $("#errors_Update").html(jqXHR.responseText)
-              if(jqXHR.responseJSON){
+               if(jqXHR.responseJSON){
                   if(jqXHR.responseJSON.mensaje){
                       let erroresMensaje = jqXHR.responseJSON.mensaje  //captura objeto
                       let mensaje = errors.mensajeErrorJson(erroresMensaje)

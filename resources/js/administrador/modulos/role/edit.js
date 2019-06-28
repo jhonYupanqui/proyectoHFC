@@ -131,17 +131,17 @@ $(function(){
             
         $(".validateText").removeClass("valida-error-input")
         $(".validateSelect").removeClass("valida-error-input")
-        $("#errors_Update").html(``)
+        $("#errors_update").html(``)
 
         if(!valida.isValidText(nombre.val())){
             valida.isValidateInputText(nombre)
-            $("#errors_Update").html(`El campo nombre es requerido`)
+            $("#errors_update").html(`El campo nombre es requerido`)
             return false
         } 
         
         $(".validateText").removeClass("valida-error-input")
         $(".validateSelect").removeClass("valida-error-input")
-        $("#errors_Update").html(``)
+        $("#errors_update").html(``)
   
         return true
         

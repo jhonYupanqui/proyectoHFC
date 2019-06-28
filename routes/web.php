@@ -56,9 +56,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/usuario/crear','Modulos\User\UserController@create')->name('submodulo.usuario.store')
     ->middleware('permiso:submodulo.usuario.store');
     Route::get('/administrador/usuario/{usuario}/detalle','Modulos\User\UserController@show')->name('submodulo.usuario.show')
-    ->middleware('permiso:submodulo.usuario.show');
+    ->middleware('permiso:submodulo.usuario.show')
+    ->middleware('can:show,usuario');//policy
     Route::get('/administrador/usuario/{usuario}/editar','Modulos\User\UserController@edit')->name('submodulo.usuario.edit')
-    ->middleware('permiso:submodulo.usuario.edit');
+    ->middleware('permiso:submodulo.usuario.edit')
+    ->middleware('can:edit,usuario');//policy
  
     //ADMINISTRADOR ROLES VIEW
     Route::get('/administrador/rol','Modulos\Rol\RolController@index')->name('modulo.rol.index')
@@ -66,9 +68,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/administrador/rol/crear','Modulos\Rol\RolController@create')->name('submodulo.rol.store')
     ->middleware('permiso:submodulo.rol.store');
     Route::get('/administrador/rol/{rol}/detalle','Modulos\Rol\RolController@show')->name('submodulo.rol.show')
-    ->middleware('permiso:submodulo.rol.show');
+    ->middleware('permiso:submodulo.rol.show')
+    ->middleware('can:show,rol');//policy
     Route::get('/administrador/rol/{rol}/editar','Modulos\Rol\RolController@edit')->name('submodulo.rol.edit')
-    ->middleware('permiso:submodulo.rol.edit');
+    ->middleware('permiso:submodulo.rol.edit')
+    ->middleware('can:edit,rol');//policy
    
     //ADMINISTRADOR MULTICONSULTA VIEW
     Route::get('/administrador/multiconsulta','Modulos\Multiconsulta\MulticonsultaController@index')->name('modulo.multiconsulta.index')
@@ -92,14 +96,17 @@ Route::group(['middleware' => 'auth'], function () {
     //ADMINISTRADOR USUARIOS
     Route::get('/administrador/usuarios/lista', 'Modulos\User\UserController@lista')->name('submodulo.usuario.list.ajax')
     ->middleware('permiso:modulo.usuario.index');
-    Route::post('/administrador/empresa/{empresa}/rol/{rol}/usuario/store', 'Modulos\User\UserController@store')->name('submodulo.usuario.store.ajax')
+    Route::post('/administrador/usuario/empresa/{empresa}/rol/{rol}/store', 'Modulos\User\UserController@store')->name('submodulo.usuario.store.ajax')
     ->middleware('permiso:submodulo.usuario.store')
-    ->middleware('transform.input:'. UserTransformer::class);
-    Route::put('/administrador/empresa/{empresa}/rol/{rol}/usuario/{usuario}/update', 'Modulos\User\UserController@update')->name('submodulo.empresa.edit.ajax')
-    ->middleware('permiso:submodulo.empresa.edit')
-    ->middleware('transform.input:'. UserTransformer::class);
+    ->middleware('transform.input:'. UserTransformer::class)
+    ->middleware('can:user-store,rol');//policy
+    Route::put('/administrador/usuario/{usuario}/empresa/{empresa}/rol/{rol}/update', 'Modulos\User\UserController@update')->name('submodulo.empresa.edit.ajax')
+    ->middleware('permiso:submodulo.usuario.edit')
+    ->middleware('transform.input:'. UserTransformer::class)
+    ->middleware('can:update,usuario,rol');//policy 
     Route::post('/administrador/usuario/{usuario}/eliminar', 'Modulos\User\UserController@delete')->name('submodulo.usuario.delete.ajax')
-    ->middleware('permiso:submodulo.usuario.delete');
+    ->middleware('permiso:submodulo.usuario.delete')
+    ->middleware('can:delete,usuario');//policy
 
     //ADMINISTRADOR ROLES
     Route::get('/administrador/roles/lista', 'Modulos\Rol\RolController@lista')->name('modulo.rol.index.ajax')
@@ -109,9 +116,11 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('transform.input:'. RolTransformer::class);
     Route::put('/administrador/rol/{rol}/update', 'Modulos\Rol\RolController@update')->name('submodulo.rol.edit.ajax')
     ->middleware('permiso:submodulo.rol.edit')
-    ->middleware('transform.input:'. RolTransformer::class);
+    ->middleware('transform.input:'. RolTransformer::class)
+    ->middleware('can:update,rol');//policy
     Route::post('/administrador/rol/{rol}/eliminar', 'Modulos\Rol\RolController@delete')->name('submodulo.rol.delete.ajax')
-    ->middleware('permiso:submodulo.rol.delete'); 
+    ->middleware('permiso:submodulo.rol.delete')
+    ->middleware('can:delete,rol');//policy 
 
     //ROLES - PERMISOS
     Route::get('/administrador/roles/{rol}/permisos', 'Modulos\Rol\RolController@permisos')->name('submodulo.rol.permisos.lista');

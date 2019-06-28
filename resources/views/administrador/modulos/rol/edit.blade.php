@@ -83,7 +83,7 @@
                             </div> 
                               
                                
-                            <div class="form-group row justify-content-center mx-0 px-2 col-12 errors_message" id="errors_Update">
+                            <div class="form-group row justify-content-center mx-0 px-2 col-12 errors_message" id="errors_update">
                                 
                             </div>
                               <div class="form-group row mx-0 px-2 col-12 col-sm-12 col-md-12 col-lg-12 d-flex justify-content-center">

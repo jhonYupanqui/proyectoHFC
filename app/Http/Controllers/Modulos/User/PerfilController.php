@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PerfilController extends GeneralController
 {
+ 
     public function detalle($username, Request $request)
     {  
         
@@ -20,6 +21,9 @@ class PerfilController extends GeneralController
         if (empty($usuario)) {
             throw new NotFoundHttpException();//404
         }
+ 
+        $this->authorize('detalle-perfil',$usuario); //Policy
+
         $usuariofunctions = new UserFunctions;
        
         $ultimoAcceso = $usuariofunctions->ultimoAccesoUser($usuario->username,", 1");

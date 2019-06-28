@@ -1,4 +1,3 @@
-import filters from '@/globalResources/lists/filters'
 import errors from '@/globalResources/errors'
 
 const peticiones = {}
@@ -128,10 +127,26 @@ peticiones.seleccionarPermisosByRoles = function seleccionarPermisosByRoles(idRo
   })
   .fail(function(jqXHR, textStatus){
     console.log( "Request failed: " ,textStatus ,jqXHR);
+
+    if(jqXHR.responseJSON){
+        if(jqXHR.responseJSON.mensaje){
+            let erroresMensaje = jqXHR.responseJSON.mensaje  //captura objeto
+            let mensaje = errors.mensajeErrorJson(erroresMensaje)
+            loadEsquemaRpta.html(mensaje)
+            setTimeout(() => {  loadEsquemaRpta.html(``) }, 7000);
+            return false
+        } 
+    }
+    if(jqXHR.status){
+        let mensaje = errors.codigos(jqXHR.status)
+        loadEsquemaRpta.html(mensaje)
+        setTimeout(() => {  loadEsquemaRpta.html(``) }, 7000);
+        return false
+    }
+
     loadEsquemaRpta.html(`Hubo un error en el servicio de permisos, cierre el modal e intente abrir nuevamente!`)
-    setTimeout(() => {
-      loadEsquemaRpta.html(``)
-    }, 7000);
+    
+    setTimeout(() => {  loadEsquemaRpta.html(``) }, 7000);
     /*$("#body-errors-modal").html(`Hubo un error en el servicio de permisos, intente nuevamente por favor!`)
     $('#errorsModal').modal('show')  */
     //console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);

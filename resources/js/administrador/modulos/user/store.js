@@ -84,7 +84,7 @@ function registroUserStore()
                                 </div>`) 
 
     $.ajax({
-        url:`/administrador/empresa/${empresa}/rol/${rol}/usuario/store`,
+        url:`/administrador/usuario/empresa/${empresa}/rol/${rol}/store`,
         method:"post",
         data:{
             nombre,
@@ -104,7 +104,7 @@ function registroUserStore()
         limpia.limpiaFormUser()
 
          console.log(data)
-         $("#errors_store").html(data)
+        // $("#errors_store").html(data)
         if(data.error){
             $("#body-errors-modal").html(data.error)
             $('#errorsModal').modal('show') 
@@ -144,7 +144,7 @@ function registroUserStore()
 
         console.log( "Error: " ,jqXHR, textStatus);
         //console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);
-         $("#errors_store").html(jqXHR.responseText)
+        // $("#errors_store").html(jqXHR.responseText)
         if(jqXHR.responseJSON){
             if(jqXHR.responseJSON.mensaje){
                 let erroresMensaje = jqXHR.responseJSON.mensaje  //captura objeto

@@ -1,3 +1,4 @@
+import errors from  "@/globalResources/errors.js"
 $(function(){
 
     $.ajaxSetup({
@@ -45,6 +46,21 @@ $(function(){
         .fail(function(jqXHR, textStatus){
           console.log("error",jqXHR, textStatus)
           // $("#body-errors-modal").html(jqXHR.responseText)
+          if(jqXHR.responseJSON){
+            if(jqXHR.responseJSON.mensaje){
+                  let erroresMensaje = jqXHR.responseJSON.mensaje  //captura objeto
+                  let mensaje = errors.mensajeErrorJson(erroresMensaje)
+                  $("#body-errors-modal").html(mensaje)
+                  $('#errorsModal').modal('show') 
+                  return false
+              } 
+          }
+          if(jqXHR.status){
+              let mensaje = errors.codigos(jqXHR.status)
+              $("#body-errors-modal").html(mensaje)
+              $('#errorsModal').modal('show')
+              return false
+          }
           $("#body-errors-modal").html("Se generó un problema inesperado, intente nuevamente.")
           $('#errorsModal').modal('show') 
         })

@@ -19,11 +19,13 @@ class CheckPermiso extends GeneralController
     {
         $permiso_usuario = $request->user()->HasPermiso($permiso);
 
+       
+
         if(!$permiso_usuario){// Si el permiso es falso . 
             // abort(403, 'Unauthorized action.');
             throw new AuthorizationException();//403 
         }
-
+        
         return $next($request);
          
     }

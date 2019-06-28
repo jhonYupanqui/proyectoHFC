@@ -36,14 +36,14 @@ class UserController extends GeneralController
                 ->toJson();
         }
         #Filtrando lista de usuarios segun los subroles del admin o subadmin
-          $roles = Role::getSubRolesByRolUser($usuarioAuth)->toJson();
+          $subroles = Role::getSubRolesByRolUser($usuarioAuth)->toJson();
           
-          $array_lista_roles = array_map(function($element){
+          $array_lista_usuario = array_map(function($element){
               return $element->id;
-          },json_decode($roles));
+          },json_decode($subroles));
           
           $dataListReturn = datatables()
-                            ->eloquent(User::filterByRole($array_lista_roles));
+                            ->eloquent(User::filterByRole($array_lista_usuario));
         
             if( $usuarioAuth->HasPermiso('submodulo.usuario.show') || 
                 $usuarioAuth->HasPermiso('submodulo.usuario.edit')  ||
@@ -113,9 +113,9 @@ class UserController extends GeneralController
         ]);
     }
 
-    public function update(Empresa $empresa, Role $rol, User $usuario,UserRequest $request)
+    public function update(User $usuario, Empresa $empresa, Role $rol, UserRequest $request)
     {
-
+ 
         $userFunctions = new UserFunctions;
 
         if($request->filled('password')){
@@ -246,6 +246,7 @@ class UserController extends GeneralController
 
     public function store(Empresa $empresa, Role $rol, UserRequest $request)
     {
+        
         $usuario = new User;
         $userFunctions = new UserFunctions;
 
