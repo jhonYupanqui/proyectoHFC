@@ -27,6 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->char('estado',1);
             $table->rememberToken();
+            $table->text('session_id')->nullable()->default(null) ->comment('Almacena el id de la sesión del usuario');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('empresa_id')->references('id')->on('empresas');

@@ -20,7 +20,7 @@ errors.codigos = function codigos(codigo){
           texto = `Error en el servicio. Intente nuevamente.`
           break;
         case 409:
-          texto = `Conflicto de petición en el servidor. Intente nuevamente.`
+          texto = `Conflicto de petición en el servidor. Intente nuevamente. Si persiste el error, actualizar la Web.`
           break;
         case 500:
           texto = `Falla inesperada. Intente nuevamente.`

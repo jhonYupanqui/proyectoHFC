@@ -73,7 +73,7 @@ function registroEmpresaStore()
 
         console.log( "Error: " ,jqXHR, textStatus);
         //console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);
-         $("#errors_store").html(jqXHR.responseText)
+         //$("#errors_store").html(jqXHR.responseText)
         if(jqXHR.responseJSON){
             if(jqXHR.responseJSON.mensaje){
                 let erroresMensaje = jqXHR.responseJSON.mensaje  //captura objeto

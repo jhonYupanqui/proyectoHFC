@@ -48,7 +48,7 @@ $(function(){
            
 
            // console.log(data)
-            $("#errors_update").html(data)
+           // $("#errors_update").html(data)
             if(data.error){
                 $("#body-errors-modal").html(data.error)
                 $('#errorsModal').modal('show') 
@@ -73,7 +73,7 @@ $(function(){
 
             console.log( "Error: " ,jqXHR, textStatus);
             //console.log( "Request failed: " ,jqXHR.responseJSON.mensaje);
-            $("#errors_update").html(jqXHR.responseText)
+            //$("#errors_update").html(jqXHR.responseText)
             if(jqXHR.responseJSON){
                 if(jqXHR.responseJSON.mensaje){
                     let erroresMensaje = jqXHR.responseJSON.mensaje  //captura objeto

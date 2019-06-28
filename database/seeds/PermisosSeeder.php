@@ -157,7 +157,7 @@ class PermisosSeeder extends Seeder
         #END ROLES
 
         #SEGURIDAD
-            $permisoModulo = new parametro;
+            $permisoModulo = new Permiso;
             $permisoModulo->nombre = "Seguridad";
             $permisoModulo->slug = "modulo.seguridad.index";
             $permisoModulo->ruta = "/administrador/seguridad";
@@ -165,7 +165,7 @@ class PermisosSeeder extends Seeder
             $permisoModulo->imagen = "seguridad.png";
             $permisoModulo->referencia = null;
             $permisoModulo->descripcion = "Administrar Modulo de seguridad";
-            $permisoModulo->save();v
+            $permisoModulo->save();
         #END SEGURIDAD
 
         #MULTICONSULTA

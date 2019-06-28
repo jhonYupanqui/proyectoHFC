@@ -9,10 +9,11 @@ use Illuminate\Http\Request;
 use App\Administrador\Parametro;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-
+ 
     public function index(){
         return view('auth.login');
     }
@@ -62,6 +63,7 @@ class LoginController extends Controller
         config(['session.lifetime' => 5]);
         #VALIDANDO CREDENCIALES DE LOGIN
             if(Auth::attempt($credentials)){ //valida credenciales usuario y password
+                 
                 $userAuth = Auth::user();
                 $usuarioUpdate = User::find($userAuth->id);
 
@@ -118,13 +120,20 @@ class LoginController extends Controller
                 $userFunctions->limpiaIntentosUserLogin($request->username); //limpia los accessos errados
                 $userFunctions->registraIntentosUserLogin($request->username,"SI");//registra acceso correcto
  
+                //Luego de las validaciones y registros se procede con registro de una sesion unica
+                $request->session()->regenerate(); //se genera una por el usuario auth
+
+                $sesion_previa = $userAuth->session_id;
+                
+                if ($sesion_previa) { 
+                    Session::getHandler()->destroy($sesion_previa);//destruye la session de todo los regitros de laravel
+                }
+ 
+                $userAuth->session_id = Session::getId(); //asignamos la sesion unica al usuario auth
+                $userAuth->save();//lo guarda en la BD
                  
-                    //config(['session.lifetime' => 1]);  
-                   // config('session.lifetime', 1);
                     
-                   // $tiempo_session =  config('session.lifetime');
-                   // dd($tiempo_session);
-                    return redirect()->route('administrador');
+                return redirect()->route('administrador');
                 
     
             }else{
@@ -153,7 +162,18 @@ class LoginController extends Controller
 
     public function logout()
     {
+        $userAuth = Auth::user();
+
+        $sesion_previa = $userAuth->session_id;
+        Session::getHandler()->destroy($sesion_previa);//destruye la session de todo los regitros de laravel
+          
+        $userAuth->session_id = null; //asignamos la sesion unica al usuario auth
+        $userAuth->save();//lo guarda en la BD
+
         Auth::logout();
         return redirect('/');
+        //cierra sesion y borra el campo sessionId del usuario
     }
+
+  
 }
