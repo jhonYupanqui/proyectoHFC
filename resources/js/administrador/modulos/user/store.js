@@ -46,10 +46,10 @@ $(function(){
 
 function registroUserStore()
 {
-   let validacionConitnueStore = validacionContinueStore()
+  /* let validacionConitnueStore = validacionContinueStore()
     if(!validacionConitnueStore){ 
         return false
-    }
+    }*/
    
  //luego de validar  
  //registrar

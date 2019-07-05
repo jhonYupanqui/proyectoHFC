@@ -91,7 +91,7 @@ class Handler extends ExceptionHandler
         if($exception instanceof QueryException){//valida errores de eliminacion por id por estar relacionado
             $codigo = $exception->errorInfo[1];
             if($codigo == 1451){
-                return $this->ErrorsExceptionGeneral($request,"No se puede eliinar de forma permanente el recurso porque está relacionado con algún otro.",409);
+                return $this->ErrorsExceptionGeneral($request,"No se puede eliminar de forma permanente el recurso porque está relacionado con algún otro.",409);
                 //codigo 409 es de conflicto
             }
         }

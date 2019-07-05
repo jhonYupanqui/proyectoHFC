@@ -20,6 +20,10 @@ Trait SystemResponser {
         return response()->json(["error"=>true,"mensaje"=>$message,"code"=>$code],$code);
     }
 
+    private function jsonDataPersonalizate($data,$code){
+        return response()->json(["error"=>false,"response"=>$data,"code"=>$code],$code);
+    }
+
     private function filterData(Collection $collection, $transformer)
     {
       //dd(request()->all());
@@ -151,6 +155,10 @@ Trait SystemResponser {
 
     protected function errorMessage($message,$code){
         return $this->errorResponse($message,$code);
+    }
+
+    protected function resultData(array $data, $code = 200){
+        return $this->jsonDataPersonalizate($data,$code);
     }
   
 }

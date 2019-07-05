@@ -250,12 +250,12 @@ function validacionCotinueUpdatePassword()
         $("#errors_update_password").html(`El campo password es requerido`)
         return false
     }  
-    
-    if (clave.val().trim().length > 0) { 
+     
+    if(!valida.isValidPassword(clave.val())){
         valida.isValidateInputText(clave)
         $("#errors_update_password").html(`El campo clave no tiene el formato correcto`)
-        return false 
-    } 
+        return false
+    }
   
     $(".validateText").removeClass("valida-error-input") 
     $("#errors_update_password").html(``)

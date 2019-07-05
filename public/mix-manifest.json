@@ -1,6 +1,7 @@
 {
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
+    "/css/modulos/multiconsulta.css": "/css/modulos/multiconsulta.css",
     "/css/login.css": "/css/login.css",
     "/css/bootstrap.css": "/css/bootstrap.css",
     "/js/sistema/administrador/index.js": "/js/sistema/administrador/index.js",
@@ -9,6 +10,7 @@
     "/js/sistema/modulos/empresas/index.min.js": "/js/sistema/modulos/empresas/index.min.js",
     "/js/sistema/modulos/empresas/show.min.js": "/js/sistema/modulos/empresas/show.min.js",
     "/js/sistema/modulos/empresas/store.min.js": "/js/sistema/modulos/empresas/store.min.js",
+    "/js/sistema/modulos/multiconsulta/index.min.js": "/js/sistema/modulos/multiconsulta/index.min.js",
     "/js/sistema/modulos/roles/delete.min.js": "/js/sistema/modulos/roles/delete.min.js",
     "/js/sistema/modulos/roles/edit-admin.min.js": "/js/sistema/modulos/roles/edit-admin.min.js",
     "/js/sistema/modulos/roles/edit.min.js": "/js/sistema/modulos/roles/edit.min.js",

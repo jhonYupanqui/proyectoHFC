@@ -46,7 +46,7 @@
 @endsection
 
 @section('scripts-footer')
-    <script src="/js/sistema/administrador/index.js"></script>
+    <script src="{{asset('js/sistema/administrador/index.js')}}"></script>
     @if (isset($anuncio))
         <script>
             $(function(){

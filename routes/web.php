@@ -147,6 +147,12 @@ Route::group(['middleware' => 'auth'], function () {
     //SEGURIDAD
     Route::post('/administrador/seguridad/{parametro}/update','Modulos\Seguridad\SeguridadController@update')->name('modulo.seguridad.update.ajax');
     //->middleware('permiso:modulo.seguridad.index');
+
+    //ADMINISTRADOR MULTICONSULTA
+    Route::get('/administrador/multiconsulta/search/count','Modulos\Multiconsulta\MulticonsultaController@cantidadServicios')->name('module.multiconsulta.search.count')
+        ->middleware('permiso:modulo.multiconsulta.index');
+    Route::get('/administrador/multiconsulta/search','Modulos\Multiconsulta\MulticonsultaController@searchByMacAddress')->name('module.multiconsulta.search')
+        ->middleware('permiso:modulo.multiconsulta.index');
    
 
       

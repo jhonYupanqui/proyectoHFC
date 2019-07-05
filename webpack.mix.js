@@ -38,7 +38,11 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/administrador/perfil/perfil.js','public/js/sistema/perfil/perfil.min.js')
     //SEGURIDAD
     .js('resources/js/administrador/modulos/seguridad/index.js','public/js/sistema/modulos/seguridad/index.min.js')
+    //MULTiCONSULTA
+    .js('resources/js/administrador/modulos/multiconsulta/index.js','public/js/sistema/modulos/multiconsulta/index.min.js')
+
     .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/sass/multiconsulta.scss', 'public/css/modulos/multiconsulta.css')
     .sass('resources/sass/login.scss', 'public/css')
     .sass('resources/sass/bootstrap.scss', 'public/css');
 
